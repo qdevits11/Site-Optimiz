@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const links = [
   { href: "/", label: "Accueil" },
@@ -16,10 +16,7 @@ const links = [
 export function Header() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
+  const closeMenu = () => setOpen(false);
 
   return (
     <header className="sticky top-0 z-50 border-b border-line/70 bg-white/95 backdrop-blur">
@@ -70,13 +67,14 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
+                onClick={closeMenu}
                 className="rounded-xl px-3 py-3 text-base font-medium hover:bg-brand-soft"
                 data-active={pathname === link.href}
               >
                 {link.label}
               </Link>
             ))}
-            <Link href="/#contact" className="btn btn-primary mt-2">
+            <Link href="/#contact" onClick={closeMenu} className="btn btn-primary mt-2">
               Contactez nous
             </Link>
           </nav>
