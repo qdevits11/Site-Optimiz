@@ -41,6 +41,18 @@ Dashboard : [vercel.com/.../site-optimiz](https://vercel.com/qquentindevits-4149
 - `/cas-concrets` — Cas concrets
 - `/tarifs` — Tarifs
 
+## Formulaire de contact
+
+Les soumissions du formulaire partent par **Resend** vers `q.devits.optmiz@gmail.com`.
+
+Variables Vercel :
+- `RESEND_API_KEY`
+- `RESEND_EMAIL_DOMAIN` (`optmiz.be`)
+- `CONTACT_TO_EMAIL`
+
+Le domaine `optmiz.be` doit être **vérifié** dans Resend (DNS). Ouvrir le dashboard :
+`vercel integration open resend optmiz-email`
+
 ## Démarrage
 
 ```bash

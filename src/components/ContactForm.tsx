@@ -4,10 +4,43 @@ import { FormEvent, useState } from "react";
 
 export function ContactForm() {
   const [submitted, setSubmitted] = useState(false);
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSubmitted(true);
+    setError(null);
+    setPending(true);
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: String(formData.get("name") || ""),
+          phone: String(formData.get("phone") || ""),
+          email: String(formData.get("email") || ""),
+          company: String(formData.get("company") || ""),
+          challenge: String(formData.get("challenge") || ""),
+        }),
+      });
+
+      const payload = (await response.json()) as { error?: string };
+
+      if (!response.ok) {
+        throw new Error(payload.error || "Envoi impossible.");
+      }
+
+      setSubmitted(true);
+      form.reset();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Envoi impossible.");
+    } finally {
+      setPending(false);
+    }
   }
 
   return (
@@ -73,9 +106,14 @@ export function ContactForm() {
             <p className="text-sm text-muted md:col-span-2">
               🔒 Vos données sont confidentielles et ne seront jamais partagées.
             </p>
+            {error ? (
+              <p className="text-sm font-medium text-problem md:col-span-2" role="alert">
+                {error}
+              </p>
+            ) : null}
             <div className="md:col-span-2">
-              <button type="submit" className="btn btn-primary w-full md:w-auto">
-                ✅ Je veux identifier mes gains de productivité
+              <button type="submit" className="btn btn-primary w-full md:w-auto" disabled={pending}>
+                {pending ? "Envoi en cours…" : "✅ Je veux identifier mes gains de productivité"}
               </button>
             </div>
           </form>
