@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
+import nodemailer from "nodemailer";
+import { isMailConfigured, mailConfig } from "@/config/mail";
 
 export const runtime = "nodejs";
 
@@ -53,10 +54,12 @@ function buildEmailHtml(data: ContactPayload) {
 
 export async function POST(request: Request) {
   try {
-    const apiKey = process.env.RESEND_API_KEY;
-    if (!apiKey) {
+    if (!isMailConfigured()) {
       return NextResponse.json(
-        { error: "Configuration email manquante (RESEND_API_KEY)." },
+        {
+          error:
+            "Configuration mail incomplète. Renseigne user/pass dans src/config/mail.ts.",
+        },
         { status: 500 },
       );
     }
@@ -75,14 +78,19 @@ export async function POST(request: Request) {
       );
     }
 
-    const to = process.env.CONTACT_TO_EMAIL || "q.devits.optmiz@gmail.com";
-    const domain = (process.env.RESEND_EMAIL_DOMAIN || "optmiz.be").replaceAll('"', "");
-    const from = process.env.CONTACT_FROM_EMAIL || `Optmiz <contact@${domain}>`;
+    const transporter = nodemailer.createTransport({
+      host: mailConfig.host,
+      port: mailConfig.port,
+      secure: mailConfig.secure,
+      auth: {
+        user: mailConfig.user,
+        pass: mailConfig.pass,
+      },
+    });
 
-    const resend = new Resend(apiKey);
-    const payload = {
-      from,
-      to: [to],
+    const info = await transporter.sendMail({
+      from: mailConfig.from,
+      to: mailConfig.to,
       replyTo: email,
       subject: `Nouvelle demande diagnostic — ${company}`,
       html: buildEmailHtml({ name, phone, email, company, challenge }),
@@ -95,22 +103,12 @@ export async function POST(request: Request) {
         `Société: ${company}`,
         `Principal enjeu: ${challenge || "—"}`,
       ].join("\n"),
-    };
+    });
 
-    const { data, error } = await resend.emails.send(payload);
-
-    if (error) {
-      const message = error.message.toLowerCase().includes("not verified")
-        ? "Le domaine d'envoi optmiz.be n'est pas encore vérifié dans Resend. Finalisez la configuration DNS, puis réessayez."
-        : error.message;
-      return NextResponse.json({ error: message }, { status: 502 });
-    }
-
-    return NextResponse.json({ ok: true, id: data?.id });
-  } catch {
-    return NextResponse.json(
-      { error: "Impossible d'envoyer le formulaire pour le moment." },
-      { status: 500 },
-    );
+    return NextResponse.json({ ok: true, id: info.messageId });
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Impossible d'envoyer le formulaire pour le moment.";
+    return NextResponse.json({ error: message }, { status: 502 });
   }
 }
