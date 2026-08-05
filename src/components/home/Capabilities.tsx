@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef } from "react";
-import { gsap, registerGsap, ScrollTrigger } from "@/lib/gsap";
+import { useRef } from "react";
+import { useReveal } from "@/hooks/useReveal";
 
 const cards = [
   {
@@ -38,82 +38,35 @@ const cards = [
 ];
 
 export function Capabilities() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    registerGsap();
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    if (window.matchMedia("(max-width: 900px)").matches) return;
-
-    const section = sectionRef.current;
-    const track = trackRef.current;
-    if (!section || !track) return;
-
-    const ctx = gsap.context(() => {
-      const getDistance = () => Math.max(track.scrollWidth - window.innerWidth + 80, 800);
-
-      gsap.to(track, {
-        x: () => -getDistance(),
-        ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: () => `+=${getDistance()}`,
-          pin: true,
-          scrub: 1.2,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          onUpdate: () => {
-            const mid = window.innerWidth / 2;
-            track.querySelectorAll<HTMLElement>(".cap-card-wow").forEach((card) => {
-              const rect = card.getBoundingClientRect();
-              const center = rect.left + rect.width / 2;
-              const delta = (center - mid) / mid;
-              const glow = 1 - Math.min(Math.abs(delta), 1);
-              gsap.set(card, {
-                rotateY: gsap.utils.clamp(-8, 8, delta * 8),
-                scale: 0.94 + glow * 0.06,
-                boxShadow: `0 0 ${36 * glow}px rgba(46,230,188,${0.28 * glow})`,
-              });
-            });
-          },
-        },
-      });
-    }, sectionRef);
-
-    const onResize = () => ScrollTrigger.refresh();
-    window.addEventListener("resize", onResize);
-    return () => {
-      window.removeEventListener("resize", onResize);
-      ctx.revert();
-    };
-  }, []);
+  const ref = useRef<HTMLElement>(null);
+  useReveal(ref);
 
   return (
-    <section ref={sectionRef} id="solutions" className="capabilities-wow">
-      <div className="container-site capabilities-heading">
-        <p className="eyebrow font-mono">Ce qu’on change</p>
-        <h2 className="font-display">Faites glisser. Lisez le gain.</h2>
-        <p className="section-lead">Chaque carte = un résultat concret. Pas de jargon.</p>
-      </div>
-      <div className="capabilities-viewport">
-        <div ref={trackRef} className="capabilities-track">
+    <section ref={ref} id="solutions" className="section-block">
+      <div className="container-site">
+        <div data-reveal data-reveal-type="fade" className="section-heading">
+          <p className="eyebrow font-mono">Ce qu’on change</p>
+          <h2 className="font-display">Des résultats lisibles en une ligne</h2>
+          <p className="section-lead">
+            Avant / après. Pas de slides techniques — uniquement ce que votre équipe gagne.
+          </p>
+        </div>
+        <div className="solutions-grid" data-reveal data-reveal-type="stagger">
           {cards.map((card) => (
-            <article key={card.title} className="solution-card cap-card-wow" data-cursor="card">
+            <article key={card.title} className="solution-card" data-reveal-child data-cursor="card">
               <p className="solution-result font-mono text-accent">{card.result}</p>
               <h3 className="font-display">{card.title}</h3>
               <p>{card.text}</p>
             </article>
           ))}
-          <article className="solution-card cap-card-wow cap-card-cta" data-cursor="card">
-            <p className="solution-result font-mono text-accent">Et vous ?</p>
-            <h3 className="font-display">Quel frein on enlève en premier ?</h3>
-            <p>30 minutes pour le savoir. Gratuit.</p>
-            <Link href="/#contact" className="btn-primary-glow section-cta" style={{ marginTop: "1rem" }}>
-              Diagnostic gratuit
-            </Link>
-          </article>
+        </div>
+        <div className="section-actions inline-actions" data-reveal data-reveal-type="fade">
+          <Link href="/cas-concrets" className="btn-ghost section-cta">
+            Lire les cas concrets
+          </Link>
+          <Link href="/#methode" className="text-link">
+            Comment on travaille →
+          </Link>
         </div>
       </div>
     </section>

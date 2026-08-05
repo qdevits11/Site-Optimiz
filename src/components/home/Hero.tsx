@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { gsap, registerGsap, ScrollTrigger, SplitText } from "@/lib/gsap";
+import { gsap, registerGsap, SplitText } from "@/lib/gsap";
 
 const HeroCanvas = dynamic(() => import("@/components/home/HeroCanvas"), {
   ssr: false,
@@ -21,7 +21,6 @@ export function Hero() {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     registerGsap();
@@ -40,7 +39,6 @@ export function Hero() {
       gsap.set(ctaRef.current?.querySelectorAll(".btn-reveal") ?? [], {
         clipPath: "polygon(0 0, 0 0, 0 100%, 0 100%)",
       });
-      gsap.set(scrollRef.current, { opacity: 0 });
 
       const tl = gsap.timeline({ delay: 0.15 });
 
@@ -73,30 +71,16 @@ export function Hero() {
         subtitleRef.current,
         { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.7, ease: "power2.out" },
         "-=0.35",
-      )
-        .to(
-          ctaRef.current?.querySelectorAll(".btn-reveal") ?? [],
-          {
-            clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-            duration: 0.65,
-            stagger: 0.1,
-            ease: "power3.inOut",
-          },
-          "-=0.3",
-        )
-        .to(scrollRef.current, { opacity: 1, duration: 0.5 }, "-=0.1");
-
-      gsap.to(sectionRef.current, {
-        opacity: 0.25,
-        y: -80,
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true,
+      ).to(
+        ctaRef.current?.querySelectorAll(".btn-reveal") ?? [],
+        {
+          clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+          duration: 0.65,
+          stagger: 0.1,
+          ease: "power3.inOut",
         },
-      });
+        "-=0.3",
+      );
 
       return () => {
         split.revert();
@@ -135,10 +119,6 @@ export function Hero() {
             </li>
           ))}
         </ul>
-      </div>
-      <div ref={scrollRef} className="hero-scroll font-mono" aria-hidden>
-        <span>Scroll</span>
-        <span className="hero-scroll-line" />
       </div>
     </section>
   );
