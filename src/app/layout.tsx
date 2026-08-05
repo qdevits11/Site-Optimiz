@@ -1,13 +1,27 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
+import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import "./globals.css";
 
-const display = Plus_Jakarta_Sans({
+const display = Space_Grotesk({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["700"],
+  display: "swap",
+});
+
+const body = Inter({
+  variable: "--font-body",
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
+});
+
+const mono = JetBrains_Mono({
+  variable: "--font-mono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -30,11 +44,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="fr" className={`${display.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-surface text-ink">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+    <html
+      lang="fr"
+      className={`${display.variable} ${body.variable} ${mono.variable} h-full antialiased`}
+    >
+      <body className="min-h-full bg-night text-text">
+        <SmoothScroll>
+          <main className="relative z-10">{children}</main>
+        </SmoothScroll>
       </body>
     </html>
   );
