@@ -539,6 +539,13 @@ button.btn-primary-glow:disabled {
   right: 0;
   z-index: 100;
   padding-top: 0.85rem;
+  pointer-events: none;
+}
+
+.site-nav .nav-shell,
+.site-nav .nav-progress,
+.site-nav .nav-overlay {
+  pointer-events: auto;
 }
 
 .site-nav.is-open {
@@ -556,21 +563,21 @@ button.btn-primary-glow:disabled {
   gap: 1rem;
   min-height: 64px;
   padding: 0.55rem 0.75rem 0.55rem 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 999px;
-  background: rgba(8, 11, 20, 0.94);
+  background: #080b14;
   backdrop-filter: blur(18px);
-  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55);
+  opacity: 1 !important;
   transition:
-    background 0.35s ease,
     border-color 0.35s ease,
     box-shadow 0.35s ease;
 }
 
 .site-nav.is-scrolled .nav-shell {
-  background: rgba(8, 11, 20, 0.98);
-  border-color: rgba(255, 255, 255, 0.18);
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55);
+  background: #080b14;
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.65);
 }
 
 .nav-progress {
@@ -617,7 +624,7 @@ button.btn-primary-glow:disabled {
   display: inline-flex;
   align-items: center;
   padding: 0.55rem 0.85rem;
-  color: #d7e0f5;
+  color: #e8eefc;
   font-size: 0.92rem;
   font-weight: 500;
   transition: color 0.25s ease;

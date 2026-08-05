@@ -34,13 +34,13 @@ export function Nav() {
     if (!reduced) {
       gsap.fromTo(
         nav.querySelector(".nav-shell"),
-        { y: -28, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, ease: "power3.out", delay: 0.15 },
+        { y: -28 },
+        { y: 0, duration: 0.8, ease: "power3.out", delay: 0.15 },
       );
       gsap.fromTo(
         nav.querySelectorAll(".nav-link-item"),
-        { y: 12, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.55, stagger: 0.06, ease: "power3.out", delay: 0.35 },
+        { y: 12 },
+        { y: 0, duration: 0.55, stagger: 0.06, ease: "power3.out", delay: 0.35 },
       );
     }
 
