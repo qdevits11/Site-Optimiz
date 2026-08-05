@@ -15,15 +15,15 @@ export function FaqList({ faqs }: { faqs: FaqItem[] }) {
       {faqs.map((faq, index) => {
         const isOpen = open === index;
         return (
-          <div key={faq.q} className="overflow-hidden rounded-2xl border border-line bg-white">
+          <div key={faq.q} className="faq-item">
             <button
               type="button"
-              className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left font-semibold text-ink"
+              className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left font-semibold"
               aria-expanded={isOpen}
               onClick={() => setOpen(isOpen ? null : index)}
             >
               {faq.q}
-              <span className="text-brand">{isOpen ? "−" : "+"}</span>
+              <span style={{ color: "var(--accent)" }}>{isOpen ? "−" : "+"}</span>
             </button>
             <div
               className={`grid transition-all duration-300 ${
@@ -31,7 +31,12 @@ export function FaqList({ faqs }: { faqs: FaqItem[] }) {
               }`}
             >
               <div className="overflow-hidden">
-                <p className="border-t border-line px-5 py-4 text-sm text-muted">{faq.a}</p>
+                <p
+                  className="border-t px-5 py-4 text-sm"
+                  style={{ borderColor: "var(--border)", margin: 0 }}
+                >
+                  {faq.a}
+                </p>
               </div>
             </div>
           </div>

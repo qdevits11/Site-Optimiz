@@ -4,7 +4,6 @@ import { ContactForm } from "@/components/ContactForm";
 import { CtaButton } from "@/components/CtaButton";
 import { PageHero } from "@/components/PageHero";
 import { ProblemSection } from "@/components/ProblemSection";
-import { Reveal } from "@/components/Reveal";
 import { methodSteps } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -14,107 +13,100 @@ export const metadata: Metadata = {
 };
 
 const gains = [
-  "Des heures récupérées par mois",
+  "Des heures récupérées chaque mois",
   "Moins de charge mentale pour vos équipes",
-  "Des milliers d'euros économisés par an",
-  "Focus retrouvé sur votre cœur de métier",
+  "Des économies mesurables sur l’année",
+  "Focus retrouvé sur le cœur de métier",
   "Processus clairs et documentés",
-  "Prêt à grandir sans se complexifier",
+  "Prêt à grandir sans complexifier",
 ];
 
 export default function MethodPage() {
   return (
     <>
       <PageHero
+        eyebrow="Méthode"
         title={
           <>
-            La Méthode <span className="text-brand">Optmiz</span>
+            La Méthode <span className="text-accent">Optmiz</span>
           </>
         }
-        subtitle="6 étapes concrètes pour transformer votre organisation sans tout bouleverser d'un coup."
-        imageSrc="/illustrations/showcase.svg"
-        imageAlt="Méthode Optmiz"
+        subtitle="6 étapes simples pour transformer votre organisation — sans tout bouleverser d’un coup."
       />
 
       <ProblemSection
         title="Pourquoi vos outils ne suffisent pas ?"
-        intro="Ce n'est pas un manque de logiciels. C’est l’accumulation d'inefficacités qui, mises bout à bout, ralentissent toute votre organisation :"
+        intro="Ce n’est pas un manque de logiciels. C’est l’accumulation de frictions :"
         points={[
-          "Des tâches répétitives qui consomment du temps chaque jour",
-          "Des outils qui ne communiquent pas entre eux",
-          "Des équipes qui compensent avec des solutions manuelles",
-          "Une complexité qui augmente à mesure que l'entreprise grandit",
+          "Tâches répétitives qui consomment du temps chaque jour",
+          "Outils qui ne communiquent pas entre eux",
+          "Équipes qui compensent avec des solutions manuelles",
+          "Complexité qui augmente avec la croissance",
         ]}
-        closing="Le coût réel est invisible : perte de temps, fatigue des équipes, décisions ralenties, croissance freinée."
+        closing="Le coût réel est invisible : temps perdu, fatigue, décisions ralenties."
       />
 
-      <section className="section bg-white">
+      <section className="page-section">
         <div className="container-site">
-          <Reveal>
-            <h2 className="text-center text-3xl font-bold text-ink md:text-4xl">Notre Méthode</h2>
-            <p className="mx-auto mt-4 max-w-3xl text-center text-muted">
-              Nous analysons votre fonctionnement réel pour identifier ce qui peut être simplifié,
-              structuré, automatisé.
-            </p>
-          </Reveal>
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {methodSteps.map((step, index) => (
-              <Reveal key={step.title} delay={index * 60}>
-                <article className="card-soft h-full">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand text-xl font-extrabold text-white">
-                    {step.letter}
-                  </div>
-                  <h3 className="mt-4 text-xl font-bold text-ink">{step.title}</h3>
-                  <p className="mt-2 text-muted">{step.text}</p>
-                </article>
-              </Reveal>
-            ))}
-          </div>
-          <Reveal>
-            <p className="mt-10 text-center text-muted">
-              Pour comprendre qui est derrière cette approche,{" "}
-              <Link href="/pourquoi-nous" className="font-semibold text-brand hover:underline">
-                découvrez le parcours de Quentin
-              </Link>
-              .
-            </p>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="section bg-brand-darker text-white">
-        <div className="container-site">
-          <Reveal>
-            <h2 className="text-center text-3xl font-bold md:text-4xl">
-              Ce que vous gagnez réellement
-            </h2>
-          </Reveal>
-          <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {gains.map((gain, index) => (
-              <Reveal key={gain} delay={index * 50}>
-                <div className="rounded-2xl border border-white/10 bg-white/5 px-5 py-6">
-                  <p className="text-lg font-semibold text-brand">✓ {gain}</p>
+          <p className="page-kicker font-mono">Comment on travaille</p>
+          <h2 className="page-title">Observer → Transformer → Zenifier</h2>
+          <p className="page-lead">
+            On part de votre fonctionnement réel, on simplifie, on automatise, puis on stabilise.
+          </p>
+          <div className="page-grid-3">
+            {methodSteps.map((step) => (
+              <article key={step.title} className="page-card">
+                <div
+                  className="flex h-10 w-10 items-center justify-center rounded-full text-lg font-extrabold"
+                  style={{ background: "var(--accent)", color: "#04120f" }}
+                >
+                  {step.letter}
                 </div>
-              </Reveal>
+                <h3 className="font-display" style={{ marginTop: "0.85rem", fontSize: "1.1rem" }}>
+                  {step.title}
+                </h3>
+                <p style={{ margin: "0.4rem 0 0", color: "var(--muted)", fontSize: "0.95rem" }}>
+                  {step.text}
+                </p>
+              </article>
             ))}
           </div>
-          <Reveal>
-            <p className="mx-auto mt-10 max-w-3xl text-center text-white/85">
-              Vous reprenez le contrôle, récupérez du temps et retrouvez la sérénité. Envie de voir
-              ce que ça donne en pratique ?{" "}
-              <Link href="/cas-concrets" className="font-semibold text-brand hover:underline">
-                Découvrez nos cas concrets
-              </Link>
-              .
-            </p>
-            <div className="mt-8 text-center">
-              <CtaButton />
-            </div>
-          </Reveal>
+          <p className="page-lead" style={{ marginTop: "1.25rem" }}>
+            Qui est derrière cette approche ?{" "}
+            <Link href="/pourquoi-nous" className="text-link">
+              Découvrir Quentin →
+            </Link>
+          </p>
         </div>
       </section>
 
-      <ContactForm />
+      <section className="page-section page-section-alt">
+        <div className="container-site">
+          <p className="page-kicker font-mono">Ce que vous gagnez</p>
+          <h2 className="page-title">Des bénéfices lisibles immédiatement</h2>
+          <div className="page-grid-3">
+            {gains.map((gain) => (
+              <div key={gain} className="page-card">
+                <p style={{ margin: 0, color: "var(--text)", fontWeight: 600 }}>
+                  <span className="text-accent">✓</span> {gain}
+                </p>
+              </div>
+            ))}
+          </div>
+          <div className="inline-actions" style={{ marginTop: "1.35rem" }}>
+            <CtaButton>Je veux ce type de résultat ›</CtaButton>
+            <Link href="/cas-concrets" className="text-link">
+              Voir les cas concrets →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="page-section cta-section">
+        <div className="container-site">
+          <ContactForm />
+        </div>
+      </section>
     </>
   );
 }

@@ -23,21 +23,28 @@ export function Accordion({ items }: { items: AccordionItem[] }) {
           <div key={item.id} className="accordion-item">
             <button
               type="button"
-              className="flex w-full items-start justify-between gap-4 px-5 py-4 text-left text-white"
+              className="flex w-full items-start justify-between gap-4 px-5 py-4 text-left"
               aria-expanded={open}
               onClick={() => setOpenId(open ? null : item.id)}
             >
               <div>
-                <p className="text-lg font-semibold">
+                <p className="text-lg font-semibold" style={{ margin: 0, color: "var(--text)" }}>
                   {item.id} {item.title}
                 </p>
-                <p className="mt-1 text-brand">{item.result}</p>
+                <p className="accordion-result" style={{ margin: "0.4rem 0 0" }}>
+                  {item.result}
+                </p>
                 {item.tags?.length ? (
                   <div className="mt-3 flex flex-wrap gap-2">
                     {item.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-full bg-white/10 px-3 py-1 text-xs text-white/90"
+                        className="rounded-full px-3 py-1 text-xs"
+                        style={{
+                          background: "rgba(255,255,255,0.06)",
+                          border: "1px solid var(--border)",
+                          color: "var(--muted)",
+                        }}
                       >
                         {tag}
                       </span>
@@ -45,7 +52,9 @@ export function Accordion({ items }: { items: AccordionItem[] }) {
                   </div>
                 ) : null}
               </div>
-              <span className="mt-1 text-xl text-brand">{open ? "−" : "+"}</span>
+              <span className="mt-1 text-xl" style={{ color: "var(--accent)" }}>
+                {open ? "−" : "+"}
+              </span>
             </button>
             <div
               className={`grid transition-all duration-300 ease-out ${
@@ -53,22 +62,25 @@ export function Accordion({ items }: { items: AccordionItem[] }) {
               }`}
             >
               <div className="overflow-hidden">
-                <div className="space-y-3 border-t border-white/10 px-5 py-4 text-sm text-white/90">
+                <div
+                  className="space-y-3 border-t px-5 py-4 text-sm"
+                  style={{ borderColor: "var(--border)", color: "var(--muted)" }}
+                >
                   {item.problem ? (
                     <p>
-                      <strong className="text-white">Le problème : </strong>
+                      <strong style={{ color: "var(--text)" }}>Le problème : </strong>
                       {item.problem}
                     </p>
                   ) : null}
                   {item.solution ? (
                     <p>
-                      <strong className="text-white">La solution : </strong>
+                      <strong style={{ color: "var(--text)" }}>La solution : </strong>
                       {item.solution}
                     </p>
                   ) : null}
                   {item.outcome ? (
                     <p>
-                      <strong className="text-brand">Résultat : </strong>
+                      <strong style={{ color: "var(--accent)" }}>Résultat : </strong>
                       {item.outcome}
                     </p>
                   ) : null}

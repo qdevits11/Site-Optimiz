@@ -1,13 +1,30 @@
 "use client";
 
+import Link from "next/link";
 import { useRef } from "react";
 import { useReveal } from "@/hooks/useReveal";
 
 const steps = [
-  { n: "01", title: "Premier contact & diagnostic", text: "Un échange pour comprendre vos besoins et identifier les leviers d’optimisation." },
-  { n: "02", title: "Audit personnalisé", text: "Analyse terrain de vos process pour des pistes concrètes et adaptées." },
-  { n: "03", title: "Proposition & mise en œuvre", text: "Prix fixe, périmètre clair, digitalisation et automatisation sans surprise." },
-  { n: "04", title: "Amélioration continue", text: "On reste à vos côtés pour ajuster le système à votre croissance." },
+  {
+    n: "01",
+    title: "Diagnostic",
+    text: "30 min pour comprendre où vous perdez du temps — gratuit, sans engagement.",
+  },
+  {
+    n: "02",
+    title: "Audit terrain",
+    text: "On observe le réel (pas la théorie) et on priorise les gains les plus rentables.",
+  },
+  {
+    n: "03",
+    title: "Mise en œuvre",
+    text: "Prix fixe, périmètre clair. On livre un système simple que vos équipes utilisent.",
+  },
+  {
+    n: "04",
+    title: "Suivi Zen",
+    text: "On reste disponibles pour ajuster, maintenir et faire évoluer le système.",
+  },
 ];
 
 export function Method() {
@@ -17,9 +34,18 @@ export function Method() {
   return (
     <section ref={ref} className="section-block" id="methode">
       <div className="container-site">
-        <div data-reveal data-reveal-type="slide" className="section-heading">
-          <p className="eyebrow font-mono">Méthode</p>
-          <h2 className="font-display">Un cycle en 4 étapes</h2>
+        <div data-reveal data-reveal-type="fade" className="section-heading section-heading-row">
+          <div>
+            <p className="eyebrow font-mono">Méthode</p>
+            <h2 className="font-display">Clair. Cadré. Sans surprise.</h2>
+            <p className="section-lead">
+              Quatre étapes. Vous savez toujours où on en est, ce que ça coûte, et ce que ça
+              rapporte.
+            </p>
+          </div>
+          <Link href="/notre-methodologie" className="text-link heading-link">
+            Détail de la méthode →
+          </Link>
         </div>
         <div className="method-timeline" data-reveal data-reveal-type="stagger">
           {steps.map((step) => (

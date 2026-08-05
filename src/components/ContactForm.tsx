@@ -40,43 +40,58 @@ export function ContactForm() {
   }
 
   return (
-    <section id="contact" className="contact-panel">
+    <section id="contact" className="contact-panel contact-panel-split">
       <div className="contact-heading">
-        <p className="eyebrow font-mono">Diagnostic gratuit</p>
+        <p className="eyebrow font-mono">Étape suivante</p>
         <h2 className="font-display">
-          Prêt à <span className="text-accent">Optmizer</span> votre société ?
+          Réservez votre <span className="text-accent">diagnostic gratuit</span>
         </h2>
         <p className="section-lead">
-          Un expert Optmiz identifie vos leviers d’automatisation les plus rentables.
+          En 30 minutes, on identifie vos 2–3 leviers les plus rentables. Sans engagement. Réponse
+          sous 24h.
         </p>
+        <ul className="contact-reassure">
+          <li>Gratuit et sans engagement</li>
+          <li>Recommandation claire : oui / non / plus tard</li>
+          <li>Basé sur votre réalité terrain</li>
+        </ul>
       </div>
 
       {submitted ? (
         <div className="contact-success">
-          <p className="font-display">Merci pour votre demande.</p>
-          <p>Nous vous recontactons sous 24h.</p>
+          <p className="font-display">Demande bien reçue.</p>
+          <p>Nous vous recontactons sous 24h avec un créneau.</p>
         </div>
       ) : (
         <form onSubmit={onSubmit} className="contact-form">
           <label>
             Nom *
-            <input name="name" required placeholder="Votre nom et prénom" />
+            <input name="name" required placeholder="Votre nom et prénom" autoComplete="name" />
           </label>
           <label>
             Téléphone
-            <input name="phone" type="tel" placeholder="+32 ..." />
+            <input name="phone" type="tel" placeholder="+32 ..." autoComplete="tel" />
           </label>
           <label>
             Mail *
-            <input name="email" type="email" required placeholder="contact@entreprise.be" />
+            <input
+              name="email"
+              type="email"
+              required
+              placeholder="contact@entreprise.be"
+              autoComplete="email"
+            />
           </label>
           <label>
             Société *
-            <input name="company" required placeholder="Nom de votre société" />
+            <input name="company" required placeholder="Nom de votre société" autoComplete="organization" />
           </label>
           <label className="full">
-            Votre principal enjeu aujourd&apos;hui
-            <textarea name="challenge" placeholder="Tâches répétitives, erreurs, manque de temps..." />
+            Votre principal frein aujourd&apos;hui
+            <textarea
+              name="challenge"
+              placeholder="Ex. : relances manuelles, double saisie Excel / ERP, reporting trop long…"
+            />
           </label>
           <label className="full consent">
             <input type="checkbox" required />
@@ -91,8 +106,9 @@ export function ContactForm() {
           ) : null}
           <div className="full">
             <button type="submit" className="btn-primary-glow" disabled={pending}>
-              {pending ? "Envoi en cours…" : "Je veux identifier mes gains de productivité"}
+              {pending ? "Envoi en cours…" : "Obtenir mon diagnostic gratuit"}
             </button>
+            <p className="form-note font-mono">Sans engagement · Réponse sous 24h</p>
           </div>
         </form>
       )}

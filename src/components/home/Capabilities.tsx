@@ -1,86 +1,72 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { gsap, registerGsap, ScrollTrigger } from "@/lib/gsap";
+import Link from "next/link";
+import { useRef } from "react";
+import { useReveal } from "@/hooks/useReveal";
 
 const cards = [
-  { title: "Automatisation des relances", text: "De plusieurs heures à 5 minutes, sans oubli." },
-  { title: "Centralisation RH", text: "Pointages consolidés, zéro copier-coller." },
-  { title: "Calculs de masse", text: "1 874 notifications : 2 semaines → ½ journée." },
-  { title: "Feuilles de temps digitales", text: "Zéro papier, suivi terrain en temps réel." },
-  { title: "Demandes de prix CRM", text: "Configurateur multi-pays, pipeline clair." },
-  { title: "Connexion d’outils", text: "Excel, ERP, mails : un flux unique." },
-  { title: "Pilotage structuré", text: "Indicateurs utiles, décisions plus rapides." },
-  { title: "Audit terrain", text: "On observe le réel, pas les procédures." },
-  { title: "Amélioration continue", text: "Le système évolue avec votre croissance." },
+  {
+    title: "Relances clients",
+    result: "Plusieurs heures → 5 min",
+    text: "Détection, envoi et suivi automatiques des impayés.",
+  },
+  {
+    title: "Pointages RH",
+    result: "0 copier-coller",
+    text: "Données consolidées chaque jour, sans intervention.",
+  },
+  {
+    title: "Calculs de masse",
+    result: "2 semaines → ½ journée",
+    text: "1 874 notifications de loyers générées automatiquement.",
+  },
+  {
+    title: "Feuilles de temps",
+    result: "Zéro papier",
+    text: "Saisie terrain sur tablette, suivi en temps réel.",
+  },
+  {
+    title: "Demandes de prix",
+    result: "Pipeline clair",
+    text: "Configurateur + CRM : moins de mails, plus de deals suivis.",
+  },
+  {
+    title: "Connexion d’outils",
+    result: "Un seul flux",
+    text: "Excel, ERP, mails et CRM reliés sans double saisie.",
+  },
 ];
 
 export function Capabilities() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    registerGsap();
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const section = sectionRef.current;
-    const track = trackRef.current;
-    if (!section || !track) return;
-
-    const totalScroll = Math.max(track.scrollWidth - window.innerWidth + 80, 2000);
-
-    const ctx = gsap.context(() => {
-      gsap.to(track, {
-        x: () => -(track.scrollWidth - window.innerWidth + 80),
-        ease: "none",
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: `+=${totalScroll}`,
-          pin: true,
-          scrub: 1.5,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-          onUpdate: () => {
-            const cardsEls = track.querySelectorAll<HTMLElement>(".cap-card");
-            const mid = window.innerWidth / 2;
-            cardsEls.forEach((card) => {
-              const rect = card.getBoundingClientRect();
-              const center = rect.left + rect.width / 2;
-              const delta = (center - mid) / mid;
-              const rotateY = gsap.utils.clamp(-5, 5, delta * 5);
-              const glow = 1 - Math.min(Math.abs(delta), 1);
-              gsap.set(card, {
-                rotateY,
-                boxShadow: `0 0 ${24 * glow}px rgba(0,212,168,${0.35 * glow})`,
-              });
-            });
-          },
-        },
-      });
-    }, sectionRef);
-
-    const onResize = () => ScrollTrigger.refresh();
-    window.addEventListener("resize", onResize);
-    return () => {
-      window.removeEventListener("resize", onResize);
-      ctx.revert();
-    };
-  }, []);
+  const ref = useRef<HTMLElement>(null);
+  useReveal(ref);
 
   return (
-    <section ref={sectionRef} id="solutions" className="capabilities-section">
-      <div className="container-site capabilities-heading">
-        <p className="eyebrow font-mono">Solutions</p>
-        <h2 className="font-display">Ce que l’on transforme concrètement</h2>
-      </div>
-      <div className="capabilities-viewport">
-        <div ref={trackRef} className="capabilities-track">
+    <section ref={ref} id="solutions" className="section-block">
+      <div className="container-site">
+        <div data-reveal data-reveal-type="fade" className="section-heading">
+          <p className="eyebrow font-mono">Ce qu’on change</p>
+          <h2 className="font-display">Des résultats lisibles en une ligne</h2>
+          <p className="section-lead">
+            Avant / après. Pas de slides techniques — uniquement ce que votre équipe gagne.
+          </p>
+        </div>
+        <div className="solutions-grid" data-reveal data-reveal-type="stagger">
           {cards.map((card) => (
-            <article key={card.title} className="cap-card" data-cursor="card">
+            <article key={card.title} className="solution-card" data-reveal-child data-cursor="card">
+              <p className="solution-result font-mono text-accent">{card.result}</p>
               <h3 className="font-display">{card.title}</h3>
               <p>{card.text}</p>
             </article>
           ))}
+        </div>
+        <div className="section-actions inline-actions" data-reveal data-reveal-type="fade">
+          <Link href="/cas-concrets" className="btn-ghost section-cta">
+            Lire les cas concrets
+          </Link>
+          <Link href="/#methode" className="text-link">
+            Comment on travaille →
+          </Link>
         </div>
       </div>
     </section>

@@ -4,20 +4,20 @@ import { Hero } from "@/components/home/Hero";
 import { Method } from "@/components/home/Method";
 import { PainPoints } from "@/components/home/PainPoints";
 import { Pricing } from "@/components/home/Pricing";
-import { ProcessSimulator } from "@/components/home/ProcessSimulator";
 import { Proof } from "@/components/home/Proof";
-import { Stack } from "@/components/home/Stack";
+import { TrustBar } from "@/components/home/TrustBar";
+import { WhyUs } from "@/components/home/WhyUs";
 
 export default function HomePage() {
   return (
     <>
       <Hero />
+      <TrustBar />
       <PainPoints />
       <Capabilities />
-      <ProcessSimulator />
       <Method />
       <Proof />
-      <Stack />
+      <WhyUs />
       <Pricing />
       <CTA />
     </>

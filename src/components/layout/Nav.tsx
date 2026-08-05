@@ -6,10 +6,9 @@ import { useEffect, useRef, useState } from "react";
 import { gsap, registerGsap, ScrollTrigger } from "@/lib/gsap";
 
 const links = [
-  { href: "/", label: "Accueil" },
   { href: "/#solutions", label: "Solutions" },
-  { href: "/notre-methodologie", label: "Méthode" },
-  { href: "/cas-concrets", label: "Preuves" },
+  { href: "/#methode", label: "Méthode" },
+  { href: "/#preuves", label: "Preuves" },
   { href: "/tarifs", label: "Tarifs" },
 ];
 
@@ -62,7 +61,7 @@ export function Nav() {
           ))}
         </nav>
         <Link href="/#contact" className="nav-cta">
-          Contactez-nous
+          Diagnostic gratuit
         </Link>
         <button
           type="button"
@@ -83,7 +82,7 @@ export function Nav() {
             </Link>
           ))}
           <Link href="/#contact" onClick={() => setOpen(false)} className="nav-cta">
-            Contactez-nous
+            Diagnostic gratuit
           </Link>
         </div>
       ) : null}
