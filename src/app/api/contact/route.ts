@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-import { isMailConfigured, mailConfig } from "@/config/mail";
+import { getMailConfig, isMailConfigured } from "@/config/mail";
 
 export const runtime = "nodejs";
 
@@ -58,7 +58,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           error:
-            "Configuration mail incomplète. Renseigne user/pass dans src/config/mail.ts.",
+            "Configuration mail incomplète. Définis SMTP_HOST, SMTP_USER, SMTP_PASS et SMTP_FROM dans Vercel.",
         },
         { status: 500 },
       );
@@ -77,6 +77,8 @@ export async function POST(request: Request) {
         { status: 400 },
       );
     }
+
+    const mailConfig = getMailConfig();
 
     const transporter = nodemailer.createTransport({
       host: mailConfig.host,

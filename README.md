@@ -45,18 +45,19 @@ Dashboard : [vercel.com/.../site-optimiz](https://vercel.com/qquentindevits-4149
 
 Les soumissions partent via **SMTP OVH** vers `q.devits.optmiz@gmail.com`.
 
-Toute la config se fait **dans l’app** : `src/config/mail.ts`
+Config dans **Vercel → Project → Settings → Environment Variables** (Production + Preview) :
 
-```ts
-host: "ssl0.ovh.net", // ou smtp.mail.ovh.net
-port: 465,
-user: "contact@optmiz.be",
-pass: "...",
-from: "Optmiz <contact@optmiz.be>",
-to: "q.devits.optmiz@gmail.com",
-```
+| Variable | Exemple |
+| --- | --- |
+| `SMTP_HOST` | `ssl0.ovh.net` ou `smtp.mail.ovh.net` |
+| `SMTP_PORT` | `465` |
+| `SMTP_SECURE` | `true` (pour 465) |
+| `SMTP_USER` | `contact@optmiz.be` |
+| `SMTP_PASS` | mot de passe de la boîte |
+| `SMTP_FROM` | `Optmiz <contact@optmiz.be>` |
+| `CONTACT_TO_EMAIL` | `q.devits.optmiz@gmail.com` |
 
-Aucun réglage email à faire dans le dashboard Vercel.
+Puis **Redeploy** le projet pour prendre en compte les variables.
 
 ## Démarrage
 

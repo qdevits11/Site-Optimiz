@@ -1,36 +1,29 @@
 /**
- * Configuration SMTP OVH — à renseigner ici (dans l'app).
+ * Configuration SMTP lue depuis les variables d'environnement Vercel.
  *
- * Remplis `user` et `pass` avec ta boîte OVH qui envoie les mails.
- * Destinataire des demandes formulaire : `to`.
+ * À définir dans Project → Settings → Environment Variables :
+ * - SMTP_HOST   (ex. ssl0.ovh.net ou smtp.mail.ovh.net)
+ * - SMTP_PORT   (ex. 465 ou 587)
+ * - SMTP_USER   (adresse OVH complète)
+ * - SMTP_PASS   (mot de passe de la boîte)
+ * - SMTP_FROM   (ex. Optmiz <contact@optmiz.be>)
+ * - CONTACT_TO_EMAIL (ex. q.devits.optmiz@gmail.com)
  */
-export const mailConfig = {
-  /** Serveur SMTP OVH : smtp.mail.ovh.net ou ssl0.ovh.net */
-  host: "ssl0.ovh.net",
+export function getMailConfig() {
+  const port = Number(process.env.SMTP_PORT || "465");
 
-  /** 465 = SSL, 587 = STARTTLS */
-  port: 465,
-
-  /** true pour le port 465, false pour 587 */
-  secure: true,
-
-  /** Adresse complète de la boîte OVH (ex. contact@optmiz.be) */
-  user: "REMPLIR_ADRESSE@optmiz.be",
-
-  /** Mot de passe de cette boîte OVH */
-  pass: "REMPLIR_MOT_DE_PASSE",
-
-  /** Expéditeur affiché */
-  from: "Optmiz <REMPLIR_ADRESSE@optmiz.be>",
-
-  /** Destinataire des soumissions du formulaire */
-  to: "q.devits.optmiz@gmail.com",
-} as const;
+  return {
+    host: process.env.SMTP_HOST || "",
+    port: Number.isFinite(port) ? port : 465,
+    secure: (process.env.SMTP_SECURE || (port === 465 ? "true" : "false")) === "true",
+    user: process.env.SMTP_USER || "",
+    pass: process.env.SMTP_PASS || "",
+    from: process.env.SMTP_FROM || process.env.SMTP_USER || "",
+    to: process.env.CONTACT_TO_EMAIL || "q.devits.optmiz@gmail.com",
+  };
+}
 
 export function isMailConfigured() {
-  return (
-    !mailConfig.user.startsWith("REMPLIR_") &&
-    !mailConfig.pass.startsWith("REMPLIR_") &&
-    Boolean(mailConfig.host && mailConfig.user && mailConfig.pass)
-  );
+  const config = getMailConfig();
+  return Boolean(config.host && config.user && config.pass && config.from && config.to);
 }
