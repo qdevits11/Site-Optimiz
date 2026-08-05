@@ -14,9 +14,8 @@ export function Preloader({ onDone }: PreloaderProps) {
   useEffect(() => {
     registerGsap();
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const seen = sessionStorage.getItem("optmiz-intro") === "1";
 
-    if (reduced || seen) {
+    if (reduced) {
       setVisible(false);
       onDone?.();
       return;
@@ -34,7 +33,6 @@ export function Preloader({ onDone }: PreloaderProps) {
     const tl = gsap.timeline({
       defaults: { ease: "power3.inOut" },
       onComplete: () => {
-        sessionStorage.setItem("optmiz-intro", "1");
         document.body.classList.remove("is-preloading");
         setVisible(false);
         onDone?.();
@@ -44,6 +42,8 @@ export function Preloader({ onDone }: PreloaderProps) {
     gsap.set(brand, { opacity: 0, y: 30, filter: "blur(12px)" });
     gsap.set(tag, { opacity: 0, y: 12 });
     gsap.set(line, { scaleX: 0 });
+    gsap.set(root, { opacity: 1 });
+    gsap.set(panel, { yPercent: 0 });
 
     tl.to(brand, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.85 })
       .to(

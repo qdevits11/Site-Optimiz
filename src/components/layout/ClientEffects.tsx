@@ -1,6 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
 
 const CustomCursor = dynamic(
   () => import("@/components/ui/CustomCursor").then((m) => m.CustomCursor),
@@ -18,9 +19,12 @@ const Preloader = dynamic(
 );
 
 export function ClientEffects() {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+
   return (
     <>
-      <Preloader />
+      {isHome ? <Preloader key="home-intro" /> : null}
       <GradientOrbs />
       <CustomCursor />
     </>
