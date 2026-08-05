@@ -66,6 +66,9 @@ export function Nav() {
 
   useEffect(() => {
     document.body.classList.toggle("nav-overlay-open", open);
+    if (open && barRef.current) {
+      gsap.set(barRef.current, { yPercent: 0 });
+    }
     return () => document.body.classList.remove("nav-overlay-open");
   }, [open]);
 
