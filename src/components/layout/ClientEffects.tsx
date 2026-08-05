@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const CustomCursor = dynamic(
   () => import("@/components/ui/CustomCursor").then((m) => m.CustomCursor),
@@ -18,13 +18,25 @@ const Preloader = dynamic(
   { ssr: false },
 );
 
+/** Survives client navigations; resets only on full page reload. */
+let bootPath: string | null = null;
+
 export function ClientEffects() {
-  const pathname = usePathname();
-  const isHome = pathname === "/";
+  const [showIntro, setShowIntro] = useState(false);
+
+  useEffect(() => {
+    if (bootPath === null) {
+      bootPath = window.location.pathname;
+      // Intro only when the document itself was loaded on the homepage.
+      if (bootPath === "/") {
+        setShowIntro(true);
+      }
+    }
+  }, []);
 
   return (
     <>
-      {isHome ? <Preloader key="home-intro" /> : null}
+      {showIntro ? <Preloader onDone={() => setShowIntro(false)} /> : null}
       <GradientOrbs />
       <CustomCursor />
     </>
