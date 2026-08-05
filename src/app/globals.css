@@ -935,6 +935,16 @@ button.btn-primary-glow:disabled {
   }
 }
 
+@keyframes glowPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 18px rgba(46, 230, 188, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 34px rgba(46, 230, 188, 0.75);
+  }
+}
+
 /* Footer */
 .site-footer {
   position: relative;
