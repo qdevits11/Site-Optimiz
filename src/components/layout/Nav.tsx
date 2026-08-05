@@ -124,7 +124,7 @@ export function Nav() {
               aria-label="Optmiz — Accueil"
               onClick={() => setOpen(false)}
             >
-              <Logo height={30} priority className="nav-logo-img" />
+              <Logo variant="onDark" height={30} priority className="nav-logo-img" />
             </Link>
 
             <nav className="nav-links" aria-label="Navigation">

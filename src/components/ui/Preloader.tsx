@@ -72,7 +72,8 @@ export function Preloader({ onDone }: PreloaderProps) {
       <div className="preloader-panel preloader-panel-bottom" />
       <div className="preloader-content">
         <div className="preloader-brand">
-          <Logo height={72} priority className="preloader-logo-img" />
+          <span className="preloader-brand-glow" aria-hidden />
+          <Logo variant="onDark" height={72} priority className="preloader-logo-img" />
         </div>
         <div className="preloader-line" />
         <p className="preloader-tag font-mono">Automatiser. Clarifier. Zenifier.</p>

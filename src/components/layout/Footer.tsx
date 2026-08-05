@@ -8,7 +8,7 @@ export function Footer() {
     <footer className="site-footer site-footer-compact">
       <div className="container-site footer-meta">
         <div className="footer-brand">
-          <Logo height={22} className="footer-logo-img" />
+          <Logo variant="onDark" height={22} className="footer-logo-img" />
           <p>© Optmiz — Soignies, Belgique</p>
         </div>
         <div className="footer-links">
