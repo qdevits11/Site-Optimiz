@@ -47,7 +47,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SmoothScroll>
           <ClientEffects />
           <Nav />
-          <main className="relative z-10">{children}</main>
+          <main className="relative">{children}</main>
           <Footer />
         </SmoothScroll>
       </body>
