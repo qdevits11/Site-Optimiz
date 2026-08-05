@@ -13,8 +13,17 @@ export function CtaButton({
   children = "Réservez votre diagnostic gratuit ›",
   className = "",
 }: CtaButtonProps) {
+  const base =
+    variant === "primary"
+      ? "btn-primary-glow"
+      : "btn-ghost";
+
   return (
-    <Link href={href} className={`btn ${variant === "primary" ? "btn-primary" : "btn-light"} ${className}`}>
+    <Link
+      href={href}
+      className={`${base} ${className}`}
+      style={{ display: "inline-flex", padding: "0.9rem 1.35rem", borderRadius: 999, fontWeight: 600 }}
+    >
       {children}
     </Link>
   );

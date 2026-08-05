@@ -1,5 +1,4 @@
-import { CtaButton } from "@/components/CtaButton";
-import { Reveal } from "@/components/Reveal";
+import Link from "next/link";
 
 type ProblemSectionProps = {
   title: string;
@@ -17,26 +16,32 @@ export function ProblemSection({
   showCta = true,
 }: ProblemSectionProps) {
   return (
-    <section className="section bg-problem text-white">
-      <div className="container-site max-w-3xl text-center">
-        <Reveal>
-          <h2 className="text-3xl font-bold leading-tight md:text-4xl">{title}</h2>
-          <p className="mt-5 text-lg text-white/90">{intro}</p>
-          <ul className="mx-auto mt-8 max-w-xl space-y-3 text-left text-white/95">
-            {points.map((point) => (
-              <li key={point} className="flex gap-3">
-                <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-brand" />
-                <span>{point}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-8 text-base font-medium text-white/95">{closing}</p>
-          {showCta ? (
-            <div className="mt-8">
-              <CtaButton variant="light" />
-            </div>
-          ) : null}
-        </Reveal>
+    <section className="section-block" style={{ background: "rgba(255,80,110,0.08)" }}>
+      <div className="container-site" style={{ maxWidth: 760, textAlign: "center" }}>
+        <h2 className="font-display" style={{ fontSize: "clamp(1.8rem,3vw,2.4rem)" }}>
+          {title}
+        </h2>
+        <p className="section-lead" style={{ marginInline: "auto" }}>
+          {intro}
+        </p>
+        <ul style={{ listStyle: "none", padding: 0, margin: "1.5rem auto", maxWidth: 520, textAlign: "left" }}>
+          {points.map((point) => (
+            <li key={point} style={{ display: "flex", gap: "0.75rem", marginBottom: "0.7rem", color: "var(--text)" }}>
+              <span className="pain-dot" />
+              <span>{point}</span>
+            </li>
+          ))}
+        </ul>
+        <p className="section-closing" style={{ marginInline: "auto" }}>
+          {closing}
+        </p>
+        {showCta ? (
+          <div style={{ marginTop: "1.5rem" }}>
+            <Link href="/#contact" className="btn-ghost" style={{ display: "inline-flex", padding: "0.85rem 1.2rem", borderRadius: 999 }}>
+              Réserver mon diagnostic gratuit
+            </Link>
+          </div>
+        ) : null}
       </div>
     </section>
   );

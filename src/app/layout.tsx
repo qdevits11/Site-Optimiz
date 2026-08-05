@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import { ClientEffects } from "@/components/layout/ClientEffects";
+import { Footer } from "@/components/layout/Footer";
+import { Nav } from "@/components/layout/Nav";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import "./globals.css";
 
@@ -32,14 +35,6 @@ export const metadata: Metadata = {
   description:
     "Optmiz aide les PME belges à automatiser leurs tâches répétitives et digitaliser leurs processus. Diagnostic gratuit. Prix fixe. Résultats visibles rapidement.",
   metadataBase: new URL("https://optmiz.be"),
-  openGraph: {
-    title: "Optmiz — Automatisation & Digitalisation des Processus en Wallonie",
-    description:
-      "Optmiz aide les PME belges à automatiser leurs tâches répétitives et digitaliser leurs processus. Diagnostic gratuit. Prix fixe. Résultats visibles rapidement.",
-    siteName: "Optmiz",
-    locale: "fr_BE",
-    type: "website",
-  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -50,7 +45,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full bg-night text-text">
         <SmoothScroll>
+          <ClientEffects />
+          <Nav />
           <main className="relative z-10">{children}</main>
+          <Footer />
         </SmoothScroll>
       </body>
     </html>

@@ -1,6 +1,5 @@
 import Image from "next/image";
-import { CtaButton } from "@/components/CtaButton";
-import { Reveal } from "@/components/Reveal";
+import Link from "next/link";
 
 type PageHeroProps = {
   title: React.ReactNode;
@@ -18,27 +17,38 @@ export function PageHero({
   note = "Sans engagement, réponse sous 24h",
 }: PageHeroProps) {
   return (
-    <section className="section-tight bg-brand-soft">
+    <section className="page-shell">
       <div className="container-site grid items-center gap-10 lg:grid-cols-2">
-        <Reveal>
-          <h1 className="text-4xl font-extrabold leading-tight text-ink md:text-5xl">{title}</h1>
-          <p className="mt-5 text-lg text-muted md:text-xl">{subtitle}</p>
-          <div className="mt-8">
-            <CtaButton />
-            <p className="mt-3 text-sm text-muted">{note}</p>
+        <div>
+          <h1
+            className="font-display"
+            style={{ fontSize: "clamp(2.4rem,5vw,3.6rem)", margin: 0, lineHeight: 1.1 }}
+          >
+            {title}
+          </h1>
+          <p className="section-lead">{subtitle}</p>
+          <div style={{ marginTop: "1.75rem" }}>
+            <Link
+              href="/#contact"
+              className="btn-primary-glow"
+              style={{ display: "inline-flex", padding: "0.9rem 1.3rem", borderRadius: 999 }}
+            >
+              Réserver mon diagnostic gratuit
+            </Link>
+            <p className="hero-note font-mono">{note}</p>
           </div>
-        </Reveal>
+        </div>
         {imageSrc ? (
-          <Reveal delay={120} className="justify-self-center">
+          <div className="justify-self-center opacity-90">
             <Image
               src={imageSrc}
               alt={imageAlt}
               width={520}
               height={420}
-              className="float-soft h-auto w-full max-w-[480px]"
+              className="h-auto w-full max-w-[480px]"
               priority
             />
-          </Reveal>
+          </div>
         ) : null}
       </div>
     </section>
