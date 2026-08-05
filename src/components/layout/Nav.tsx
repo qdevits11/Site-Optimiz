@@ -7,17 +7,17 @@ import { useMagnet } from "@/hooks/useMagnet";
 import { gsap, registerGsap, ScrollTrigger } from "@/lib/gsap";
 
 const links = [
-  { href: "/#solutions", label: "Solutions" },
-  { href: "/#methode", label: "Méthode" },
-  { href: "/#preuves", label: "Preuves" },
-  { href: "/tarifs", label: "Tarifs" },
+  { href: "/#solutions", label: "Solutions", match: "/" },
+  { href: "/notre-methodologie", label: "Méthode", match: "/notre-methodologie" },
+  { href: "/cas-concrets", label: "Preuves", match: "/cas-concrets" },
+  { href: "/pourquoi-nous", label: "Pourquoi nous", match: "/pourquoi-nous" },
+  { href: "/tarifs", label: "Tarifs", match: "/tarifs" },
 ];
 
 export function Nav() {
   const pathname = usePathname();
   const navRef = useRef<HTMLElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
-  const linksRef = useRef<HTMLElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const ctaMagnet = useMagnet<HTMLAnchorElement>(90, 14);
   const [open, setOpen] = useState(false);
@@ -29,20 +29,7 @@ export function Nav() {
     const progress = progressRef.current;
     if (!nav || !progress) return;
 
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (!reduced) {
-      gsap.fromTo(
-        nav.querySelector(".nav-shell"),
-        { y: -28 },
-        { y: 0, duration: 0.8, ease: "power3.out", delay: 0.15 },
-      );
-      gsap.fromTo(
-        nav.querySelectorAll(".nav-link-item"),
-        { y: 12 },
-        { y: 0, duration: 0.55, stagger: 0.06, ease: "power3.out", delay: 0.35 },
-      );
-    }
+    gsap.set(nav, { yPercent: 0 });
 
     const trigger = ScrollTrigger.create({
       start: 0,
@@ -56,6 +43,8 @@ export function Nav() {
           } else {
             gsap.to(nav, { yPercent: 0, duration: 0.45, ease: "power2.out", overwrite: true });
           }
+        } else {
+          gsap.to(nav, { yPercent: 0, duration: 0.2, overwrite: true });
         }
         nav.classList.toggle("is-scrolled", y > 24);
         lastY.current = y;
@@ -63,9 +52,13 @@ export function Nav() {
     });
 
     return () => trigger.kill();
-  }, [open]);
+  }, [open, pathname]);
 
-  useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => {
+    setOpen(false);
+    const nav = navRef.current;
+    if (nav) gsap.set(nav, { yPercent: 0 });
+  }, [pathname]);
 
   useEffect(() => {
     document.body.classList.toggle("nav-overlay-open", open);
@@ -78,43 +71,27 @@ export function Nav() {
     const meta = overlay.querySelectorAll(".nav-overlay-meta > *");
 
     if (open) {
-      gsap.set(overlay, { display: "flex" });
+      gsap.set(overlay, { display: "flex", opacity: 1, clearProps: "clipPath" });
       if (reduced) {
-        gsap.set(overlay, { opacity: 1, clipPath: "none" });
         gsap.set(items, { opacity: 1, y: 0 });
         return;
       }
-      gsap.fromTo(
-        overlay,
-        { opacity: 0, clipPath: "circle(0% at 92% 36px)" },
-        { opacity: 1, clipPath: "circle(160% at 92% 36px)", duration: 0.7, ease: "power3.inOut" },
-      );
+      gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.28, ease: "power2.out" });
       gsap.fromTo(
         items,
-        { y: 50, opacity: 0, rotateX: 18 },
-        {
-          y: 0,
-          opacity: 1,
-          rotateX: 0,
-          duration: 0.65,
-          stagger: 0.08,
-          ease: "power3.out",
-          delay: 0.18,
-        },
+        { y: 24, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.4, stagger: 0.05, ease: "power3.out", delay: 0.05 },
       );
       gsap.fromTo(
         meta,
-        { y: 16, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.45, stagger: 0.06, delay: 0.45, ease: "power2.out" },
+        { y: 12, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.35, stagger: 0.05, delay: 0.25, ease: "power2.out" },
       );
     } else if (!reduced) {
-      gsap.to(items, { y: -20, opacity: 0, duration: 0.25, stagger: 0.03, ease: "power2.in" });
       gsap.to(overlay, {
         opacity: 0,
-        clipPath: "circle(0% at 92% 36px)",
-        duration: 0.45,
-        ease: "power3.inOut",
-        delay: 0.05,
+        duration: 0.22,
+        ease: "power2.in",
         onComplete: () => gsap.set(overlay, { display: "none" }),
       });
     } else {
@@ -124,10 +101,7 @@ export function Nav() {
     return () => document.body.classList.remove("nav-overlay-open");
   }, [open]);
 
-  const isActive = (href: string) => {
-    if (href.startsWith("/#")) return pathname === "/";
-    return pathname === href;
-  };
+  const isActive = (match: string) => pathname === match;
 
   return (
     <header ref={navRef} className={`site-nav${open ? " is-open" : ""}`}>
@@ -139,13 +113,13 @@ export function Nav() {
             Opt<span className="text-accent">miz</span>
           </Link>
 
-          <nav ref={linksRef} className="nav-links" aria-label="Navigation">
+          <nav className="nav-links" aria-label="Navigation">
             {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 className="nav-link-item"
-                data-active={isActive(link.href)}
+                data-active={isActive(link.match)}
               >
                 <span className="nav-link-label">{link.label}</span>
                 <span className="nav-link-underline" aria-hidden />
@@ -153,32 +127,36 @@ export function Nav() {
             ))}
           </nav>
 
-          <Link ref={ctaMagnet} href="/#contact" className="nav-cta btn-primary-glow">
-            Diagnostic gratuit
-          </Link>
-
-          <button
-            type="button"
-            className={`nav-burger${open ? " is-active" : ""}`}
-            aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
-            aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
-          >
-            <span />
-            <span />
-            <span />
-          </button>
+          <div className="nav-actions">
+            <Link ref={ctaMagnet} href="/#contact" className="nav-cta btn-primary-glow">
+              Diagnostic gratuit
+            </Link>
+            <button
+              type="button"
+              className={`nav-burger${open ? " is-active" : ""}`}
+              aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
+              aria-expanded={open}
+              onClick={() => setOpen((v) => !v)}
+            >
+              <span />
+              <span />
+              <span />
+            </button>
+          </div>
         </div>
       </div>
 
       <div ref={overlayRef} className="nav-overlay" style={{ display: "none" }} aria-hidden={!open}>
-        <div className="nav-overlay-glow" aria-hidden />
-        <div className="container-site nav-overlay-inner">
+        <div className="nav-overlay-panel">
           <p className="nav-overlay-kicker font-mono">Menu</p>
           <nav className="nav-overlay-links" aria-label="Navigation mobile">
-            {[...links, { href: "/#contact", label: "Diagnostic gratuit" }].map((link, index) => (
+            {[
+              { href: "/", label: "Accueil" },
+              ...links,
+              { href: "/#contact", label: "Diagnostic gratuit" },
+            ].map((link, index) => (
               <Link
-                key={link.href}
+                key={`${link.href}-${link.label}`}
                 href={link.href}
                 className="nav-overlay-link font-display"
                 onClick={() => setOpen(false)}
