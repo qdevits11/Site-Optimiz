@@ -543,8 +543,7 @@ button.btn-primary-glow:disabled {
 }
 
 .site-nav .nav-shell,
-.site-nav .nav-progress,
-.site-nav .nav-overlay {
+.site-nav .nav-progress {
   pointer-events: auto;
 }
 
@@ -724,12 +723,28 @@ button.btn-primary-glow:disabled {
 .nav-overlay {
   position: fixed;
   inset: 0;
-  z-index: 2;
-  display: none;
+  z-index: 250;
+  display: flex;
   flex-direction: column;
   background: #080b14;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.25s ease,
+    visibility 0.25s ease;
+}
+
+.nav-overlay.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.site-nav.is-open {
+  z-index: 300;
 }
 
 .nav-overlay-panel {
