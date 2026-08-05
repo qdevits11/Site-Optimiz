@@ -8,6 +8,7 @@ export function CustomCursor() {
   const ringRef = useRef<HTMLDivElement>(null);
   const [enabled, setEnabled] = useState(false);
   const [label, setLabel] = useState("");
+  const [mode, setMode] = useState<"default" | "link" | "card" | "cta">("default");
 
   useEffect(() => {
     registerGsap();
@@ -17,8 +18,8 @@ export function CustomCursor() {
     setEnabled(true);
     document.body.classList.add("cursor-none");
 
-    const ringX = gsap.quickTo(ringRef.current, "x", { duration: 0.35, ease: "power3" });
-    const ringY = gsap.quickTo(ringRef.current, "y", { duration: 0.35, ease: "power3" });
+    const ringX = gsap.quickTo(ringRef.current, "x", { duration: 0.4, ease: "power3" });
+    const ringY = gsap.quickTo(ringRef.current, "y", { duration: 0.4, ease: "power3" });
 
     const onMove = (event: MouseEvent) => {
       gsap.set(dotRef.current, { x: event.clientX, y: event.clientY });
@@ -29,22 +30,32 @@ export function CustomCursor() {
     const onOver = (event: MouseEvent) => {
       const target = event.target as HTMLElement | null;
       if (!target) return;
+      const cta = target.closest("[data-cursor='cta'], .btn-primary-glow");
       const interactive = target.closest("a, button");
       const card = target.closest("[data-cursor='card']");
-      if (interactive) {
-        gsap.to(ringRef.current, { scale: 2.5, opacity: 0.4, duration: 0.25 });
+
+      if (cta) {
+        setMode("cta");
+        setLabel("Go");
+        gsap.to(ringRef.current, { scale: 3.2, opacity: 0.35, duration: 0.25 });
         gsap.to(dotRef.current, { scale: 0, duration: 0.2 });
+      } else if (interactive) {
+        setMode("link");
         setLabel("");
+        gsap.to(ringRef.current, { scale: 2.4, opacity: 0.45, duration: 0.25 });
+        gsap.to(dotRef.current, { scale: 0, duration: 0.2 });
       } else if (card) {
+        setMode("card");
         setLabel("Voir →");
-        gsap.to(ringRef.current, { scale: 1.8, opacity: 0.85, duration: 0.25 });
+        gsap.to(ringRef.current, { scale: 2, opacity: 0.85, duration: 0.25 });
         gsap.to(dotRef.current, { scale: 0, duration: 0.2 });
       }
     };
 
     const onOut = (event: MouseEvent) => {
       const related = event.relatedTarget as HTMLElement | null;
-      if (related?.closest("a, button, [data-cursor='card']")) return;
+      if (related?.closest("a, button, [data-cursor='card'], [data-cursor='cta']")) return;
+      setMode("default");
       setLabel("");
       gsap.to(ringRef.current, { scale: 1, opacity: 1, duration: 0.25 });
       gsap.to(dotRef.current, { scale: 1, duration: 0.2 });
@@ -66,8 +77,8 @@ export function CustomCursor() {
 
   return (
     <>
-      <div ref={dotRef} className="cursor-dot" />
-      <div ref={ringRef} className="cursor-ring">
+      <div ref={dotRef} className="cursor-dot" data-mode={mode} />
+      <div ref={ringRef} className="cursor-ring" data-mode={mode}>
         {label ? <span className="cursor-label font-mono">{label}</span> : null}
       </div>
     </>

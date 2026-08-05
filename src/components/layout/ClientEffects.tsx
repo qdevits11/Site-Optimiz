@@ -12,9 +12,15 @@ const GradientOrbs = dynamic(
   { ssr: false },
 );
 
+const Preloader = dynamic(
+  () => import("@/components/ui/Preloader").then((m) => m.Preloader),
+  { ssr: false },
+);
+
 export function ClientEffects() {
   return (
     <>
+      <Preloader />
       <GradientOrbs />
       <CustomCursor />
     </>

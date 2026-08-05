@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { gsap, registerGsap, SplitText } from "@/lib/gsap";
+import { gsap, registerGsap, ScrollTrigger, SplitText } from "@/lib/gsap";
 
 const HeroCanvas = dynamic(() => import("@/components/home/HeroCanvas"), {
   ssr: false,
@@ -21,68 +21,82 @@ export function Hero() {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     registerGsap();
-
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced || !titleRef.current) return;
 
     const ctx = gsap.context(() => {
       const split = new SplitText(titleRef.current!, {
-        type: "words",
+        type: "chars,words",
+        charsClass: "hero-char",
         wordsClass: "hero-word",
       });
 
-      gsap.set(split.words, { y: 40, opacity: 0 });
-      gsap.set(subtitleRef.current, { opacity: 0, y: 12 });
+      gsap.set(split.chars, { yPercent: 120, opacity: 0, rotateX: 40 });
+      gsap.set(subtitleRef.current, { opacity: 0, y: 18, filter: "blur(10px)" });
       gsap.set(ctaRef.current?.querySelectorAll(".btn-reveal") ?? [], {
         clipPath: "polygon(0 0, 0 0, 0 100%, 0 100%)",
       });
+      gsap.set(scrollRef.current, { opacity: 0 });
 
-      const tl = gsap.timeline({ delay: 0.25 });
+      const tl = gsap.timeline({ delay: 0.15 });
 
-      tl.to(split.words, {
-        y: 0,
+      tl.to(split.chars, {
+        yPercent: 0,
         opacity: 1,
-        duration: 0.65,
-        stagger: 0.05,
-        ease: "power3.out",
+        rotateX: 0,
+        duration: 0.85,
+        stagger: 0.018,
+        ease: "power4.out",
       });
 
-      const accentWords = titleRef.current!.querySelectorAll(".accent-word");
-      accentWords.forEach((word) => {
-        const original = word.textContent || "";
+      const accent = titleRef.current!.querySelector(".accent-word");
+      if (accent) {
         tl.to(
-          word,
+          accent,
           {
-            duration: 0.35,
+            duration: 0.5,
             scrambleText: {
-              text: original,
+              text: accent.textContent || "",
               chars: "upperCase",
-              revealDelay: 0.08,
+              revealDelay: 0.05,
             },
           },
           "-=0.35",
         );
-      });
+      }
 
       tl.to(
         subtitleRef.current,
-        { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
-        "-=0.2",
-      );
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.7, ease: "power2.out" },
+        "-=0.35",
+      )
+        .to(
+          ctaRef.current?.querySelectorAll(".btn-reveal") ?? [],
+          {
+            clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+            duration: 0.65,
+            stagger: 0.1,
+            ease: "power3.inOut",
+          },
+          "-=0.3",
+        )
+        .to(scrollRef.current, { opacity: 1, duration: 0.5 }, "-=0.1");
 
-      tl.to(
-        ctaRef.current?.querySelectorAll(".btn-reveal") ?? [],
-        {
-          clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-          duration: 0.55,
-          stagger: 0.1,
-          ease: "power3.inOut",
+      gsap.to(sectionRef.current, {
+        opacity: 0.25,
+        y: -80,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
         },
-        "-=0.2",
-      );
+      });
 
       return () => {
         split.revert();
@@ -95,6 +109,7 @@ export function Hero() {
   return (
     <section ref={sectionRef} className="hero">
       <HeroCanvas />
+      <div className="hero-veil" aria-hidden />
       <div className="hero-inner container-site">
         <p className="hero-eyebrow font-mono">Automatisation pour PME · Wallonie</p>
         <h1 ref={titleRef} className="hero-title font-display">
@@ -106,11 +121,11 @@ export function Hero() {
           mesurables — sans jargon, sans surprise.
         </p>
         <div ref={ctaRef} className="hero-cta">
-          <Link href="/#contact" className="btn-reveal btn-primary-glow">
+          <Link href="/#contact" className="btn-reveal btn-primary-glow" data-cursor="cta">
             Réserver mon diagnostic gratuit
           </Link>
-          <Link href="/#preuves" className="btn-reveal btn-ghost">
-            Voir les résultats clients
+          <Link href="/#transformation" className="btn-reveal btn-ghost">
+            Voir la transformation
           </Link>
         </div>
         <ul className="hero-trust" aria-label="Garanties">
@@ -120,6 +135,10 @@ export function Hero() {
             </li>
           ))}
         </ul>
+      </div>
+      <div ref={scrollRef} className="hero-scroll font-mono" aria-hidden>
+        <span>Scroll</span>
+        <span className="hero-scroll-line" />
       </div>
     </section>
   );
