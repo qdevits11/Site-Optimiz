@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Logo } from "@/components/ui/Logo";
 import { gsap, registerGsap } from "@/lib/gsap";
 
 type PreloaderProps = {
@@ -39,28 +40,16 @@ export function Preloader({ onDone }: PreloaderProps) {
       },
     });
 
-    gsap.set(brand, { opacity: 0, y: 30, filter: "blur(12px)" });
+    gsap.set(brand, { opacity: 0, y: 28, filter: "blur(14px)", scale: 0.92 });
     gsap.set(tag, { opacity: 0, y: 12 });
     gsap.set(line, { scaleX: 0 });
     gsap.set(root, { opacity: 1 });
     gsap.set(panel, { yPercent: 0 });
 
-    tl.to(brand, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.85 })
-      .to(
-        brand,
-        {
-          duration: 0.55,
-          scrambleText: {
-            text: "OPTMIZ",
-            chars: "upperCase",
-            speed: 0.4,
-          },
-        },
-        "-=0.2",
-      )
+    tl.to(brand, { opacity: 1, y: 0, filter: "blur(0px)", scale: 1, duration: 0.9 })
       .to(line, { scaleX: 1, duration: 0.7 }, "-=0.25")
       .to(tag, { opacity: 1, y: 0, duration: 0.45 }, "-=0.35")
-      .to({}, { duration: 0.35 })
+      .to({}, { duration: 0.4 })
       .to(panel, {
         yPercent: (i) => (i === 0 ? -105 : 105),
         duration: 0.9,
@@ -82,7 +71,9 @@ export function Preloader({ onDone }: PreloaderProps) {
       <div className="preloader-panel preloader-panel-top" />
       <div className="preloader-panel preloader-panel-bottom" />
       <div className="preloader-content">
-        <p className="preloader-brand font-display">OPTMIZ</p>
+        <div className="preloader-brand">
+          <Logo height={72} priority className="preloader-logo-img" />
+        </div>
         <div className="preloader-line" />
         <p className="preloader-tag font-mono">Automatiser. Clarifier. Zenifier.</p>
       </div>

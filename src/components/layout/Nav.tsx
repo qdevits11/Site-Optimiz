@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { Logo } from "@/components/ui/Logo";
 import { useMagnet } from "@/hooks/useMagnet";
 import { gsap, registerGsap, ScrollTrigger } from "@/lib/gsap";
 
@@ -117,9 +118,13 @@ export function Nav() {
         <div ref={progressRef} className="nav-progress" />
         <div ref={barRef} className="container-site nav-inner">
           <div className="nav-shell">
-            <Link href="/" className="nav-logo font-display" onClick={() => setOpen(false)}>
-              <span className="nav-logo-mark" aria-hidden />
-              Opt<span className="text-accent">miz</span>
+            <Link
+              href="/"
+              className="nav-logo"
+              aria-label="Optmiz — Accueil"
+              onClick={() => setOpen(false)}
+            >
+              <Logo height={30} priority className="nav-logo-img" />
             </Link>
 
             <nav className="nav-links" aria-label="Navigation">

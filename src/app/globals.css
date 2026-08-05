@@ -5,7 +5,7 @@
   --night: #0a0d16;
   --card: #151a2b;
   --card2: #1c2338;
-  --accent: #2ee6bc;
+  --accent: #20c894;
   --accent2: #4db3ff;
   --text: #f5f7ff;
   --muted: #b4c0d9;
@@ -28,7 +28,7 @@
   --color-border: var(--border);
   /* Subpage compatibility aliases (legacy class names) */
   --color-brand: var(--accent);
-  --color-brand-hover: #00b894;
+  --color-brand-hover: #18a87e;
   --color-brand-dark: #0f1f2a;
   --color-brand-darker: #0a1220;
   --color-brand-soft: var(--card);
@@ -125,7 +125,7 @@ body::before {
   inset: 0;
   z-index: 0;
   background:
-    radial-gradient(ellipse at 30% 40%, rgba(46, 230, 188, 0.08), transparent 50%),
+    radial-gradient(ellipse at 30% 40%, rgba(32, 200, 148, 0.08), transparent 50%),
     linear-gradient(180deg, rgba(10, 13, 22, 0.2), rgba(10, 13, 22, 0.75));
   pointer-events: none;
 }
@@ -230,9 +230,14 @@ body::before {
 
 .preloader-brand {
   margin: 0;
-  font-size: clamp(2.8rem, 10vw, 6rem);
-  letter-spacing: -0.04em;
-  color: var(--text);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.preloader-logo-img {
+  width: clamp(180px, 42vw, 320px) !important;
+  height: auto !important;
 }
 
 .preloader-line {
@@ -241,7 +246,7 @@ body::before {
   margin: 1rem auto;
   background: var(--accent);
   transform-origin: left;
-  box-shadow: 0 0 20px rgba(46, 230, 188, 0.5);
+  box-shadow: 0 0 20px rgba(32, 200, 148, 0.5);
 }
 
 .preloader-tag {
@@ -302,7 +307,7 @@ body.is-preloading {
   position: relative;
   z-index: 1;
   background:
-    radial-gradient(ellipse at 70% 30%, rgba(46, 230, 188, 0.06), transparent 45%),
+    radial-gradient(ellipse at 70% 30%, rgba(32, 200, 148, 0.06), transparent 45%),
     transparent;
 }
 
@@ -332,8 +337,8 @@ body.is-preloading {
 }
 
 .transform-after {
-  border-color: rgba(46, 230, 188, 0.35);
-  background: rgba(46, 230, 188, 0.08);
+  border-color: rgba(32, 200, 148, 0.35);
+  background: rgba(32, 200, 148, 0.08);
 }
 
 .transform-divider {
@@ -399,8 +404,8 @@ body.is-preloading {
 }
 
 .transform-chip {
-  border: 1px solid rgba(46, 230, 188, 0.35);
-  background: rgba(46, 230, 188, 0.1);
+  border: 1px solid rgba(32, 200, 148, 0.35);
+  background: rgba(32, 200, 148, 0.1);
   color: var(--accent);
   border-radius: 999px;
   padding: 0.4rem 0.75rem;
@@ -424,7 +429,7 @@ body.is-preloading {
 .btn-primary-glow {
   background: var(--accent);
   color: #04120f;
-  box-shadow: 0 0 28px rgba(46, 230, 188, 0.35);
+  box-shadow: 0 0 28px rgba(32, 200, 148, 0.35);
 }
 
 .btn-cta,
@@ -451,7 +456,7 @@ button.btn-primary-glow {
 a.btn-primary-glow:hover,
 button.btn-primary-glow:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 0 34px rgba(46, 230, 188, 0.5);
+  box-shadow: 0 0 34px rgba(32, 200, 148, 0.5);
 }
 
 button.btn-primary-glow:disabled {
@@ -593,22 +598,15 @@ button.btn-primary-glow:disabled {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
-  font-size: 1.3rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
   z-index: 2;
-  color: #f5f7ff;
   justify-self: start;
+  line-height: 0;
 }
 
-.nav-logo-mark {
-  width: 0.55rem;
-  height: 0.55rem;
-  border-radius: 999px;
-  background: var(--accent);
-  box-shadow: 0 0 16px rgba(46, 230, 188, 0.8);
-  animation: logoPulse 2.6s ease-in-out infinite;
+.nav-logo-img {
+  width: auto !important;
+  height: 1.85rem !important;
+  display: block;
 }
 
 .nav-links {
@@ -704,8 +702,8 @@ button.btn-primary-glow:disabled {
 }
 
 .nav-burger.is-active {
-  border-color: rgba(46, 230, 188, 0.45);
-  background: rgba(46, 230, 188, 0.08);
+  border-color: rgba(32, 200, 148, 0.45);
+  background: rgba(32, 200, 148, 0.08);
 }
 
 .nav-burger.is-active span:nth-child(1) {
@@ -802,17 +800,7 @@ body.nav-overlay-open {
   overflow: hidden;
 }
 
-@keyframes logoPulse {
-  0%,
-  100% {
-    box-shadow: 0 0 10px rgba(46, 230, 188, 0.45);
-    transform: scale(1);
-  }
-  50% {
-    box-shadow: 0 0 22px rgba(46, 230, 188, 0.95);
-    transform: scale(1.15);
-  }
-}
+/* logoPulse removed — official Optmiz mark replaces the animated dot */
 
 @media (min-width: 980px) {
   .nav-links {
@@ -1197,8 +1185,8 @@ body.nav-overlay-open {
 }
 
 .pricing-card.is-featured {
-  border-color: rgba(46, 230, 188, 0.45);
-  box-shadow: 0 0 0 1px rgba(46, 230, 188, 0.15);
+  border-color: rgba(32, 200, 148, 0.45);
+  box-shadow: 0 0 0 1px rgba(32, 200, 148, 0.15);
 }
 
 .reassure-strip {
@@ -1209,8 +1197,8 @@ body.nav-overlay-open {
   justify-content: space-between;
   gap: 1rem;
   padding: 1.1rem 1.25rem;
-  border: 1px solid rgba(46, 230, 188, 0.3);
-  background: rgba(46, 230, 188, 0.08);
+  border: 1px solid rgba(32, 200, 148, 0.3);
+  background: rgba(32, 200, 148, 0.08);
   border-radius: 1.1rem;
 }
 
@@ -1329,7 +1317,7 @@ body.nav-overlay-open {
 .contact-form input:focus,
 .contact-form textarea:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(46, 230, 188, 0.18);
+  box-shadow: 0 0 0 3px rgba(32, 200, 148, 0.18);
 }
 
 .consent {
@@ -1380,9 +1368,9 @@ body.nav-overlay-open {
   min-height: 320px;
   padding: 2rem 1rem;
   color: var(--text);
-  border: 1px solid rgba(46, 230, 188, 0.28);
+  border: 1px solid rgba(32, 200, 148, 0.28);
   border-radius: 1.1rem;
-  background: rgba(46, 230, 188, 0.06);
+  background: rgba(32, 200, 148, 0.06);
 }
 
 .success-check {
@@ -1444,10 +1432,10 @@ body.nav-overlay-open {
 @keyframes glowPulse {
   0%,
   100% {
-    box-shadow: 0 0 18px rgba(46, 230, 188, 0.3);
+    box-shadow: 0 0 18px rgba(32, 200, 148, 0.3);
   }
   50% {
-    box-shadow: 0 0 34px rgba(46, 230, 188, 0.75);
+    box-shadow: 0 0 34px rgba(32, 200, 148, 0.75);
   }
 }
 
@@ -1467,9 +1455,24 @@ body.nav-overlay-open {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  align-items: center;
   justify-content: space-between;
   color: var(--muted);
   font-size: 0.9rem;
+}
+
+.footer-brand {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.85rem 1.1rem;
+}
+
+.footer-logo-img {
+  width: auto !important;
+  height: 1.35rem !important;
+  display: block;
+  opacity: 0.95;
 }
 
 .footer-links {
@@ -1579,7 +1582,7 @@ body.nav-overlay-open {
 }
 
 .compare-good {
-  border-color: rgba(46, 230, 188, 0.35);
+  border-color: rgba(32, 200, 148, 0.35);
 }
 
 .compare-good h3 {
@@ -1625,8 +1628,8 @@ body.nav-overlay-open {
   margin-top: 0.75rem;
   padding: 0.75rem 0.9rem;
   border-radius: 0.75rem;
-  background: rgba(46, 230, 188, 0.08);
-  border: 1px solid rgba(46, 230, 188, 0.2);
+  background: rgba(32, 200, 148, 0.08);
+  border: 1px solid rgba(32, 200, 148, 0.2);
   color: var(--text);
   font-size: 0.9rem;
 }
@@ -1757,7 +1760,7 @@ body.nav-overlay-open {
 .btn-primary {
   background: var(--accent);
   color: #04120f;
-  box-shadow: 0 0 24px rgba(46, 230, 188, 0.3);
+  box-shadow: 0 0 24px rgba(32, 200, 148, 0.3);
 }
 
 .btn-light {
@@ -1807,7 +1810,6 @@ body.nav-overlay-open {
 
   .magnetic-cta,
   .contact-submit-btn,
-  .nav-logo-mark,
   .marquee-track {
     animation: none !important;
   }

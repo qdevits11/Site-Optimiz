@@ -106,7 +106,7 @@ function ParticleField() {
           <bufferAttribute attach="attributes-position" args={[positions, 3]} />
         </bufferGeometry>
         <pointsMaterial
-          color="#2EE6BC"
+          color="#20C894"
           size={0.035}
           transparent
           opacity={0.75}
@@ -120,7 +120,7 @@ function ParticleField() {
           <bufferAttribute attach="attributes-position" args={[linePositions, 3]} />
         </bufferGeometry>
         <lineBasicMaterial
-          color="#2EE6BC"
+          color="#20C894"
           transparent
           opacity={0.12}
           blending={THREE.AdditiveBlending}
@@ -145,7 +145,7 @@ function Lights() {
   return (
     <>
       <ambientLight intensity={0.25} />
-      <pointLight ref={lightRef} color="#2EE6BC" intensity={1.6} distance={20} />
+      <pointLight ref={lightRef} color="#20C894" intensity={1.6} distance={20} />
       <pointLight position={[-5, 3, 2]} color="#4DB3FF" intensity={0.7} distance={16} />
     </>
   );
