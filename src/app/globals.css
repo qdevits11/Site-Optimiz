@@ -743,10 +743,6 @@ button.btn-primary-glow:disabled {
   pointer-events: auto;
 }
 
-.site-nav.is-open {
-  z-index: 300;
-}
-
 .nav-overlay-panel {
   width: min(1120px, calc(100% - 2rem));
   margin: 0 auto;
