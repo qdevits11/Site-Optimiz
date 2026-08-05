@@ -43,15 +43,21 @@ Dashboard : [vercel.com/.../site-optimiz](https://vercel.com/qquentindevits-4149
 
 ## Formulaire de contact
 
-Les soumissions du formulaire partent par **Resend** vers `q.devits.optmiz@gmail.com`.
+Les soumissions partent via **SMTP OVH** vers `q.devits.optmiz@gmail.com`.
 
-Variables Vercel :
-- `RESEND_API_KEY`
-- `RESEND_EMAIL_DOMAIN` (`optmiz.be`)
-- `CONTACT_TO_EMAIL`
+Config dans **Vercel → Project → Settings → Environment Variables** (Production + Preview) :
 
-Le domaine `optmiz.be` doit être **vérifié** dans Resend (DNS). Ouvrir le dashboard :
-`vercel integration open resend optmiz-email`
+| Variable | Exemple |
+| --- | --- |
+| `SMTP_HOST` | `ssl0.ovh.net` ou `smtp.mail.ovh.net` |
+| `SMTP_PORT` | `465` |
+| `SMTP_SECURE` | `true` (pour 465) |
+| `SMTP_USER` | `contact@optmiz.be` |
+| `SMTP_PASS` | mot de passe de la boîte |
+| `SMTP_FROM` | `Optmiz <contact@optmiz.be>` |
+| `CONTACT_TO_EMAIL` | `q.devits.optmiz@gmail.com` |
+
+Puis **Redeploy** le projet pour prendre en compte les variables.
 
 ## Démarrage
 
