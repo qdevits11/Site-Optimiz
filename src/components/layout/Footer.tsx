@@ -22,6 +22,14 @@ export function Footer() {
           <Link href="/pourquoi-nous">Pourquoi nous</Link>
           <Link href="/faq">FAQ</Link>
           <Link href="/contact">Contact</Link>
+          <a
+            href="https://www.linkedin.com/company/optmiz/"
+            target="_blank"
+            rel="noopener noreferrer me"
+            aria-label="Optmiz sur LinkedIn"
+          >
+            LinkedIn
+          </a>
         </div>
       </div>
     </footer>

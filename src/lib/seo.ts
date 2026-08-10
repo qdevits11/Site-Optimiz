@@ -37,7 +37,7 @@ export const siteConfig = {
     "La Louvière",
     "Nivelles",
   ],
-  sameAs: [] as string[],
+  sameAs: ["https://www.linkedin.com/company/optmiz/"] as string[],
   title: {
     default: "Optmiz, Automatisation & Digitalisation des Processus en Wallonie",
     template: "%s | Optmiz",
