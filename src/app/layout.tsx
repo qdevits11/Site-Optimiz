@@ -1,3 +1,5 @@
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import { JsonLd } from "@/components/JsonLd";
@@ -102,6 +104,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <main className="relative">{children}</main>
           <Footer />
         </SmoothScroll>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
