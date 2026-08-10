@@ -1,9 +1,17 @@
 import type { Metadata } from "next";
 
+/**
+ * IMPORTANT — domaine canonique
+ * L'apex "https://optmiz.be" ne répond pas en HTTPS (échec de handshake TLS,
+ * DNS pointant vers un service de redirection HTTP-only chez le registrar).
+ * Tant que ce n'est pas corrigé côté DNS/Vercel, le domaine fiable est
+ * "https://www.optmiz.be". Ne changer cette constante que lorsque
+ * https://optmiz.be sert un certificat TLS valide (test: `curl -I https://optmiz.be`).
+ */
 export const siteConfig = {
   name: "Optmiz",
   legalName: "Optmiz",
-  url: "https://optmiz.be",
+  url: "https://www.optmiz.be",
   locale: "fr_BE",
   language: "fr",
   email: "contact@optmiz.be",
@@ -11,7 +19,7 @@ export const siteConfig = {
   founder: {
     name: "Quentin Devits",
     jobTitle: "Fondateur",
-    url: "https://optmiz.be/pourquoi-nous",
+    url: "https://www.optmiz.be/pourquoi-nous",
   },
   location: {
     city: "Soignies",
@@ -19,6 +27,16 @@ export const siteConfig = {
     country: "BE",
     countryName: "Belgique",
   },
+  areaServed: [
+    "Wallonie",
+    "Hainaut",
+    "Bruxelles",
+    "Soignies",
+    "Mons",
+    "Charleroi",
+    "La Louvière",
+    "Nivelles",
+  ],
   sameAs: [] as string[],
   title: {
     default: "Optmiz, Automatisation & Digitalisation des Processus en Wallonie",
@@ -33,6 +51,7 @@ export const siteConfig = {
     "optimisation processus Belgique",
     "consultant digitalisation PME",
     "automatisation tâches répétitives",
+    "digitalisation PME Hainaut",
     "Optmiz",
     "Soignies",
   ],
@@ -86,6 +105,30 @@ export const sitePages: SitePage[] = [
     changeFrequency: "monthly",
     priority: 0.85,
   },
+  {
+    path: "/ressources",
+    title: "Ressources, guides sur l'automatisation et la digitalisation PME",
+    description:
+      "Guides pratiques pour comprendre, prioriser et lancer vos projets d'automatisation et de digitalisation en PME.",
+    changeFrequency: "weekly",
+    priority: 0.75,
+  },
+  {
+    path: "/faq",
+    title: "FAQ, vos questions sur l'automatisation et Optmiz",
+    description:
+      "Diagnostic, audit, prix fixe, délais, outils : les réponses aux questions les plus fréquentes sur Optmiz.",
+    changeFrequency: "monthly",
+    priority: 0.7,
+  },
+  {
+    path: "/contact",
+    title: "Contact Optmiz, Soignies · Wallonie",
+    description:
+      "Contactez Optmiz pour un diagnostic gratuit : automatisation et digitalisation des processus pour PME en Wallonie.",
+    changeFrequency: "yearly",
+    priority: 0.7,
+  },
 ];
 
 export function absoluteUrl(path = "/"): string {
@@ -120,6 +163,40 @@ export function pageMetadata(
       description: page.description,
     },
     ...extras,
+  };
+}
+
+export function articleMetadata(article: {
+  slug: string;
+  title: string;
+  description: string;
+  publishedAt: string;
+  updatedAt?: string;
+}): Metadata {
+  const url = absoluteUrl(`/ressources/${article.slug}`);
+
+  return {
+    title: article.title,
+    description: article.description,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      type: "article",
+      locale: siteConfig.locale,
+      url,
+      siteName: siteConfig.name,
+      title: article.title,
+      description: article.description,
+      publishedTime: article.publishedAt,
+      modifiedTime: article.updatedAt ?? article.publishedAt,
+      authors: [siteConfig.founder.name],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.description,
+    },
   };
 }
 
@@ -226,5 +303,134 @@ export function buildPersonJsonLd() {
       "Systèmes d'information",
       "Optimisation de processus",
     ],
+  };
+}
+
+export function buildBreadcrumbJsonLd(items: ReadonlyArray<{ name: string; path: string }>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: absoluteUrl(item.path),
+    })),
+  };
+}
+
+export function buildArticleJsonLd(article: {
+  slug: string;
+  title: string;
+  description: string;
+  publishedAt: string;
+  updatedAt?: string;
+}) {
+  const url = absoluteUrl(`/ressources/${article.slug}`);
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "@id": `${url}/#article`,
+    mainEntityOfPage: url,
+    url,
+    headline: article.title,
+    description: article.description,
+    inLanguage: "fr-BE",
+    datePublished: article.publishedAt,
+    dateModified: article.updatedAt ?? article.publishedAt,
+    author: {
+      "@id": `${siteConfig.url}/#quentin-devits`,
+    },
+    publisher: {
+      "@id": `${siteConfig.url}/#organization`,
+    },
+  };
+}
+
+export function buildArticleListJsonLd(
+  articles: ReadonlyArray<{ slug: string; title: string; description: string; publishedAt: string }>,
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    url: absoluteUrl("/ressources"),
+    name: "Ressources Optmiz",
+    description:
+      "Guides pratiques pour comprendre, prioriser et lancer vos projets d'automatisation et de digitalisation en PME.",
+    hasPart: articles.map((article) => ({
+      "@type": "Article",
+      headline: article.title,
+      description: article.description,
+      url: absoluteUrl(`/ressources/${article.slug}`),
+      datePublished: article.publishedAt,
+    })),
+  };
+}
+
+export function buildServiceJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: "Automatisation et digitalisation de processus pour PME",
+    provider: {
+      "@id": `${siteConfig.url}/#organization`,
+    },
+    areaServed: siteConfig.areaServed.map((name) => ({ "@type": "Place", name })),
+    audience: {
+      "@type": "Audience",
+      audienceType: "PME belges",
+    },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Accompagnement Optmiz",
+      itemListElement: [
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Diagnostic",
+            description: "Premier échange gratuit et sans engagement pour cadrer votre besoin.",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Audit terrain & cartographie",
+            description:
+              "Mission terrain payante : observation des flux réels, cartographie complète, base du devis fixe.",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Réalisation à prix fixe",
+            description: "Mise en œuvre au prix convenu avant démarrage, sans facturation à l'heure.",
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Forfaits Zen",
+            description:
+              "Maintenance et amélioration continue optionnelles après livraison (Basique, Standard, Premium).",
+          },
+        },
+      ],
+    },
+  };
+}
+
+export function buildContactPageJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    url: absoluteUrl("/contact"),
+    name: "Contact Optmiz",
+    about: {
+      "@id": `${siteConfig.url}/#organization`,
+    },
   };
 }

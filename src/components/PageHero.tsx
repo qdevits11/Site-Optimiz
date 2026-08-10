@@ -1,10 +1,12 @@
 import Link from "next/link";
+import { Breadcrumbs, type Crumb } from "@/components/Breadcrumbs";
 
 type PageHeroProps = {
   title: React.ReactNode;
   subtitle: string;
   note?: string;
   eyebrow?: string;
+  breadcrumbs?: Crumb[];
 };
 
 export function PageHero({
@@ -12,10 +14,12 @@ export function PageHero({
   subtitle,
   note = "Sans engagement · Réponse sous 24h",
   eyebrow,
+  breadcrumbs,
 }: PageHeroProps) {
   return (
     <section className="page-shell">
       <div className="container-site" style={{ maxWidth: 760 }}>
+        {breadcrumbs?.length ? <Breadcrumbs items={breadcrumbs} /> : null}
         {eyebrow ? <p className="page-kicker font-mono">{eyebrow}</p> : null}
         <h1 className="font-display">{title}</h1>
         <p className="section-lead">{subtitle}</p>

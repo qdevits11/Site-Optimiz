@@ -6,7 +6,7 @@ import { CtaButton } from "@/components/CtaButton";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { ProblemSection } from "@/components/ProblemSection";
-import { buildPersonJsonLd, pageMetadata, sitePages } from "@/lib/seo";
+import { buildBreadcrumbJsonLd, buildPersonJsonLd, pageMetadata, sitePages } from "@/lib/seo";
 
 const page = sitePages.find((entry) => entry.path === "/pourquoi-nous")!;
 
@@ -39,7 +39,11 @@ export default function WhyUsPage() {
   return (
     <>
       <JsonLd data={buildPersonJsonLd()} />
+      <JsonLd
+        data={buildBreadcrumbJsonLd([{ name: "Accueil", path: "/" }, { name: "Pourquoi nous", path: "/pourquoi-nous" }])}
+      />
       <PageHero
+        breadcrumbs={[{ label: "Accueil", href: "/" }, { label: "Pourquoi nous" }]}
         eyebrow="Pourquoi Optmiz"
         title="Vous méritez mieux qu’un consultant de passage."
         subtitle="15 ans terrain. Des résultats concrets. Une méthode qui tient dans le temps."
@@ -153,6 +157,10 @@ export default function WhyUsPage() {
           <p className="page-lead">
             <Link href="/cas-concrets" className="text-link">
               Voir les cas concrets →
+            </Link>{" "}
+            ·{" "}
+            <Link href="/ressources/5-signes-pme-automatiser-processus" className="text-link">
+              5 signes qu’il faut automatiser →
             </Link>
           </p>
         </div>

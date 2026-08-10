@@ -7,6 +7,7 @@ import { Method } from "@/components/home/Method";
 import { PainPoints } from "@/components/home/PainPoints";
 import { Pricing } from "@/components/home/Pricing";
 import { Proof } from "@/components/home/Proof";
+import { SeoIntro } from "@/components/home/SeoIntro";
 import { Transformation } from "@/components/home/Transformation";
 import { TrustBar } from "@/components/home/TrustBar";
 import { WhyUs } from "@/components/home/WhyUs";
@@ -29,6 +30,7 @@ export default function HomePage() {
       <Proof />
       <WhyUs />
       <Pricing />
+      <SeoIntro />
       <CTA />
     </>
   );

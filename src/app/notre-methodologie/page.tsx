@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ContactForm } from "@/components/ContactForm";
 import { CtaButton } from "@/components/CtaButton";
+import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { ProblemSection } from "@/components/ProblemSection";
 import { methodSteps } from "@/lib/content";
-import { pageMetadata, sitePages } from "@/lib/seo";
+import { buildBreadcrumbJsonLd, pageMetadata, sitePages } from "@/lib/seo";
 
 const page = sitePages.find((entry) => entry.path === "/notre-methodologie")!;
 
@@ -23,7 +24,14 @@ const gains = [
 export default function MethodPage() {
   return (
     <>
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: "Accueil", path: "/" },
+          { name: "Méthode", path: "/notre-methodologie" },
+        ])}
+      />
       <PageHero
+        breadcrumbs={[{ label: "Accueil", href: "/" }, { label: "Méthode" }]}
         eyebrow="Méthode"
         title={
           <>
@@ -74,6 +82,10 @@ export default function MethodPage() {
             Qui est derrière cette approche ?{" "}
             <Link href="/pourquoi-nous" className="text-link">
               Découvrir Quentin →
+            </Link>{" "}
+            ·{" "}
+            <Link href="/ressources/par-ou-commencer-automatisation" className="text-link">
+              Par où commencer ? →
             </Link>
           </p>
         </div>

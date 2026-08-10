@@ -7,7 +7,13 @@ import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { ProblemSection } from "@/components/ProblemSection";
 import { pricingFaqs } from "@/lib/content";
-import { buildFaqJsonLd, pageMetadata, sitePages } from "@/lib/seo";
+import {
+  buildBreadcrumbJsonLd,
+  buildFaqJsonLd,
+  buildServiceJsonLd,
+  pageMetadata,
+  sitePages,
+} from "@/lib/seo";
 
 const page = sitePages.find((entry) => entry.path === "/tarifs")!;
 
@@ -76,7 +82,10 @@ export default function PricingPage() {
   return (
     <>
       <JsonLd data={buildFaqJsonLd(pricingFaqs)} />
+      <JsonLd data={buildServiceJsonLd()} />
+      <JsonLd data={buildBreadcrumbJsonLd([{ name: "Accueil", path: "/" }, { name: "Tarifs", path: "/tarifs" }])} />
       <PageHero
+        breadcrumbs={[{ label: "Accueil", href: "/" }, { label: "Tarifs" }]}
         eyebrow="Tarifs"
         title={
           <>
@@ -184,6 +193,14 @@ export default function PricingPage() {
             ·{" "}
             <Link href="/pourquoi-nous" className="text-link">
               Qui est derrière Optmiz →
+            </Link>{" "}
+            ·{" "}
+            <Link href="/ressources/combien-coute-automatisation-pme-belgique" className="text-link">
+              Comment est calculé un prix fixe →
+            </Link>{" "}
+            ·{" "}
+            <Link href="/faq" className="text-link">
+              Toutes les questions →
             </Link>
           </p>
         </div>

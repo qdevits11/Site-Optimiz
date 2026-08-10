@@ -17,9 +17,11 @@ export function Footer() {
         <div className="footer-links">
           <Link href="/notre-methodologie">Méthode</Link>
           <Link href="/cas-concrets">Cas concrets</Link>
+          <Link href="/ressources">Ressources</Link>
           <Link href="/tarifs">Tarifs</Link>
           <Link href="/pourquoi-nous">Pourquoi nous</Link>
-          <Link href="/#contact">Contact</Link>
+          <Link href="/faq">FAQ</Link>
+          <Link href="/contact">Contact</Link>
         </div>
       </div>
     </footer>
