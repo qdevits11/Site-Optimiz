@@ -6,12 +6,11 @@ import { CtaButton } from "@/components/CtaButton";
 import { PageHero } from "@/components/PageHero";
 import { ProblemSection } from "@/components/ProblemSection";
 import { caseStudies } from "@/lib/content";
+import { pageMetadata, sitePages } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Cas Concrets, résultats réels d'automatisation en PME belges",
-  description:
-    "Voici ce que nos clients ont réellement gagné en temps, sérénité et efficacité.",
-};
+const page = sitePages.find((entry) => entry.path === "/cas-concrets")!;
+
+export const metadata: Metadata = pageMetadata(page);
 
 const stats = [
   { value: "10h+", label: "récupérées / mois / collaborateur" },

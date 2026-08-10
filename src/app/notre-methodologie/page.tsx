@@ -5,12 +5,11 @@ import { CtaButton } from "@/components/CtaButton";
 import { PageHero } from "@/components/PageHero";
 import { ProblemSection } from "@/components/ProblemSection";
 import { methodSteps } from "@/lib/content";
+import { pageMetadata, sitePages } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "La Méthode OPTMIZ - Comment nous transformons vos processus",
-  description:
-    "6 étapes concrètes pour transformer votre organisation sans tout bouleverser d'un coup.",
-};
+const page = sitePages.find((entry) => entry.path === "/notre-methodologie")!;
+
+export const metadata: Metadata = pageMetadata(page);
 
 const gains = [
   "Des heures récupérées chaque mois",

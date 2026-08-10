@@ -3,14 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { ContactForm } from "@/components/ContactForm";
 import { CtaButton } from "@/components/CtaButton";
+import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { ProblemSection } from "@/components/ProblemSection";
+import { buildPersonJsonLd, pageMetadata, sitePages } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Pourquoi Optmiz ? 15 ans d'expérience terrain en digitalisation PME",
-  description:
-    "15 ans sur le terrain. Des résultats concrets. Une méthode qui fonctionne.",
-};
+const page = sitePages.find((entry) => entry.path === "/pourquoi-nous")!;
+
+export const metadata: Metadata = pageMetadata(page);
 
 const milestones = [
   {
@@ -38,6 +38,7 @@ const milestones = [
 export default function WhyUsPage() {
   return (
     <>
+      <JsonLd data={buildPersonJsonLd()} />
       <PageHero
         eyebrow="Pourquoi Optmiz"
         title="Vous méritez mieux qu’un consultant de passage."

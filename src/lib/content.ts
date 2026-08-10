@@ -77,6 +77,37 @@ export const caseStudies: AccordionItem[] = [
   },
 ];
 
+export const pricingFaqs = [
+  {
+    q: "Le diagnostic est-il vraiment gratuit ?",
+    a: "Oui. Premier échange gratuit et sans engagement. L’audit terrain complet, lui, est payant.",
+  },
+  {
+    q: "Quelle est la différence entre diagnostic et audit ?",
+    a: "Le diagnostic = premier échange pour cadrer. L’audit = mission terrain avec cartographie complète, base du devis fixe.",
+  },
+  {
+    q: "Pourquoi l’audit est-il payant ?",
+    a: "Il mobilise du temps terrain réel (équipes, outils, flux, rédaction). Même sans suite, vous gardez une vision claire de vos process.",
+  },
+  {
+    q: "Comment est calculé le prix d’un projet ?",
+    a: "Sur base de l’audit : périmètre précis × jours nécessaires, à taux journalier fixe. Tout est dans le devis avant démarrage.",
+  },
+  {
+    q: "Et si je veux ajouter quelque chose en cours de projet ?",
+    a: "Réévaluation formelle + nouveau devis. Rien n’est fait sans votre validation.",
+  },
+  {
+    q: "Faut-il un forfait Zen après un projet ?",
+    a: "Non, c’est optionnel. Utile si vous voulez maintenance et amélioration continue sans le gérer seuls.",
+  },
+  {
+    q: "Peut-on changer de forfait Zen ?",
+    a: "Oui. On ajuste selon vos besoins du moment.",
+  },
+] as const;
+
 export const methodSteps = [
   {
     letter: "O",
