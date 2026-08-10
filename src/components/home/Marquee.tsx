@@ -2,8 +2,6 @@
 
 const items = [
   "Relances · 5 min",
-  "Pointages · 0 copier-coller",
-  "1 874 notifications · ½ journée",
   "Feuilles de temps · zéro papier",
   "CRM · pipeline clair",
   "Outils connectés · un seul flux",
