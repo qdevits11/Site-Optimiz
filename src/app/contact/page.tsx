@@ -12,8 +12,10 @@ export const metadata: Metadata = pageMetadata(page);
 const infoItems = [
   { label: "Localisation", value: `${siteConfig.location.city}, ${siteConfig.location.region}` },
   { label: "Zone d’intervention", value: "Wallonie (Hainaut, Bruxelles, Nivelles) et à distance" },
+  { label: "Téléphone", value: siteConfig.phoneDisplay, href: siteConfig.phoneHref },
   { label: "Email", value: siteConfig.email, href: `mailto:${siteConfig.email}` },
   { label: "Réponse", value: "Sous 24h ouvrées" },
+  { label: "LinkedIn", value: "Optmiz", href: siteConfig.sameAs[0] },
 ];
 
 export default function ContactPage() {
@@ -41,7 +43,14 @@ export default function ContactPage() {
                   {item.label}
                 </p>
                 {item.href ? (
-                  <a href={item.href} className="text-link" style={{ fontSize: "0.95rem" }}>
+                  <a
+                    href={item.href}
+                    className="text-link"
+                    style={{ fontSize: "0.95rem" }}
+                    {...(item.href.startsWith("http")
+                      ? { target: "_blank", rel: "noopener noreferrer me" }
+                      : {})}
+                  >
                     {item.value}
                   </a>
                 ) : (
