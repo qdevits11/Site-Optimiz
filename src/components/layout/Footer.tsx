@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
+import { siteConfig } from "@/lib/seo";
 
 export function Footer() {
   return (
@@ -12,6 +13,9 @@ export function Footer() {
           <p>© Optmiz, Soignies, Wallonie, Belgique</p>
           <p>
             <a href="mailto:contact@optmiz.be">contact@optmiz.be</a>
+          </p>
+          <p>
+            <a href={siteConfig.phoneHref}>{siteConfig.phoneDisplay}</a>
           </p>
         </div>
         <div className="footer-links">

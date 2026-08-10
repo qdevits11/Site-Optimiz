@@ -12,6 +12,7 @@ export const metadata: Metadata = pageMetadata(page);
 const infoItems = [
   { label: "Localisation", value: `${siteConfig.location.city}, ${siteConfig.location.region}` },
   { label: "Zone d’intervention", value: "Wallonie (Hainaut, Bruxelles, Nivelles) et à distance" },
+  { label: "Téléphone", value: siteConfig.phoneDisplay, href: siteConfig.phoneHref },
   { label: "Email", value: siteConfig.email, href: `mailto:${siteConfig.email}` },
   { label: "Réponse", value: "Sous 24h ouvrées" },
   { label: "LinkedIn", value: "Optmiz", href: siteConfig.sameAs[0] },

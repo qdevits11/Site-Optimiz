@@ -15,7 +15,8 @@ export const siteConfig = {
   locale: "fr_BE",
   language: "fr",
   email: "contact@optmiz.be",
-  phoneDisplay: undefined as string | undefined,
+  phoneDisplay: "+32 489 00 19 29",
+  phoneHref: "tel:+32489001929",
   founder: {
     name: "Quentin Devits",
     jobTitle: "Fondateur",
@@ -212,6 +213,7 @@ export function buildOrganizationJsonLd() {
     image: absoluteUrl("/logo-on-dark.png"),
     description: siteConfig.description,
     email: siteConfig.email,
+    telephone: siteConfig.phoneDisplay,
     foundingLocation: {
       "@type": "Place",
       name: `${siteConfig.location.city}, ${siteConfig.location.countryName}`,
