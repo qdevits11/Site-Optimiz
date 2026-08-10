@@ -3,15 +3,15 @@ import Link from "next/link";
 import { Accordion } from "@/components/Accordion";
 import { ContactForm } from "@/components/ContactForm";
 import { CtaButton } from "@/components/CtaButton";
+import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { ProblemSection } from "@/components/ProblemSection";
 import { caseStudies } from "@/lib/content";
+import { buildBreadcrumbJsonLd, pageMetadata, sitePages } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Cas Concrets, résultats réels d'automatisation en PME belges",
-  description:
-    "Voici ce que nos clients ont réellement gagné en temps, sérénité et efficacité.",
-};
+const page = sitePages.find((entry) => entry.path === "/cas-concrets")!;
+
+export const metadata: Metadata = pageMetadata(page);
 
 const stats = [
   { value: "10h+", label: "récupérées / mois / collaborateur" },
@@ -22,7 +22,11 @@ const stats = [
 export default function CasesPage() {
   return (
     <>
+      <JsonLd
+        data={buildBreadcrumbJsonLd([{ name: "Accueil", path: "/" }, { name: "Cas concrets", path: "/cas-concrets" }])}
+      />
       <PageHero
+        breadcrumbs={[{ label: "Accueil", href: "/" }, { label: "Cas concrets" }]}
         eyebrow="Cas concrets"
         title={
           <>
@@ -80,6 +84,9 @@ export default function CasesPage() {
             </Link>
             <Link href="/tarifs" className="text-link">
               Voir les tarifs →
+            </Link>
+            <Link href="/ressources/automatisation-vs-digitalisation" className="text-link">
+              Automatisation vs digitalisation →
             </Link>
           </div>
         </div>

@@ -3,14 +3,21 @@ import Link from "next/link";
 import { ContactForm } from "@/components/ContactForm";
 import { CtaButton } from "@/components/CtaButton";
 import { FaqList } from "@/components/FaqList";
+import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { ProblemSection } from "@/components/ProblemSection";
+import { pricingFaqs } from "@/lib/content";
+import {
+  buildBreadcrumbJsonLd,
+  buildFaqJsonLd,
+  buildServiceJsonLd,
+  pageMetadata,
+  sitePages,
+} from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Tarifs - Prix fixe, défini ensemble. Zéro surprise",
-  description:
-    "Chaque projet est cadré à l'avance. Chaque forfait est transparent. Vous savez exactement ce que vous payez et ce que vous obtenez.",
-};
+const page = sitePages.find((entry) => entry.path === "/tarifs")!;
+
+export const metadata: Metadata = pageMetadata(page);
 
 const pricingSteps = [
   {
@@ -71,41 +78,14 @@ const zenPlans = [
   },
 ];
 
-const faqs = [
-  {
-    q: "Le diagnostic est-il vraiment gratuit ?",
-    a: "Oui. Premier échange gratuit et sans engagement. L’audit terrain complet, lui, est payant.",
-  },
-  {
-    q: "Quelle est la différence entre diagnostic et audit ?",
-    a: "Le diagnostic = premier échange pour cadrer. L’audit = mission terrain avec cartographie complète, base du devis fixe.",
-  },
-  {
-    q: "Pourquoi l’audit est-il payant ?",
-    a: "Il mobilise du temps terrain réel (équipes, outils, flux, rédaction). Même sans suite, vous gardez une vision claire de vos process.",
-  },
-  {
-    q: "Comment est calculé le prix d’un projet ?",
-    a: "Sur base de l’audit : périmètre précis × jours nécessaires, à taux journalier fixe. Tout est dans le devis avant démarrage.",
-  },
-  {
-    q: "Et si je veux ajouter quelque chose en cours de projet ?",
-    a: "Réévaluation formelle + nouveau devis. Rien n’est fait sans votre validation.",
-  },
-  {
-    q: "Faut-il un forfait Zen après un projet ?",
-    a: "Non, c’est optionnel. Utile si vous voulez maintenance et amélioration continue sans le gérer seuls.",
-  },
-  {
-    q: "Peut-on changer de forfait Zen ?",
-    a: "Oui. On ajuste selon vos besoins du moment.",
-  },
-];
-
 export default function PricingPage() {
   return (
     <>
+      <JsonLd data={buildFaqJsonLd(pricingFaqs)} />
+      <JsonLd data={buildServiceJsonLd()} />
+      <JsonLd data={buildBreadcrumbJsonLd([{ name: "Accueil", path: "/" }, { name: "Tarifs", path: "/tarifs" }])} />
       <PageHero
+        breadcrumbs={[{ label: "Accueil", href: "/" }, { label: "Tarifs" }]}
         eyebrow="Tarifs"
         title={
           <>
@@ -203,7 +183,7 @@ export default function PricingPage() {
           <p className="page-kicker font-mono">FAQ</p>
           <h2 className="page-title">Questions fréquentes</h2>
           <div style={{ marginTop: "1.15rem" }}>
-            <FaqList faqs={faqs} />
+            <FaqList faqs={[...pricingFaqs]} />
           </div>
           <p className="page-lead" style={{ marginTop: "1.25rem" }}>
             D’abord voir des résultats ?{" "}
@@ -213,6 +193,14 @@ export default function PricingPage() {
             ·{" "}
             <Link href="/pourquoi-nous" className="text-link">
               Qui est derrière Optmiz →
+            </Link>{" "}
+            ·{" "}
+            <Link href="/ressources/combien-coute-automatisation-pme-belgique" className="text-link">
+              Comment est calculé un prix fixe →
+            </Link>{" "}
+            ·{" "}
+            <Link href="/faq" className="text-link">
+              Toutes les questions →
             </Link>
           </p>
         </div>

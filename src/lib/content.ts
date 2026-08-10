@@ -77,6 +77,64 @@ export const caseStudies: AccordionItem[] = [
   },
 ];
 
+export const generalFaqs = [
+  {
+    q: "Optmiz intervient-il partout en Belgique ?",
+    a: "Optmiz est basé à Soignies et intervient principalement auprès de PME en Wallonie (Hainaut, Bruxelles, Nivelles) et à distance pour les échanges qui ne nécessitent pas de présence terrain.",
+  },
+  {
+    q: "Qu'est-ce que l'automatisation de processus, concrètement ?",
+    a: "C'est faire en sorte qu'une tâche répétitive (relance, calcul, export, notification) s'exécute automatiquement, sans qu'une personne doive la refaire manuellement à chaque fois.",
+  },
+  {
+    q: "Quelle est la différence entre automatisation et digitalisation ?",
+    a: "Digitaliser, c'est transformer une information papier ou manuelle en version numérique exploitable. Automatiser, c'est supprimer l'intervention humaine répétitive sur un processus déjà digitalisé.",
+  },
+  {
+    q: "Combien de temps dure un projet d'automatisation ?",
+    a: "Cela dépend du périmètre défini lors de l'audit. Un projet ciblé (une relance, un calcul) se met en place en quelques semaines ; un projet plus large (CRM, configurateur) prend plus de temps, toujours cadré par un devis fixe.",
+  },
+  {
+    q: "Dois-je changer tous mes outils actuels ?",
+    a: "Non. La priorité est de connecter et fiabiliser ce qui existe déjà (Excel, ERP, CRM, mails) avant d'envisager un remplacement d'outil.",
+  },
+  {
+    q: "Mes équipes doivent-elles être techniques pour utiliser les solutions livrées ?",
+    a: "Non. L'objectif est l'adoption réelle : un système utile est un système que vos équipes utilisent sans formation technique lourde.",
+  },
+] as const;
+
+export const pricingFaqs = [
+  {
+    q: "Le diagnostic est-il vraiment gratuit ?",
+    a: "Oui. Premier échange gratuit et sans engagement. L’audit terrain complet, lui, est payant.",
+  },
+  {
+    q: "Quelle est la différence entre diagnostic et audit ?",
+    a: "Le diagnostic = premier échange pour cadrer. L’audit = mission terrain avec cartographie complète, base du devis fixe.",
+  },
+  {
+    q: "Pourquoi l’audit est-il payant ?",
+    a: "Il mobilise du temps terrain réel (équipes, outils, flux, rédaction). Même sans suite, vous gardez une vision claire de vos process.",
+  },
+  {
+    q: "Comment est calculé le prix d’un projet ?",
+    a: "Sur base de l’audit : périmètre précis × jours nécessaires, à taux journalier fixe. Tout est dans le devis avant démarrage.",
+  },
+  {
+    q: "Et si je veux ajouter quelque chose en cours de projet ?",
+    a: "Réévaluation formelle + nouveau devis. Rien n’est fait sans votre validation.",
+  },
+  {
+    q: "Faut-il un forfait Zen après un projet ?",
+    a: "Non, c’est optionnel. Utile si vous voulez maintenance et amélioration continue sans le gérer seuls.",
+  },
+  {
+    q: "Peut-on changer de forfait Zen ?",
+    a: "Oui. On ajuste selon vos besoins du moment.",
+  },
+] as const;
+
 export const methodSteps = [
   {
     letter: "O",

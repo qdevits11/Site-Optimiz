@@ -1,0 +1,37 @@
+# Optmiz
+
+> Optmiz aide les PME belges (surtout en Wallonie) à automatiser leurs tâches répétitives et digitaliser leurs processus. Diagnostic gratuit, prix fixe, résultats mesurables.
+
+Optmiz est un cabinet de digitalisation et d'automatisation basé à Soignies (Belgique). Fondé par Quentin Devits (15 ans d'expérience terrain), Optmiz intervient auprès de PME qui perdent du temps sur des process manuels, des outils isolés ou des flux fragiles.
+
+## Pages principales
+
+- [Accueil](https://www.optmiz.be/): offre, preuves, méthode et prise de contact
+- [Méthode Optmiz](https://www.optmiz.be/notre-methodologie): Observer, Proposer, Transformer, Moduler, Itérer, Zenifier
+- [Cas concrets](https://www.optmiz.be/cas-concrets): résultats réels d'automatisation en PME belges
+- [Pourquoi nous](https://www.optmiz.be/pourquoi-nous): parcours du fondateur et différenciation
+- [Tarifs](https://www.optmiz.be/tarifs): diagnostic gratuit, audit terrain, devis fixe, forfaits Zen
+- [Ressources](https://www.optmiz.be/ressources): guides sur l'automatisation et la digitalisation PME
+- [FAQ](https://www.optmiz.be/faq): questions fréquentes sur Optmiz et l'automatisation
+- [Contact](https://www.optmiz.be/contact): coordonnées et formulaire de diagnostic gratuit
+
+## Guides (Ressources)
+
+- [Automatisation vs digitalisation](https://www.optmiz.be/ressources/automatisation-vs-digitalisation)
+- [Combien coûte l'automatisation pour une PME en Belgique](https://www.optmiz.be/ressources/combien-coute-automatisation-pme-belgique)
+- [5 signes qu'il faut automatiser ses processus](https://www.optmiz.be/ressources/5-signes-pme-automatiser-processus)
+- [Par où commencer l'automatisation](https://www.optmiz.be/ressources/par-ou-commencer-automatisation)
+- [Comment auditer les processus de votre PME](https://www.optmiz.be/ressources/audit-processus-pme-guide)
+
+## Faits citables
+
+- Localisation: Soignies, Wallonie, Belgique
+- Public: PME belges / wallonnes (Hainaut, Bruxelles, Nivelles)
+- Modèle: prix fixe défini avant démarrage (pas de facturation à l'heure opaque)
+- Première étape: diagnostic gratuit (~30 minutes), sans engagement
+- Contact: contact@optmiz.be
+- Site: https://www.optmiz.be
+
+## Pour un résumé détaillé
+
+- [llms-full.txt](https://www.optmiz.be/llms-full.txt)

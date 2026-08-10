@@ -12,6 +12,7 @@ const links = [
   { href: "/#solutions", label: "Solutions", match: "/" },
   { href: "/notre-methodologie", label: "Méthode", match: "/notre-methodologie" },
   { href: "/cas-concrets", label: "Preuves", match: "/cas-concrets" },
+  { href: "/ressources", label: "Ressources", match: "/ressources" },
   { href: "/pourquoi-nous", label: "Pourquoi nous", match: "/pourquoi-nous" },
   { href: "/tarifs", label: "Tarifs", match: "/tarifs" },
 ];
@@ -73,7 +74,7 @@ export function Nav() {
     return () => document.body.classList.remove("nav-overlay-open");
   }, [open]);
 
-  const isActive = (match: string) => pathname === match;
+  const isActive = (match: string) => pathname === match || pathname.startsWith(`${match}/`);
 
   const overlay = (
     <div
