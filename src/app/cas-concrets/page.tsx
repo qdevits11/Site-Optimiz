@@ -8,7 +8,7 @@ import { ProblemSection } from "@/components/ProblemSection";
 import { caseStudies } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "Cas Concrets — Résultats réels d'automatisation en PME belges",
+  title: "Cas Concrets, résultats réels d'automatisation en PME belges",
   description:
     "Voici ce que nos clients ont réellement gagné en temps, sérénité et efficacité.",
 };

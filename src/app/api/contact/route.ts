@@ -23,10 +23,10 @@ function escapeHtml(value: string) {
 function buildEmailHtml(data: ContactPayload) {
   const rows = [
     ["Nom", data.name],
-    ["Téléphone", data.phone || "—"],
+    ["Téléphone", data.phone || "non renseigné"],
     ["Mail", data.email],
     ["Société", data.company],
-    ["Principal enjeu", data.challenge || "—"],
+    ["Principal enjeu", data.challenge || "non renseigné"],
   ];
 
   return `
@@ -94,16 +94,16 @@ export async function POST(request: Request) {
       from: mailConfig.from,
       to: mailConfig.to,
       replyTo: email,
-      subject: `Nouvelle demande diagnostic — ${company}`,
+      subject: `Nouvelle demande diagnostic (${company})`,
       html: buildEmailHtml({ name, phone, email, company, challenge }),
       text: [
         "Nouvelle demande Optmiz",
         "",
         `Nom: ${name}`,
-        `Téléphone: ${phone || "—"}`,
+        `Téléphone: ${phone || "non renseigné"}`,
         `Mail: ${email}`,
         `Société: ${company}`,
-        `Principal enjeu: ${challenge || "—"}`,
+        `Principal enjeu: ${challenge || "non renseigné"}`,
       ].join("\n"),
     });
 

@@ -16,16 +16,16 @@ const milestones = [
   {
     title: "Début de carrière",
     role: "Développeur → Directeur informatique",
-    text: "Systèmes durables, conçus pour des équipes non tech — logements sociaux à Bruxelles.",
+    text: "Systèmes durables, conçus pour des équipes non tech (logements sociaux à Bruxelles).",
   },
   {
     title: "Industrie",
-    role: "Leader IT — environnements exigeants",
+    role: "Leader IT (environnements exigeants)",
     text: "Volumes élevés, process complexes (Google, GSK, Inovyn, UCB). Livrer sous pression.",
   },
   {
     title: "Produit",
-    role: "Digital Manager — sur mesure",
+    role: "Digital Manager (sur mesure)",
     text: "Du web à l’atelier : configurateur, CRM, facturation, production pilotée tablettes.",
   },
   {
@@ -53,7 +53,7 @@ export default function WhyUsPage() {
           "Peu de suivi quand la réalité change",
           "Un coût difficile à justifier face aux résultats",
         ]}
-        closing="Résultat : les mêmes problèmes — avec un outil de plus à gérer."
+        closing="Résultat : les mêmes problèmes, avec un outil de plus à gérer."
       />
 
       <section className="page-section">

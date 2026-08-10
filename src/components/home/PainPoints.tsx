@@ -28,7 +28,7 @@ const pains = [
   {
     title: "Manque de visibilité",
     note: "Décisions freinées",
-    text: "Difficile de savoir où ça coince — donc impossible d’agir vite.",
+    text: "Difficile de savoir où ça coince, donc impossible d’agir vite.",
   },
   {
     title: "Croissance freinée",
@@ -49,7 +49,7 @@ export function PainPoints() {
             <p className="eyebrow eyebrow-alert font-mono">Points bloquants</p>
             <h2 className="font-display">Ce n’est pas un manque d’outils.</h2>
             <p className="section-lead">
-              Ce sont des frictions qui coûtent du temps, de l’énergie — et du chiffre d’affaires.
+              Ce sont des frictions qui coûtent du temps, de l’énergie, et du chiffre d’affaires.
             </p>
           </div>
           <p className="section-aside section-aside-alert">

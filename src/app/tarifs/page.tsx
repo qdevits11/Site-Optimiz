@@ -23,7 +23,7 @@ const pricingSteps = [
     title: "Audit terrain & cartographie",
     badge: "Payant",
     badgeClass: "step-badge-paid",
-    text: "On observe le réel avec vos équipes : flux, frictions, habitudes. Vous repartez avec une cartographie claire — même si vous n’allez pas plus loin.",
+    text: "On observe le réel avec vos équipes : flux, frictions, habitudes. Vous repartez avec une cartographie claire, même si vous n’allez pas plus loin.",
     include:
       "Inclut : sessions terrain, analyse des outils, écarts théorie/réalité, cartographie livrée.",
   },

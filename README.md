@@ -1,4 +1,4 @@
-# Optmiz — Site vitrine
+# Optmiz, site vitrine
 
 Recréation du site vitrine [optmiz.be](https://www.optmiz.be) : automatisation et digitalisation des processus pour PME en Wallonie.
 
@@ -26,7 +26,7 @@ Project **Settings → General / Build and Deployment** :
 | Framework Preset | **Next.js** |
 | Root Directory | *(vide / `.`)* |
 | Build Command | `npm run build` (ou Override off) |
-| Output Directory | *(vide — ne pas mettre `public` ni `.next`)* |
+| Output Directory | *(vide, ne pas mettre `public` ni `.next`)* |
 | Install Command | `npm install` |
 
 **Settings → Deployment Protection** : désactiver pour Production si le site doit être public (sinon redirection SSO Vercel).
@@ -35,11 +35,11 @@ Dashboard : [vercel.com/.../site-optimiz](https://vercel.com/qquentindevits-4149
 
 ## Pages
 
-- `/` — Accueil
-- `/notre-methodologie` — La méthode
-- `/pourquoi-nous` — Pourquoi nous
-- `/cas-concrets` — Cas concrets
-- `/tarifs` — Tarifs
+- `/` (Accueil)
+- `/notre-methodologie` (La méthode)
+- `/pourquoi-nous` (Pourquoi nous)
+- `/cas-concrets` (Cas concrets)
+- `/tarifs` (Tarifs)
 
 ## Formulaire de contact
 

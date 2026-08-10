@@ -30,7 +30,7 @@ export function TrustBar() {
             <div className="proof-value font-display">
               <span>0 €</span>
             </div>
-            <p className="proof-label">Diagnostic — sans engagement</p>
+            <p className="proof-label">Diagnostic (sans engagement)</p>
           </div>
         </div>
       </div>

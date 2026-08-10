@@ -819,7 +819,7 @@ body.nav-overlay-open {
   overflow: hidden;
 }
 
-/* logoPulse removed — official Optmiz mark replaces the animated dot */
+/* logoPulse removed: official Optmiz mark replaces the animated dot */
 
 @media (min-width: 980px) {
   .nav-links {

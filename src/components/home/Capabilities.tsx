@@ -48,7 +48,7 @@ export function Capabilities() {
           <p className="eyebrow font-mono">Ce qu’on change</p>
           <h2 className="font-display">Des résultats lisibles en une ligne</h2>
           <p className="section-lead">
-            Avant / après. Pas de slides techniques — uniquement ce que votre équipe gagne.
+            Avant / après. Pas de slides techniques, uniquement ce que votre équipe gagne.
           </p>
         </div>
         <div className="solutions-grid" data-reveal data-reveal-type="stagger">

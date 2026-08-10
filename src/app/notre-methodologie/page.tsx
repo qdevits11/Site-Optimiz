@@ -31,7 +31,7 @@ export default function MethodPage() {
             La Méthode <span className="text-accent">Optmiz</span>
           </>
         }
-        subtitle="6 étapes simples pour transformer votre organisation — sans tout bouleverser d’un coup."
+        subtitle="6 étapes simples pour transformer votre organisation, sans tout bouleverser d’un coup."
       />
 
       <ProblemSection

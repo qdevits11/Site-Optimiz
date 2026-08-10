@@ -8,7 +8,7 @@ const steps = [
   {
     n: "01",
     title: "Diagnostic",
-    text: "30 min pour comprendre où vous perdez du temps — gratuit, sans engagement.",
+    text: "30 min pour comprendre où vous perdez du temps (gratuit, sans engagement).",
   },
   {
     n: "02",

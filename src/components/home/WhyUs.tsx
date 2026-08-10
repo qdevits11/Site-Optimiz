@@ -49,7 +49,7 @@ export function WhyUs() {
         <div className="reassure-strip" data-reveal data-reveal-type="fade">
           <p>
             <strong>Prochaine étape :</strong> un diagnostic gratuit. On vous dit clairement si on
-            peut vous aider — et où est le ROI le plus rapide.
+            peut vous aider, et où est le ROI le plus rapide.
           </p>
           <Link href="/#contact" className="btn-primary-glow section-cta">
             Réserver mon créneau

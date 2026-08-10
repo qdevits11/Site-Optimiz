@@ -102,7 +102,7 @@ export function Hero() {
         </h1>
         <p ref={subtitleRef} className="hero-subtitle">
           Optmiz repère ce qui vous ralentit, puis le transforme en process simples, fiables et
-          mesurables — sans jargon, sans surprise.
+          mesurables, sans jargon, sans surprise.
         </p>
         <div ref={ctaRef} className="hero-cta">
           <Link href="/#contact" className="btn-reveal btn-primary-glow" data-cursor="cta">

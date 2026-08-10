@@ -29,7 +29,7 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Optmiz — Automatisation & Digitalisation des Processus en Wallonie",
+    default: "Optmiz, Automatisation & Digitalisation des Processus en Wallonie",
     template: "%s | Optmiz",
   },
   description:

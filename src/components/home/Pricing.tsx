@@ -33,7 +33,7 @@ export function Pricing() {
         <div data-reveal data-reveal-type="fade" className="section-heading section-heading-row">
           <div>
             <p className="eyebrow font-mono">Après le projet</p>
-            <h2 className="font-display">Forfaits Zen — rester serein</h2>
+            <h2 className="font-display">Forfaits Zen (rester serein)</h2>
             <p className="section-lead">
               Optionnel. Pour maintenir et faire évoluer vos systèmes dans la durée.
             </p>
