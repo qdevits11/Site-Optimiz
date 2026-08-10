@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { gsap, registerGsap } from "@/lib/gsap";
 
@@ -21,20 +21,24 @@ export function CustomCursor() {
     setEnabled(true);
   }, []);
 
-  useEffect(() => {
-    if (!enabled) return;
+  useLayoutEffect(() => {
+    if (!enabled || !mounted) return;
+
+    const dot = dotRef.current;
+    const ring = ringRef.current;
+    if (!dot || !ring) return;
 
     registerGsap();
     document.body.classList.add("cursor-none");
 
     const center = { xPercent: -50, yPercent: -50 } as const;
-    gsap.set([dotRef.current, ringRef.current], center);
+    gsap.set([dot, ring], center);
 
-    const ringX = gsap.quickTo(ringRef.current, "x", { duration: 0.35, ease: "power3" });
-    const ringY = gsap.quickTo(ringRef.current, "y", { duration: 0.35, ease: "power3" });
+    const ringX = gsap.quickTo(ring, "x", { duration: 0.35, ease: "power3" });
+    const ringY = gsap.quickTo(ring, "y", { duration: 0.35, ease: "power3" });
 
     const onMove = (event: MouseEvent) => {
-      gsap.set(dotRef.current, { x: event.clientX, y: event.clientY, ...center });
+      gsap.set(dot, { x: event.clientX, y: event.clientY, ...center });
       ringX(event.clientX);
       ringY(event.clientY);
     };
@@ -50,18 +54,18 @@ export function CustomCursor() {
       if (cta) {
         setMode("cta");
         setLabel("Go");
-        gsap.to(ringRef.current, { scale: 2.6, opacity: 0.55, duration: 0.25 });
-        gsap.to(dotRef.current, { scale: 1.25, duration: 0.2 });
+        gsap.to(ring, { scale: 2.6, opacity: 0.55, duration: 0.25 });
+        gsap.to(dot, { scale: 1.25, duration: 0.2 });
       } else if (interactive) {
         setMode("link");
         setLabel("");
-        gsap.to(ringRef.current, { scale: 1.85, opacity: 0.7, duration: 0.25 });
-        gsap.to(dotRef.current, { scale: 1.15, duration: 0.2 });
+        gsap.to(ring, { scale: 1.85, opacity: 0.7, duration: 0.25 });
+        gsap.to(dot, { scale: 1.15, duration: 0.2 });
       } else if (card) {
         setMode("card");
         setLabel("Voir →");
-        gsap.to(ringRef.current, { scale: 2, opacity: 0.85, duration: 0.25 });
-        gsap.to(dotRef.current, { scale: 1.1, duration: 0.2 });
+        gsap.to(ring, { scale: 2, opacity: 0.85, duration: 0.25 });
+        gsap.to(dot, { scale: 1.1, duration: 0.2 });
       }
     };
 
@@ -70,8 +74,8 @@ export function CustomCursor() {
       if (related?.closest("a, button, [data-cursor='card'], [data-cursor='cta']")) return;
       setMode("default");
       setLabel("");
-      gsap.to(ringRef.current, { scale: 1, opacity: 1, duration: 0.25 });
-      gsap.to(dotRef.current, { scale: 1, duration: 0.2 });
+      gsap.to(ring, { scale: 1, opacity: 1, duration: 0.25 });
+      gsap.to(dot, { scale: 1, duration: 0.2 });
     };
 
     window.addEventListener("mousemove", onMove);
@@ -84,7 +88,7 @@ export function CustomCursor() {
       document.removeEventListener("mouseover", onOver);
       document.removeEventListener("mouseout", onOut);
     };
-  }, [enabled]);
+  }, [enabled, mounted]);
 
   if (!enabled || !mounted) return null;
 
