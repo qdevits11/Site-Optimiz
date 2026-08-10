@@ -40,6 +40,9 @@ Dashboard : [vercel.com/.../site-optimiz](https://vercel.com/qquentindevits-4149
 - `/pourquoi-nous` (Pourquoi nous)
 - `/cas-concrets` (Cas concrets)
 - `/tarifs` (Tarifs)
+- `/ressources` (Guides SEO) + `/ressources/[slug]` (articles)
+- `/faq` (Questions fréquentes)
+- `/contact` (Contact dédié)
 
 ## Formulaire de contact
 
@@ -74,3 +77,26 @@ Ouvrir [http://localhost:3000](http://localhost:3000).
 npm run build
 npm start
 ```
+
+## SEO & GEO
+
+- Domaine canonique : `https://www.optmiz.be` (l'apex `optmiz.be` redirige en 308, géré par Vercel + DNS OVH).
+- Config centrale : `src/lib/seo.ts` (métadonnées, JSON-LD, liste des pages pour le sitemap).
+- Articles/guides : `src/lib/articles.ts`.
+- `robots.txt` (`src/app/robots.ts`) et `sitemap.xml` (`src/app/sitemap.ts`) générés automatiquement.
+- `public/llms.txt` et `public/llms-full.txt` : fiche descriptive pour les moteurs génératifs (GEO).
+
+### Soumettre le sitemap aux moteurs de recherche
+
+**Google** — nécessite une connexion à [Google Search Console](https://search.google.com/search-console) (une propriété existe déjà, vérifiée via une entrée TXT DNS `google-site-verification`) :
+1. Ouvrir la propriété `optmiz.be` ou `www.optmiz.be` dans Search Console.
+2. Menu **Sitemaps** → coller `sitemap.xml` → **Envoyer**.
+3. Après ajout de nouvelles pages, utiliser **Inspection de l'URL → Demander une indexation** pour les pages prioritaires.
+
+**Bing, Yandex, Naver, Seznam.cz, Yep** — automatisé via [IndexNow](https://www.indexnow.org/) (aucune connexion requise, clé de vérification déjà déployée sur le site) :
+
+```bash
+npm run submit:indexnow
+```
+
+Ce script lit `sitemap.xml` en ligne et pousse toutes les URLs via l'API IndexNow. À relancer après chaque publication d'article ou changement de contenu important. Google ne supporte pas IndexNow.
