@@ -1,28 +1,40 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { gsap, registerGsap } from "@/lib/gsap";
 
 export function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const [enabled, setEnabled] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [label, setLabel] = useState("");
   const [mode, setMode] = useState<"default" | "link" | "card" | "cta">("default");
 
+  useEffect(() => setMounted(true), []);
+
   useEffect(() => {
-    registerGsap();
     const coarse = window.matchMedia("(pointer: coarse)").matches;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (coarse || reduced) return;
     setEnabled(true);
+  }, []);
+
+  useEffect(() => {
+    if (!enabled) return;
+
+    registerGsap();
     document.body.classList.add("cursor-none");
 
-    const ringX = gsap.quickTo(ringRef.current, "x", { duration: 0.4, ease: "power3" });
-    const ringY = gsap.quickTo(ringRef.current, "y", { duration: 0.4, ease: "power3" });
+    const center = { xPercent: -50, yPercent: -50 } as const;
+    gsap.set([dotRef.current, ringRef.current], center);
+
+    const ringX = gsap.quickTo(ringRef.current, "x", { duration: 0.35, ease: "power3" });
+    const ringY = gsap.quickTo(ringRef.current, "y", { duration: 0.35, ease: "power3" });
 
     const onMove = (event: MouseEvent) => {
-      gsap.set(dotRef.current, { x: event.clientX, y: event.clientY });
+      gsap.set(dotRef.current, { x: event.clientX, y: event.clientY, ...center });
       ringX(event.clientX);
       ringY(event.clientY);
     };
@@ -34,21 +46,22 @@ export function CustomCursor() {
       const interactive = target.closest("a, button");
       const card = target.closest("[data-cursor='card']");
 
+      // Keep the green dot visible (especially over the opaque nav) so the pointer is never lost.
       if (cta) {
         setMode("cta");
         setLabel("Go");
-        gsap.to(ringRef.current, { scale: 3.2, opacity: 0.35, duration: 0.25 });
-        gsap.to(dotRef.current, { scale: 0, duration: 0.2 });
+        gsap.to(ringRef.current, { scale: 2.6, opacity: 0.55, duration: 0.25 });
+        gsap.to(dotRef.current, { scale: 1.25, duration: 0.2 });
       } else if (interactive) {
         setMode("link");
         setLabel("");
-        gsap.to(ringRef.current, { scale: 2.4, opacity: 0.45, duration: 0.25 });
-        gsap.to(dotRef.current, { scale: 0, duration: 0.2 });
+        gsap.to(ringRef.current, { scale: 1.85, opacity: 0.7, duration: 0.25 });
+        gsap.to(dotRef.current, { scale: 1.15, duration: 0.2 });
       } else if (card) {
         setMode("card");
         setLabel("Voir →");
         gsap.to(ringRef.current, { scale: 2, opacity: 0.85, duration: 0.25 });
-        gsap.to(dotRef.current, { scale: 0, duration: 0.2 });
+        gsap.to(dotRef.current, { scale: 1.1, duration: 0.2 });
       }
     };
 
@@ -71,16 +84,17 @@ export function CustomCursor() {
       document.removeEventListener("mouseover", onOver);
       document.removeEventListener("mouseout", onOut);
     };
-  }, []);
+  }, [enabled]);
 
-  if (!enabled) return null;
+  if (!enabled || !mounted) return null;
 
-  return (
+  return createPortal(
     <>
-      <div ref={dotRef} className="cursor-dot" data-mode={mode} />
-      <div ref={ringRef} className="cursor-ring" data-mode={mode}>
+      <div ref={dotRef} className="cursor-dot" data-mode={mode} aria-hidden />
+      <div ref={ringRef} className="cursor-ring" data-mode={mode} aria-hidden>
         {label ? <span className="cursor-label font-mono">{label}</span> : null}
       </div>
-    </>
+    </>,
+    document.body,
   );
 }
