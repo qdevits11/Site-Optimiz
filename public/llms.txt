@@ -35,7 +35,7 @@ Optmiz est un cabinet de digitalisation et d'automatisation basé à Soignies (B
 - Public: PME belges / wallonnes (Hainaut, Bruxelles, Nivelles)
 - Modèle: prix fixe défini avant démarrage (pas de facturation à l'heure opaque)
 - Services: automatisation de processus, création de site internet, systèmes de gestion (ERP/CRM/facturation). Agnostique aux outils : Odoo ou développement sur mesure selon le besoin, jamais imposé par défaut.
-- Première étape: diagnostic gratuit (~45 minutes), sur place ou à distance, sans engagement. Après le questionnaire sur l'accueil, choix de créneau via Calendly.
+- Première étape: diagnostic / visite gratuite (~45 minutes) chez le client. Sur l'accueil : 2 étapes (coordonnées + créneau Cal.com synchronisé).
 - Contact: contact@optmiz.be
 - Site: https://www.optmiz.be
 - Zones: https://www.optmiz.be/zones (Soignies, Braine-le-Comte, Mons, Charleroi, Namur, La Louvière, Nivelles, Enghien, Ath, Binche, Tournai, Bruxelles, Gembloux)

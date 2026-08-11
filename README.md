@@ -60,18 +60,22 @@ Config dans **Vercel → Project → Settings → Environment Variables** (Produ
 | `SMTP_PASS` | mot de passe de la boîte |
 | `SMTP_FROM` | `Optmiz <contact@optmiz.be>` |
 | `CONTACT_TO_EMAIL` | `q.devits.optmiz@gmail.com` |
-| `NEXT_PUBLIC_CALENDLY_URL` | `https://calendly.com/votre-compte/visite-optmiz` |
+| `CAL_API_KEY` | clé API Cal.com (`cal_...`) |
+| `CAL_EVENT_TYPE_ID` | id numérique de l’événement « visite » |
+| `CAL_USERNAME` | (alt.) username Cal.com |
+| `CAL_EVENT_TYPE_SLUG` | (alt.) slug de l’événement |
+| `CAL_TIMEZONE` | `Europe/Brussels` (optionnel) |
 
 Puis **Redeploy** le projet pour prendre en compte les variables.
 
-### Calendly (visite chez le client)
+### Cal.com (visite chez le client)
 
-1. Créer un événement Calendly « Première visite Optmiz » (≈ 45 min).
-2. Connecter Google Calendar / Outlook pour n’afficher que les créneaux libres.
-3. Ajouter une question personnalisée « Adresse de la visite » (recommandé).
-4. Coller l’URL de l’événement dans `NEXT_PUBLIC_CALENDLY_URL`.
+1. Compte gratuit [cal.com](https://cal.com) + Google Calendar / Outlook connecté.
+2. Event type « Première visite Optmiz » (~45 min), lieu = adresse du client.
+3. Settings → Developer → API key → `CAL_API_KEY`.
+4. Renseigner `CAL_EVENT_TYPE_ID` (ou `CAL_USERNAME` + `CAL_EVENT_TYPE_SLUG`).
 
-Après le questionnaire du hero, le prospect voit l’embed Calendly et reçoit aussi le lien par e-mail.
+Parcours site : **2 étapes** — coordonnées + adresse, puis créneaux libres (API Cal.com).
 
 ## Démarrage
 

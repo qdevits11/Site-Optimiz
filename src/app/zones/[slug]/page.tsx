@@ -44,7 +44,7 @@ export default async function CityPage({ params }: CityPageProps) {
   const faqs = [
     {
       q: `Vous déplacez-vous à ${city.name} ?`,
-      a: `Oui. Optmiz est basé à Soignies et se déplace à ${city.name} et dans la région pour un premier rendez-vous gratuit sur votre lieu de travail. Réservez via le devis guidé sur la page d’accueil : questionnaire puis créneau Calendly.`,
+      a: `Oui. Optmiz est basé à Soignies et se déplace à ${city.name} et dans la région pour un premier rendez-vous gratuit sur votre lieu de travail. Réservez en 2 étapes sur la page d’accueil : coordonnées + créneau synchronisé.`,
     },
     {
       q: `Que peut-on automatiser dans une PME à ${city.name} ?`,

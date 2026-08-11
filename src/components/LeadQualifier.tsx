@@ -1,395 +1,356 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { FormEvent, useMemo, useState } from "react";
-import { CalendlyEmbed } from "@/components/CalendlyEmbed";
-import { buildCalendlyPrefillUrl, isCalendlyConfigured } from "@/lib/calendly";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 
-const NEEDS = [
-  { value: "automatiser", label: "Automatiser un process répétitif" },
-  { value: "site-web", label: "Créer / refaire un site web" },
-  { value: "erp-crm", label: "Mettre en place un système de gestion" },
-  { value: "accompagne", label: "Être accompagné" },
-] as const;
-
-const PAINS = [
-  { value: "relances-admin", label: "Relances / facturation / admin" },
-  { value: "excel-saisies", label: "Saisies manuelles / Excel" },
-  { value: "outils-deconnectes", label: "Outils qui ne communiquent pas" },
-  { value: "suivi-commercial", label: "Suivi commercial / demandes clients" },
-] as const;
-
-const SIZES = [
-  { value: "1-10", label: "1–10" },
-  { value: "11-50", label: "11–50" },
-  { value: "51-200", label: "51–200" },
-  { value: "200+", label: "200+" },
-] as const;
-
-const BUDGETS = [
-  { value: "<1000", label: "< 1 000 €" },
-  { value: "1000-5000", label: "1 000–5 000 €" },
-  { value: "5000-10000", label: "5 000–10 000 €" },
-  { value: ">10000", label: "> 10 000 €" },
-] as const;
-
-type Step = 0 | 1 | 2 | 3 | 4;
-
-type Answers = {
-  need: (typeof NEEDS)[number]["value"] | "";
-  pain: (typeof PAINS)[number]["value"] | "";
-  companySize: (typeof SIZES)[number]["value"] | "";
-  budget: (typeof BUDGETS)[number]["value"] | "";
+type CalSlot = {
+  start: string;
+  label: string;
+  dayKey: string;
+  dayLabel: string;
+  timeLabel: string;
 };
 
-const STEP_META: { title: string; hint: string }[] = [
-  { title: "Quelle est votre priorité aujourd’hui ?", hint: "Sélectionnez votre besoin" },
-  { title: "Qu’est-ce qui vous coûte le plus de temps ?", hint: "Choisissez le frein principal" },
-  { title: "Combien de personnes dans l’entreprise ?", hint: "Taille de la société" },
-  { title: "Quel budget envisagez-vous ?", hint: "Fourchette indicative" },
-  {
-    title: "Coordonnées & lieu de visite",
-    hint: "On vient chez vous — indiquez où, puis choisissez un créneau",
-  },
-];
-
-const labelOf = <T extends { value: string; label: string }>(
-  options: readonly T[],
-  value: string,
-) => options.find((o) => o.value === value)?.label ?? value;
+type Lead = {
+  name: string;
+  email: string;
+  phone: string;
+  company: string;
+  city: string;
+  address: string;
+  note: string;
+};
 
 type LeadQualifierProps = {
   variant?: "hero" | "section";
   id?: string;
 };
 
-type SubmittedLead = {
-  name: string;
-  email: string;
-  address: string;
-  city: string;
-  calendlyUrl: string;
-};
+function groupSlotsByDay(slots: CalSlot[]) {
+  const groups = new Map<string, { dayKey: string; dayLabel: string; slots: CalSlot[] }>();
+  for (const slot of slots) {
+    const existing = groups.get(slot.dayKey);
+    if (existing) {
+      existing.slots.push(slot);
+    } else {
+      groups.set(slot.dayKey, {
+        dayKey: slot.dayKey,
+        dayLabel: slot.dayLabel,
+        slots: [slot],
+      });
+    }
+  }
+  return [...groups.values()];
+}
 
 export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifierProps) {
-  const calendlyReady = useMemo(() => isCalendlyConfigured(), []);
-  const [step, setStep] = useState<Step>(0);
-  const [answers, setAnswers] = useState<Answers>({
-    need: "",
-    pain: "",
-    companySize: "",
-    budget: "",
-  });
+  const [step, setStep] = useState<0 | 1>(0);
+  const [lead, setLead] = useState<Lead | null>(null);
+  const [slots, setSlots] = useState<CalSlot[]>([]);
+  const [slotsLoading, setSlotsLoading] = useState(false);
+  const [slotsError, setSlotsError] = useState<string | null>(null);
+  const [selectedDay, setSelectedDay] = useState("");
+  const [selectedStart, setSelectedStart] = useState("");
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [submittedLead, setSubmittedLead] = useState<SubmittedLead | null>(null);
+  const [bookedLabel, setBookedLabel] = useState<string | null>(null);
 
-  function selectAndAdvance<K extends keyof Answers>(key: K, value: Answers[K]) {
-    setAnswers((prev) => ({ ...prev, [key]: value }));
-    setError(null);
-    window.setTimeout(() => setStep((s) => Math.min(4, s + 1) as Step), 180);
-  }
+  const days = useMemo(() => groupSlotsByDay(slots), [slots]);
+  const daySlots = days.find((d) => d.dayKey === selectedDay)?.slots ?? [];
 
-  function goBack() {
-    setError(null);
-    setStep((s) => Math.max(0, s - 1) as Step);
-  }
+  useEffect(() => {
+    if (step !== 1) return;
+    let cancelled = false;
+    setSlotsLoading(true);
+    setSlotsError(null);
 
-  async function onSubmit(event: FormEvent<HTMLFormElement>) {
+    fetch("/api/slots")
+      .then(async (response) => {
+        const payload = (await response.json()) as {
+          error?: string;
+          slots?: CalSlot[];
+        };
+        if (!response.ok) throw new Error(payload.error || "Créneaux indisponibles.");
+        if (cancelled) return;
+        const nextSlots = payload.slots ?? [];
+        setSlots(nextSlots);
+        const firstDay = nextSlots[0]?.dayKey ?? "";
+        setSelectedDay(firstDay);
+        setSelectedStart("");
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        setSlotsError(err instanceof Error ? err.message : "Créneaux indisponibles.");
+      })
+      .finally(() => {
+        if (!cancelled) setSlotsLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [step]);
+
+  function onContactSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
-    setPending(true);
-
     const form = event.currentTarget;
-    const formData = new FormData(form);
-    const name = String(formData.get("name") || "").trim();
-    const email = String(formData.get("email") || "").trim();
-    const city = String(formData.get("city") || "").trim();
-    const address = String(formData.get("address") || "").trim();
-    const fullAddress = [address, city].filter(Boolean).join(", ");
+    const data = new FormData(form);
+    setLead({
+      name: String(data.get("name") || "").trim(),
+      email: String(data.get("email") || "").trim(),
+      phone: String(data.get("phone") || "").trim(),
+      company: String(data.get("company") || "").trim(),
+      city: String(data.get("city") || "").trim(),
+      address: String(data.get("address") || "").trim(),
+      note: String(data.get("note") || "").trim(),
+    });
+    setStep(1);
+  }
 
+  async function onBook() {
+    if (!lead || !selectedStart) {
+      setError("Choisissez un créneau.");
+      return;
+    }
+    setPending(true);
+    setError(null);
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch("/api/book", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          type: "devis",
-          name,
-          phone: String(formData.get("phone") || ""),
-          email,
-          company: String(formData.get("company") || ""),
-          postalCode: String(formData.get("postalCode") || ""),
-          city,
-          address,
-          comment: String(formData.get("comment") || ""),
-          need: labelOf(NEEDS, answers.need),
-          pain: labelOf(PAINS, answers.pain),
-          companySize: labelOf(SIZES, answers.companySize),
-          budget: labelOf(BUDGETS, answers.budget),
-          sendClientCalendly: true,
+          start: selectedStart,
+          ...lead,
         }),
       });
-
-      const payload = (await response.json()) as { error?: string; calendlyUrl?: string };
-      if (!response.ok) throw new Error(payload.error || "Envoi impossible.");
-
-      const calendlyUrl =
-        payload.calendlyUrl ||
-        buildCalendlyPrefillUrl({ name, email, address: fullAddress });
-
-      setSubmittedLead({ name, email, address: fullAddress, city, calendlyUrl });
-      form.reset();
+      const payload = (await response.json()) as { error?: string };
+      if (!response.ok) throw new Error(payload.error || "Réservation impossible.");
+      const slot = slots.find((s) => s.start === selectedStart);
+      setBookedLabel(slot?.label || selectedStart);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Envoi impossible.");
+      setError(err instanceof Error ? err.message : "Réservation impossible.");
     } finally {
       setPending(false);
     }
   }
 
-  const progress = ((step + 1) / 5) * 100;
-  const showCalendly = Boolean(submittedLead?.calendlyUrl);
-
   return (
     <div
       id={id}
-      className={`lead-qualifier${variant === "hero" ? " lead-qualifier-hero" : ""}${
-        showCalendly ? " lead-qualifier-calendly" : ""
-      }`}
+      className={`lead-qualifier${variant === "hero" ? " lead-qualifier-hero" : ""}`}
       data-cursor="card"
     >
       <div className="lead-qualifier-head">
         <p className="lead-qualifier-kicker font-mono">
-          {showCalendly ? "Créneau de visite" : "Devis gratuit"}
+          {bookedLabel ? "Confirmé" : step === 0 ? "Visite gratuite" : "Créneau"}
         </p>
         <p className="lead-qualifier-reassure">
-          {showCalendly
-            ? "Chez vous · Agenda synchronisé · Sans engagement"
-            : "Sans engagement · Visite chez vous"}
+          {bookedLabel
+            ? "Dans votre agenda et le nôtre"
+            : "2 étapes · Chez vous · Sans engagement"}
         </p>
       </div>
 
-      {!showCalendly ? (
+      {!bookedLabel ? (
         <>
           <div className="lead-qualifier-progress" aria-hidden>
-            <div className="lead-qualifier-progress-bar" style={{ width: `${progress}%` }} />
+            <div
+              className="lead-qualifier-progress-bar"
+              style={{ width: `${((step + 1) / 2) * 100}%` }}
+            />
           </div>
-          <p className="lead-qualifier-step font-mono">Étape {step + 1} / 5</p>
+          <p className="lead-qualifier-step font-mono">Étape {step + 1} / 2</p>
         </>
       ) : null}
 
       <AnimatePresence mode="wait">
-        {submittedLead ? (
+        {bookedLabel ? (
           <motion.div
-            key="success"
-            className="lead-qualifier-success lead-qualifier-success-calendly"
+            key="done"
+            className="lead-qualifier-success"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.35 }}
           >
-            <p className="font-display lead-qualifier-success-title">Demande reçue</p>
+            <p className="font-display lead-qualifier-success-title">C’est réservé</p>
             <p>
-              Dernière étape : choisissez un créneau pour la visite
-              {submittedLead.city ? ` à ${submittedLead.city}` : ""}. Les disponibilités viennent
-              directement de l’agenda Optmiz.
+              Visite confirmée : <strong>{bookedLabel}</strong>
+              {lead?.city ? ` · ${lead.city}` : ""}.
             </p>
-            {showCalendly ? (
-              <CalendlyEmbed
-                url={submittedLead.calendlyUrl}
-                className="lead-calendly"
-                mode={variant === "hero" ? "button" : "inline"}
-              />
-            ) : (
-              <p>
-                Un e-mail avec le lien de réservation vous a été envoyé
-                {submittedLead.email ? ` à ${submittedLead.email}` : ""}.
-              </p>
-            )}
-            {!calendlyReady ? (
-              <p className="lead-calendly-note">
-                Si le calendrier ne s’affiche pas, vérifiez votre boîte mail : le lien Calendly y
-                figure aussi.
-              </p>
-            ) : null}
+            <p>Vous recevrez aussi la confirmation Cal.com par e-mail.</p>
           </motion.div>
-        ) : (
+        ) : step === 0 ? (
           <motion.div
-            key={step}
+            key="contact"
             initial={{ opacity: 0, x: 16 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -12 }}
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
           >
-            <h2 className="lead-qualifier-title font-display">{STEP_META[step].title}</h2>
-            <p className="lead-qualifier-hint">{STEP_META[step].hint}</p>
-
-            {step === 0 ? (
-              <div className="lead-options" role="listbox" aria-label="Besoin">
-                {NEEDS.map((option) => (
-                  <button
-                    key={option.value}
-                    type="button"
-                    role="option"
-                    aria-selected={answers.need === option.value}
-                    className={`lead-option${answers.need === option.value ? " is-selected" : ""}`}
-                    onClick={() => selectAndAdvance("need", option.value)}
-                  >
-                    <span>{option.label}</span>
-                  </button>
-                ))}
+            <h2 className="lead-qualifier-title font-display">On vient chez vous</h2>
+            <p className="lead-qualifier-hint">
+              Vos coordonnées et l’adresse de visite — puis un créneau libre.
+            </p>
+            <form onSubmit={onContactSubmit} className="lead-contact-form">
+              <label>
+                Nom *
+                <input name="name" required placeholder="Votre nom et prénom" autoComplete="name" />
+              </label>
+              <label>
+                Mail *
+                <input
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="contact@entreprise.be"
+                  autoComplete="email"
+                />
+              </label>
+              <label>
+                Téléphone *
+                <input name="phone" type="tel" required placeholder="+32 ..." autoComplete="tel" />
+              </label>
+              <label>
+                Société
+                <input name="company" placeholder="Optionnel" autoComplete="organization" />
+              </label>
+              <label>
+                Ville *
+                <input
+                  name="city"
+                  required
+                  placeholder="Ex. : Charleroi"
+                  autoComplete="address-level2"
+                />
+              </label>
+              <label>
+                Adresse de visite *
+                <input
+                  name="address"
+                  required
+                  placeholder="Rue et n°"
+                  autoComplete="street-address"
+                />
+              </label>
+              <label className="full">
+                En une phrase, le sujet ? (optionnel)
+                <input name="note" placeholder="Ex. : relances, Excel, site…" />
+              </label>
+              <label className="full consent">
+                <input type="checkbox" required />
+                <span>
+                  J&apos;accepte que mes données soient utilisées par Optmiz pour organiser la
+                  visite.
+                </span>
+              </label>
+              {error ? (
+                <p className="form-error full" role="alert">
+                  {error}
+                </p>
+              ) : null}
+              <div className="full lead-contact-actions">
+                <button type="submit" className="btn-primary-glow btn-cta contact-submit-btn">
+                  Voir les créneaux libres
+                </button>
               </div>
+            </form>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="slots"
+            initial={{ opacity: 0, x: 16 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -12 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <h2 className="lead-qualifier-title font-display">Choisissez un créneau</h2>
+            <p className="lead-qualifier-hint">
+              Disponibilités synchronisées avec l’agenda Optmiz
+              {lead?.city ? ` · visite à ${lead.city}` : ""}.
+            </p>
+
+            {slotsLoading ? <p className="lead-qualifier-hint">Chargement des créneaux…</p> : null}
+            {slotsError ? (
+              <p className="form-error" role="alert">
+                {slotsError}
+              </p>
             ) : null}
 
-            {step === 1 ? (
-              <div className="lead-options" role="listbox" aria-label="Frein">
-                {PAINS.map((option) => (
-                  <button
-                    key={option.value}
-                    type="button"
-                    role="option"
-                    aria-selected={answers.pain === option.value}
-                    className={`lead-option${answers.pain === option.value ? " is-selected" : ""}`}
-                    onClick={() => selectAndAdvance("pain", option.value)}
-                  >
-                    <span>{option.label}</span>
-                  </button>
-                ))}
-              </div>
+            {!slotsLoading && !slotsError && days.length === 0 ? (
+              <p className="lead-qualifier-hint">
+                Aucun créneau libre sur la période. Écrivez-nous à contact@optmiz.be.
+              </p>
             ) : null}
 
-            {step === 2 ? (
-              <div className="lead-options lead-options-compact" role="listbox" aria-label="Taille">
-                {SIZES.map((option) => (
-                  <button
-                    key={option.value}
-                    type="button"
-                    role="option"
-                    aria-selected={answers.companySize === option.value}
-                    className={`lead-option${answers.companySize === option.value ? " is-selected" : ""}`}
-                    onClick={() => selectAndAdvance("companySize", option.value)}
-                  >
-                    <span>{option.label}</span>
-                  </button>
-                ))}
-              </div>
-            ) : null}
-
-            {step === 3 ? (
-              <div className="lead-options lead-options-compact" role="listbox" aria-label="Budget">
-                {BUDGETS.map((option) => (
-                  <button
-                    key={option.value}
-                    type="button"
-                    role="option"
-                    aria-selected={answers.budget === option.value}
-                    className={`lead-option${answers.budget === option.value ? " is-selected" : ""}`}
-                    onClick={() => selectAndAdvance("budget", option.value)}
-                  >
-                    <span>{option.label}</span>
-                  </button>
-                ))}
-              </div>
-            ) : null}
-
-            {step === 4 ? (
-              <form onSubmit={onSubmit} className="lead-contact-form">
-                <label>
-                  Nom *
-                  <input name="name" required placeholder="Votre nom et prénom" autoComplete="name" />
-                </label>
-                <label>
-                  Société *
-                  <input
-                    name="company"
-                    required
-                    placeholder="Nom de votre société"
-                    autoComplete="organization"
-                  />
-                </label>
-                <label>
-                  Code postal *
-                  <input
-                    name="postalCode"
-                    required
-                    placeholder="Ex. : 7060"
-                    autoComplete="postal-code"
-                    inputMode="numeric"
-                    pattern="[0-9]{4,5}"
-                    title="Code postal à 4 ou 5 chiffres"
-                  />
-                </label>
-                <label>
-                  Ville / commune *
-                  <input
-                    name="city"
-                    required
-                    placeholder="Ex. : Charleroi"
-                    autoComplete="address-level2"
-                  />
-                </label>
-                <label className="full">
-                  Adresse de la visite *
-                  <input
-                    name="address"
-                    required
-                    placeholder="Rue, n° — où nous devons venir"
-                    autoComplete="street-address"
-                  />
-                </label>
-                <label>
-                  Mail *
-                  <input
-                    name="email"
-                    type="email"
-                    required
-                    placeholder="contact@entreprise.be"
-                    autoComplete="email"
-                  />
-                </label>
-                <label>
-                  Téléphone *
-                  <input name="phone" type="tel" required placeholder="+32 ..." autoComplete="tel" />
-                </label>
-                <label className="full">
-                  Commentaire
-                  <textarea
-                    name="comment"
-                    placeholder="Précisez votre besoin si besoin…"
-                    rows={3}
-                  />
-                </label>
-                <label className="full consent">
-                  <input type="checkbox" required />
-                  <span>
-                    J&apos;accepte que mes données soient utilisées par Optmiz pour organiser la
-                    visite et me recontacter.
-                  </span>
-                </label>
-                {error ? (
-                  <p className="form-error full" role="alert">
-                    {error}
-                  </p>
-                ) : null}
-                <div className="full lead-contact-actions">
-                  <button type="button" className="btn-ghost lead-back" onClick={goBack}>
-                    Retour
-                  </button>
-                  <button
-                    type="submit"
-                    className="btn-primary-glow btn-cta contact-submit-btn"
-                    disabled={pending}
-                  >
-                    {pending ? "Envoi en cours…" : "Continuer vers le créneau"}
-                  </button>
+            {!slotsLoading && days.length > 0 ? (
+              <>
+                <div className="booking-days" role="listbox" aria-label="Jour">
+                  <p className="booking-field-label">Jour</p>
+                  <div className="booking-day-scroll">
+                    {days.map((day) => (
+                      <button
+                        key={day.dayKey}
+                        type="button"
+                        role="option"
+                        aria-selected={selectedDay === day.dayKey}
+                        className={`booking-day-chip${selectedDay === day.dayKey ? " is-selected" : ""}`}
+                        onClick={() => {
+                          setSelectedDay(day.dayKey);
+                          setSelectedStart("");
+                        }}
+                      >
+                        {day.dayLabel}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </form>
+                <div className="booking-times" role="listbox" aria-label="Heure">
+                  <p className="booking-field-label">Heure</p>
+                  <div className="booking-time-grid">
+                    {daySlots.map((slot) => (
+                      <button
+                        key={slot.start}
+                        type="button"
+                        role="option"
+                        aria-selected={selectedStart === slot.start}
+                        className={`booking-time-chip${selectedStart === slot.start ? " is-selected" : ""}`}
+                        onClick={() => setSelectedStart(slot.start)}
+                      >
+                        {slot.timeLabel}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </>
             ) : null}
 
-            {step > 0 && step < 4 ? (
-              <button type="button" className="lead-back-link" onClick={goBack}>
-                ← Retour
-              </button>
+            {error ? (
+              <p className="form-error" role="alert">
+                {error}
+              </p>
             ) : null}
+
+            <div className="lead-contact-actions" style={{ marginTop: "0.85rem" }}>
+              <button
+                type="button"
+                className="btn-ghost lead-back"
+                onClick={() => {
+                  setStep(0);
+                  setError(null);
+                }}
+              >
+                Retour
+              </button>
+              <button
+                type="button"
+                className="btn-primary-glow btn-cta contact-submit-btn"
+                disabled={pending || !selectedStart || slotsLoading}
+                onClick={onBook}
+              >
+                {pending ? "Réservation…" : "Confirmer la visite"}
+              </button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

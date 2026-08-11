@@ -34,7 +34,7 @@ export default function ContactPage() {
         subtitle="Un premier échange de 30 à 45 minutes, gratuit et sans engagement — sur place chez vous ou à distance."
         ctaHref="/#devis"
         ctaLabel="Réserver une visite"
-        note="Gratuit · Sans engagement · Créneau via Calendly"
+        note="Gratuit · Sans engagement · Créneau synchronisé"
       />
 
       <section className="page-section">
@@ -65,9 +65,9 @@ export default function ContactPage() {
           <p className="page-lead" style={{ marginTop: "1.1rem" }}>
             Pour une visite sur votre lieu de travail,{" "}
             <Link href="/#devis" className="text-link">
-              démarrez le devis guidé
+              réservez un créneau
             </Link>{" "}
-            puis choisissez un créneau Calendly. Une question avant ? Consultez la{" "}
+            en 2 étapes sur l’accueil. Une question avant ? Consultez la{" "}
             <Link href="/faq" className="text-link">
               FAQ
             </Link>{" "}
