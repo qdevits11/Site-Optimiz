@@ -155,6 +155,29 @@ body::before {
   }
 }
 
+/* Hidden until logo preloader ends, then GSAP reveals */
+.hero:not(.is-hero-ready) .hero-eyebrow,
+.hero:not(.is-hero-ready) .hero-title,
+.hero:not(.is-hero-ready) .hero-subtitle,
+.hero:not(.is-hero-ready) .hero-form-stage {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero:not(.is-hero-ready) .hero-eyebrow,
+  .hero:not(.is-hero-ready) .hero-title,
+  .hero:not(.is-hero-ready) .hero-subtitle,
+  .hero:not(.is-hero-ready) .hero-form-stage {
+    opacity: 1;
+  }
+}
+
+.hero-word,
+.hero-char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
 .hero-secondary-cta {
   margin-top: 1.25rem;
 }
@@ -203,6 +226,7 @@ body::before {
   letter-spacing: -0.035em;
   margin: 0;
   max-width: 15ch;
+  perspective: 700px;
 }
 
 .hero-subtitle {
