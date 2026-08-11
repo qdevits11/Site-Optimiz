@@ -34,7 +34,7 @@ export function ProblemSection({
         <p className="page-lead problem-closing-alert">{closing}</p>
         {showCta ? (
           <div style={{ marginTop: "1.25rem" }}>
-            <Link href="/#contact" className="btn-primary-glow section-cta" style={{ display: "inline-flex" }}>
+            <Link href="/#devis" className="btn-primary-glow section-cta" style={{ display: "inline-flex" }}>
               Je veux lever ces freins
             </Link>
           </div>

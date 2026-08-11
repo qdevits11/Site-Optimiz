@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ContactForm } from "@/components/ContactForm";
+import { LeadQualifier } from "@/components/LeadQualifier";
 import { CtaButton } from "@/components/CtaButton";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
@@ -115,7 +115,7 @@ export default function MethodPage() {
 
       <section className="page-section cta-section">
         <div className="container-site">
-          <ContactForm />
+          <LeadQualifier />
         </div>
       </section>
     </>

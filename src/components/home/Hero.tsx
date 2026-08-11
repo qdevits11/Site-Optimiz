@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { LeadQualifier } from "@/components/LeadQualifier";
 import { gsap, registerGsap, SplitText } from "@/lib/gsap";
 
 const HeroCanvas = dynamic(() => import("@/components/home/HeroCanvas"), {
@@ -20,7 +21,7 @@ export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
+  const copyRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     registerGsap();
@@ -36,8 +37,9 @@ export function Hero() {
 
       gsap.set(split.chars, { yPercent: 120, opacity: 0, rotateX: 40 });
       gsap.set(subtitleRef.current, { opacity: 0, y: 18, filter: "blur(10px)" });
-      gsap.set(ctaRef.current?.querySelectorAll(".btn-reveal") ?? [], {
-        clipPath: "polygon(0 0, 0 0, 0 100%, 0 100%)",
+      gsap.set(copyRef.current?.querySelectorAll(".hero-trust, .hero-secondary-cta") ?? [], {
+        opacity: 0,
+        y: 14,
       });
 
       const tl = gsap.timeline({ delay: 0.15 });
@@ -72,14 +74,9 @@ export function Hero() {
         { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.7, ease: "power2.out" },
         "-=0.35",
       ).to(
-        ctaRef.current?.querySelectorAll(".btn-reveal") ?? [],
-        {
-          clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-          duration: 0.65,
-          stagger: 0.1,
-          ease: "power3.inOut",
-        },
-        "-=0.3",
+        copyRef.current?.querySelectorAll(".hero-trust, .hero-secondary-cta") ?? [],
+        { opacity: 1, y: 0, duration: 0.55, stagger: 0.08, ease: "power2.out" },
+        "-=0.35",
       );
 
       return () => {
@@ -94,31 +91,31 @@ export function Hero() {
     <section ref={sectionRef} className="hero">
       <HeroCanvas />
       <div className="hero-veil" aria-hidden />
-      <div className="hero-inner container-site">
-        <p className="hero-eyebrow font-mono">Automatisation pour PME · Wallonie</p>
-        <h1 ref={titleRef} className="hero-title font-display">
-          Moins de tâches manuelles.{" "}
-          <span className="accent-word text-accent">Plus de temps utile.</span>
-        </h1>
-        <p ref={subtitleRef} className="hero-subtitle">
-          Optmiz repère ce qui vous ralentit, puis le transforme en process simples, fiables et
-          mesurables, sans jargon, sans surprise.
-        </p>
-        <div ref={ctaRef} className="hero-cta">
-          <Link href="/#contact" className="btn-reveal btn-primary-glow" data-cursor="cta">
-            Réserver mon diagnostic gratuit
-          </Link>
-          <Link href="/#transformation" className="btn-reveal btn-ghost">
-            Voir la transformation
-          </Link>
+      <div className="hero-inner container-site hero-with-qualifier">
+        <div ref={copyRef} className="hero-copy">
+          <p className="hero-eyebrow font-mono">Automatisation pour PME · Wallonie</p>
+          <h1 ref={titleRef} className="hero-title font-display">
+            Moins de tâches manuelles.{" "}
+            <span className="accent-word text-accent">Plus de temps utile.</span>
+          </h1>
+          <p ref={subtitleRef} className="hero-subtitle">
+            Optmiz repère ce qui vous ralentit, puis le transforme en process simples, fiables et
+            mesurables, sans jargon, sans surprise.
+          </p>
+          <ul className="hero-trust" aria-label="Garanties">
+            {trustChips.map((chip) => (
+              <li key={chip} className="font-mono">
+                {chip}
+              </li>
+            ))}
+          </ul>
+          <div className="hero-secondary-cta">
+            <Link href="/#transformation" className="btn-ghost">
+              Voir la transformation
+            </Link>
+          </div>
         </div>
-        <ul className="hero-trust" aria-label="Garanties">
-          {trustChips.map((chip) => (
-            <li key={chip} className="font-mono">
-              {chip}
-            </li>
-          ))}
-        </ul>
+        <LeadQualifier variant="hero" id="devis" />
       </div>
     </section>
   );

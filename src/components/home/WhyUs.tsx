@@ -51,7 +51,7 @@ export function WhyUs() {
             <strong>Prochaine étape :</strong> un diagnostic gratuit. On vous dit clairement si on
             peut vous aider, et où est le ROI le plus rapide.
           </p>
-          <Link href="/#contact" className="btn-primary-glow section-cta">
+          <Link href="/#devis" className="btn-primary-glow section-cta">
             Réserver mon créneau
           </Link>
         </div>

@@ -25,11 +25,11 @@ export function PageHero({
         <p className="section-lead">{subtitle}</p>
         <div style={{ marginTop: "1.35rem" }}>
           <Link
-            href="/#contact"
+            href="/#devis"
             className="btn-primary-glow section-cta"
             style={{ display: "inline-flex" }}
           >
-            Réserver mon diagnostic gratuit
+            Obtenir mon devis gratuit
           </Link>
           <p className="hero-note font-mono">{note}</p>
         </div>

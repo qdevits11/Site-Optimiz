@@ -6,7 +6,7 @@ export function Footer() {
       <div className="container-site flex flex-col gap-3 py-8 text-sm text-muted md:flex-row md:items-center md:justify-between">
         <p>Copyright © Optmiz, Soignies, Belgique</p>
         <div className="flex flex-wrap gap-4">
-          <Link href="/#contact" className="hover:text-brand">
+          <Link href="/contact" className="hover:text-brand">
             Contact
           </Link>
           <Link href="/tarifs" className="hover:text-brand">

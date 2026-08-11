@@ -78,7 +78,7 @@ export function PainPoints() {
             <strong>Ces points ne se résolvent pas tout seuls.</strong> Plus vous attendez, plus ils
             coûtent cher à votre équipe.
           </p>
-          <Link href="/#contact" className="btn-primary-glow section-cta">
+          <Link href="/#devis" className="btn-primary-glow section-cta">
             Je veux lever ces freins
           </Link>
         </div>

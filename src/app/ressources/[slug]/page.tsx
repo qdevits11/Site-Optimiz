@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ContactForm } from "@/components/ContactForm";
+import { LeadQualifier } from "@/components/LeadQualifier";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { JsonLd } from "@/components/JsonLd";
 import { articles, getArticleBySlug, getRelatedArticles } from "@/lib/articles";
@@ -117,7 +117,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
       <section className="section-block cta-section">
         <div className="container-site">
-          <ContactForm />
+          <LeadQualifier />
         </div>
       </section>
     </>

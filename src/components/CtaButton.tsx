@@ -8,9 +8,9 @@ type CtaButtonProps = {
 };
 
 export function CtaButton({
-  href = "/#contact",
+  href = "/#devis",
   variant = "primary",
-  children = "Réservez votre diagnostic gratuit ›",
+  children = "Obtenir mon devis gratuit ›",
   className = "",
 }: CtaButtonProps) {
   const base =

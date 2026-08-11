@@ -87,7 +87,7 @@ export function Nav() {
           {[
             { href: "/", label: "Accueil" },
             ...links,
-            { href: "/#contact", label: "Diagnostic gratuit" },
+            { href: "/#devis", label: "Devis gratuit" },
           ].map((link, index) => (
             <Link
               key={`${link.href}-${link.label}`}
@@ -143,8 +143,8 @@ export function Nav() {
             </nav>
 
             <div className="nav-actions">
-              <Link ref={ctaMagnet} href="/#contact" className="nav-cta btn-primary-glow">
-                Diagnostic gratuit
+              <Link ref={ctaMagnet} href="/#devis" className="nav-cta btn-primary-glow">
+                Devis gratuit
               </Link>
               <button
                 type="button"

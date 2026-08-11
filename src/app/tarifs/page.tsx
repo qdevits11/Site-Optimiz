@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ContactForm } from "@/components/ContactForm";
+import { LeadQualifier } from "@/components/LeadQualifier";
 import { CtaButton } from "@/components/CtaButton";
 import { FaqList } from "@/components/FaqList";
 import { JsonLd } from "@/components/JsonLd";
@@ -208,7 +208,7 @@ export default function PricingPage() {
 
       <section className="page-section cta-section">
         <div className="container-site">
-          <ContactForm />
+          <LeadQualifier />
         </div>
       </section>
     </>

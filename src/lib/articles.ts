@@ -114,7 +114,7 @@ export const articles: Article[] = [
     relatedLinks: [
       { href: "/tarifs", label: "Voir le détail des tarifs et forfaits Zen" },
       { href: "/ressources/audit-processus-pme-guide", label: "Ce que contient un audit terrain" },
-      { href: "/#contact", label: "Réserver un diagnostic gratuit" },
+      { href: "/#devis", label: "Obtenir mon devis gratuit" },
     ],
   },
   {
@@ -172,7 +172,7 @@ export const articles: Article[] = [
     relatedLinks: [
       { href: "/cas-concrets", label: "Voir des cas concrets résolus" },
       { href: "/ressources/par-ou-commencer-automatisation", label: "Par où commencer ?" },
-      { href: "/#contact", label: "Réserver mon diagnostic gratuit" },
+      { href: "/#devis", label: "Obtenir mon devis gratuit" },
     ],
   },
   {
@@ -224,7 +224,7 @@ export const articles: Article[] = [
     relatedLinks: [
       { href: "/notre-methodologie", label: "La méthode Optmiz en détail" },
       { href: "/ressources/5-signes-pme-automatiser-processus", label: "Vérifier les signaux chez vous" },
-      { href: "/#contact", label: "Réserver mon diagnostic gratuit" },
+      { href: "/#devis", label: "Obtenir mon devis gratuit" },
     ],
   },
   {
@@ -276,7 +276,7 @@ export const articles: Article[] = [
     relatedLinks: [
       { href: "/tarifs", label: "Voir le parcours diagnostic → audit → devis fixe" },
       { href: "/ressources/combien-coute-automatisation-pme-belgique", label: "Comprendre le calcul du prix" },
-      { href: "/#contact", label: "Réserver mon diagnostic gratuit" },
+      { href: "/#devis", label: "Obtenir mon devis gratuit" },
     ],
   },
   {
@@ -394,7 +394,7 @@ export const articles: Article[] = [
     relatedLinks: [
       { href: "/services/creation-site-web", label: "Notre approche de la création de site internet" },
       { href: "/ressources/outils-integres-site-internet-pme", label: "Les outils qui rendent un site internet vraiment utile" },
-      { href: "/contact", label: "Réserver mon diagnostic gratuit" },
+      { href: "/contact", label: "Obtenir mon devis gratuit" },
     ],
   },
 ];

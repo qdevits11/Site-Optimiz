@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 import { FormEvent, useEffect, useState } from "react";
 
 export function ContactForm() {
@@ -29,6 +30,7 @@ export function ContactForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          type: "contact",
           name: String(formData.get("name") || ""),
           phone: String(formData.get("phone") || ""),
           email: String(formData.get("email") || ""),
@@ -51,18 +53,21 @@ export function ContactForm() {
   return (
     <section id="contact" className="contact-panel contact-panel-split">
       <div className="contact-heading">
-        <p className="eyebrow font-mono">Étape suivante</p>
+        <p className="eyebrow font-mono">Contact</p>
         <h2 className="font-display">
-          Réservez votre <span className="text-accent">diagnostic gratuit</span>
+          Une question ? <span className="text-accent">Écrivez-nous</span>
         </h2>
         <p className="section-lead">
-          En 30 minutes, on identifie vos 2–3 leviers les plus rentables. Sans engagement. Réponse
-          sous 24h.
+          Pour un échange simple ou une précision. Pour un devis qualifié,{" "}
+          <Link href="/#devis" className="text-link">
+            passez par le formulaire de devis
+          </Link>
+          .
         </p>
         <ul className="contact-reassure">
-          <li>Gratuit et sans engagement</li>
-          <li>Recommandation claire : oui / non / plus tard</li>
-          <li>Basé sur votre réalité terrain</li>
+          <li>Réponse sous 24h</li>
+          <li>Sans engagement</li>
+          <li>Basé à Soignies · Wallonie</li>
         </ul>
       </div>
 
@@ -174,9 +179,14 @@ export function ContactForm() {
                   className="btn-primary-glow btn-cta contact-submit-btn"
                   disabled={pending}
                 >
-                  {pending ? "Envoi en cours…" : "Obtenir mon diagnostic gratuit"}
+                  {pending ? "Envoi en cours…" : "Envoyer mon message"}
                 </button>
-                <p className="form-note font-mono">Sans engagement · Réponse sous 24h</p>
+                <p className="form-note font-mono">
+                  Sans engagement · Réponse sous 24h ·{" "}
+                  <Link href="/#devis" className="text-link">
+                    Préférer un devis ?
+                  </Link>
+                </p>
               </div>
             </motion.form>
           )}

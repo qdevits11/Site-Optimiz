@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ContactForm } from "@/components/ContactForm";
+import { LeadQualifier } from "@/components/LeadQualifier";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { buildBreadcrumbJsonLd, pageMetadata, sitePages } from "@/lib/seo";
@@ -89,7 +89,7 @@ export default function ServicesPage() {
 
       <section className="section-block cta-section">
         <div className="container-site">
-          <ContactForm />
+          <LeadQualifier />
         </div>
       </section>
     </>
