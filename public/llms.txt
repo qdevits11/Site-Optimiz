@@ -26,6 +26,7 @@ Optmiz est un cabinet de digitalisation et d'automatisation basé à Soignies (B
 - [Par où commencer l'automatisation](https://www.optmiz.be/ressources/par-ou-commencer-automatisation)
 - [Comment auditer les processus de votre PME](https://www.optmiz.be/ressources/audit-processus-pme-guide)
 - [Pourquoi la plupart des sites internet de PME ne rapportent aucun client](https://www.optmiz.be/ressources/outils-integres-site-internet-pme)
+- [Pourquoi votre nom de domaine compte plus que vous ne le pensez](https://www.optmiz.be/ressources/nom-de-domaine-email-professionnel-pme)
 
 ## Faits citables
 

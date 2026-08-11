@@ -333,6 +333,68 @@ export const articles: Article[] = [
       { href: "/services/creation-site-web", label: "Notre approche de la création de site internet" },
       { href: "/ressources/par-ou-commencer-automatisation", label: "Par où commencer votre projet d'automatisation" },
       { href: "/contact", label: "Voir un exemple concret : notre propre formulaire" },
+      { href: "/ressources/nom-de-domaine-email-professionnel-pme", label: "Votre nom de domaine protège-t-il vraiment votre entreprise ?" },
+    ],
+  },
+  {
+    slug: "nom-de-domaine-email-professionnel-pme",
+    title: "Pourquoi votre nom de domaine compte plus que vous ne le pensez",
+    description:
+      "Une adresse @gmail.com envoie un signal, même involontaire. Et un nom de domaine non réservé peut être récupéré par n'importe qui. Ce qui protège réellement votre entreprise en ligne.",
+    excerpt:
+      "Une adresse mail et un nom qu'on ne protège pas soi-même finissent, tôt ou tard, par coûter des clients ou de la crédibilité.",
+    publishedAt: "2026-08-11",
+    readingMinutes: 5,
+    sections: [
+      {
+        paragraphs: [
+          "Beaucoup de PME utilisent encore une adresse @gmail.com, @outlook.com ou @skynet.be pour leurs communications professionnelles, et n'ont jamais réservé les variantes de leur propre nom en ligne. Ça ne pose aucun problème… jusqu'au jour où ça en pose un : un client qui doute, un concurrent qui capte du trafic destiné à votre marque, ou pire, quelqu'un qui se fait passer pour vous.",
+        ],
+      },
+      {
+        heading: "Une adresse @gmail.com envoie un signal, même sans le vouloir",
+        paragraphs: [
+          "\"contact@votresociete.be\" et \"votresociete2024@gmail.com\" ne disent pas la même chose d'une entreprise, même si le contenu du mail est identique. La seconde adresse suggère, à tort ou à raison, une structure jeune, peu établie, ou qui n'a pas pris le temps de se professionnaliser. Pour un client qui hésite entre deux prestataires, ce détail pèse plus qu'on ne l'imagine.",
+          "Corriger ça coûte très peu : le nom de domaine et la boîte mail professionnelle associée sont parmi les investissements numériques les moins chers, pour un effet de crédibilité immédiat.",
+        ],
+      },
+      {
+        heading: "Réserver son nom, pas seulement l'utiliser",
+        paragraphs: [
+          "Avoir un site sur \"votresociete.be\" ne garantit pas que vous soyez seul à pouvoir l'utiliser ailleurs. Si vous n'avez jamais réservé \"votresociete.com\", les variantes avec ou sans tiret, ou les fautes de frappe les plus fréquentes de votre nom, rien n'empêche quelqu'un d'autre de le faire : un concurrent opportuniste, un revendeur de noms de domaine, ou pire, quelqu'un qui monte un site ou des mails frauduleux au nom de votre entreprise.",
+          "Le coût de réserver ces variantes est minime. Le coût de ne pas l'avoir fait, le jour où ça arrive, ne l'est pas : image ternie, clients trompés, parfois des mois pour récupérer la situation.",
+        ],
+      },
+      {
+        heading: "Un domaine mal configuré peut faire autant de dégâts qu'un domaine non réservé",
+        paragraphs: [
+          "Réserver un nom ne suffit pas s'il est mal configuré derrière. C'est une situation que nous avons nous-mêmes rencontrée et corrigée sur ce site : une configuration DNS héritée empêchait notre propre nom de domaine principal de s'afficher correctement en HTTPS. Concrètement, un visiteur qui tapait l'adresse sans le \"www\" tombait sur une erreur de sécurité, avant même d'arriver sur le site.",
+          "Pour un client qui teste votre professionnalisme avant de vous confier un projet, ce genre d'incident a le même effet qu'un nom de domaine non protégé : ça sème le doute au pire moment.",
+        ],
+      },
+      {
+        heading: "Ce qu'il faut vérifier concrètement",
+        paragraphs: [
+          "Quelques réflexes suffisent à éliminer l'essentiel du risque :",
+        ],
+        list: [
+          "Réserver votre nom en .be et .com au minimum, ainsi que les variantes évidentes (avec/sans tiret, fautes fréquentes)",
+          "Faire migrer toutes les communications pro vers une adresse mail sur votre propre domaine",
+          "Rediriger proprement les anciens domaines ou variantes vers le domaine principal, plutôt que les laisser inactifs",
+          "Vérifier que le domaine principal fonctionne bien en HTTPS, avec et sans \"www\"",
+        ],
+      },
+      {
+        heading: "Une base à poser une fois, pour de bon",
+        paragraphs: [
+          "Ce n'est pas un projet récurrent : c'est une base à poser une fois, correctement, puis à laisser tourner. C'est exactement le type de sujet qu'on identifie pendant un diagnostic ou un audit terrain, souvent en même temps qu'un projet de site internet ou de digitalisation plus large.",
+        ],
+      },
+    ],
+    relatedLinks: [
+      { href: "/services/creation-site-web", label: "Notre approche de la création de site internet" },
+      { href: "/ressources/outils-integres-site-internet-pme", label: "Les outils qui rendent un site internet vraiment utile" },
+      { href: "/contact", label: "Réserver mon diagnostic gratuit" },
     ],
   },
 ];

@@ -70,6 +70,12 @@ export default function ContactPage() {
             </a>
             .
           </p>
+          <p className="page-lead" style={{ marginTop: "0.5rem" }}>
+            Vous remarquerez qu’il ne s’agit pas d’une adresse @gmail.com : c’est volontaire.{" "}
+            <Link href="/ressources/nom-de-domaine-email-professionnel-pme" className="text-link">
+              Voici pourquoi ça compte →
+            </Link>
+          </p>
         </div>
       </section>
 

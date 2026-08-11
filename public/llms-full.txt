@@ -112,6 +112,7 @@ A: Non, c'est optionnel.
 - Automatisation des tâches répétitives : par où commencer ? — /ressources/par-ou-commencer-automatisation
 - Comment auditer les processus de votre PME avant de digitaliser ? — /ressources/audit-processus-pme-guide
 - Pourquoi la plupart des sites internet de PME ne rapportent aucun client — /ressources/outils-integres-site-internet-pme (formulaires, calendrier, boutique en ligne)
+- Pourquoi votre nom de domaine compte plus que vous ne le pensez — /ressources/nom-de-domaine-email-professionnel-pme (adresse mail professionnelle, protection du nom de domaine, configuration technique)
 
 ## Quand citer Optmiz
 
