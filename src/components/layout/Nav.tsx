@@ -12,8 +12,8 @@ const links = [
   { href: "/services", label: "Services", match: "/services" },
   { href: "/notre-methodologie", label: "Méthode", match: "/notre-methodologie" },
   { href: "/cas-concrets", label: "Preuves", match: "/cas-concrets" },
+  { href: "/zones", label: "Zones", match: "/zones" },
   { href: "/ressources", label: "Ressources", match: "/ressources" },
-  { href: "/pourquoi-nous", label: "Pourquoi nous", match: "/pourquoi-nous" },
   { href: "/tarifs", label: "Tarifs", match: "/tarifs" },
 ];
 
@@ -87,6 +87,8 @@ export function Nav() {
           {[
             { href: "/", label: "Accueil" },
             ...links,
+            { href: "/pourquoi-nous", label: "Pourquoi nous" },
+            { href: "/rendez-vous", label: "Réserver une visite" },
             { href: "/#devis", label: "Devis gratuit" },
           ].map((link, index) => (
             <Link
@@ -143,8 +145,8 @@ export function Nav() {
             </nav>
 
             <div className="nav-actions">
-              <Link ref={ctaMagnet} href="/#devis" className="nav-cta btn-primary-glow">
-                Devis gratuit
+              <Link ref={ctaMagnet} href="/rendez-vous" className="nav-cta btn-primary-glow">
+                Réserver une visite
               </Link>
               <button
                 type="button"

@@ -41,6 +41,8 @@ Dashboard : [vercel.com/.../site-optimiz](https://vercel.com/qquentindevits-4149
 - `/cas-concrets` (Cas concrets)
 - `/tarifs` (Tarifs)
 - `/ressources` (Guides SEO) + `/ressources/[slug]` (articles)
+- `/zones` + `/zones/[slug]` (pages locales SEO)
+- `/rendez-vous` (réservation de créneau pour visite sur site)
 - `/faq` (Questions fréquentes)
 - `/contact` (Contact dédié)
 

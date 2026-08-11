@@ -33,10 +33,17 @@ export const siteConfig = {
     "Hainaut",
     "Bruxelles",
     "Soignies",
+    "Braine-le-Comte",
     "Mons",
     "Charleroi",
+    "Namur",
     "La Louvière",
     "Nivelles",
+    "Enghien",
+    "Ath",
+    "Binche",
+    "Tournai",
+    "Gembloux",
   ],
   sameAs: ["https://www.linkedin.com/company/optmiz/"] as string[],
   title: {
@@ -158,6 +165,22 @@ export const sitePages: SitePage[] = [
       "Contactez Optmiz pour un diagnostic gratuit : automatisation et digitalisation des processus pour PME en Wallonie.",
     changeFrequency: "yearly",
     priority: 0.7,
+  },
+  {
+    path: "/rendez-vous",
+    title: "Réserver une visite gratuite chez vous · Optmiz",
+    description:
+      "Choisissez un créneau en ligne : Optmiz se déplace chez vous en Wallonie pour un premier diagnostic gratuit de 45 minutes, sans engagement.",
+    changeFrequency: "monthly",
+    priority: 0.9,
+  },
+  {
+    path: "/zones",
+    title: "Zones d’intervention Optmiz · Wallonie & Bruxelles",
+    description:
+      "Optmiz intervient auprès des PME à Soignies, Mons, Charleroi, Namur, Braine-le-Comte et dans toute la Wallonie. Réservez une visite sur place.",
+    changeFrequency: "monthly",
+    priority: 0.8,
   },
 ];
 

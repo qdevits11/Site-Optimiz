@@ -22,10 +22,12 @@ export function Footer() {
           <Link href="/services">Services</Link>
           <Link href="/notre-methodologie">Méthode</Link>
           <Link href="/cas-concrets">Cas concrets</Link>
+          <Link href="/zones">Zones</Link>
           <Link href="/ressources">Ressources</Link>
           <Link href="/tarifs">Tarifs</Link>
           <Link href="/pourquoi-nous">Pourquoi nous</Link>
           <Link href="/faq">FAQ</Link>
+          <Link href="/rendez-vous">Rendez-vous</Link>
           <Link href="/contact">Contact</Link>
           <a
             href="https://www.linkedin.com/company/optmiz/"

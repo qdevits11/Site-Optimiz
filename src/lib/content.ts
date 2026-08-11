@@ -80,7 +80,11 @@ export const caseStudies: AccordionItem[] = [
 export const generalFaqs = [
   {
     q: "Optmiz intervient-il partout en Belgique ?",
-    a: "Optmiz est basé à Soignies et intervient principalement auprès de PME en Wallonie (Hainaut, Bruxelles, Nivelles) et à distance pour les échanges qui ne nécessitent pas de présence terrain.",
+    a: "Optmiz est basé à Soignies et intervient principalement auprès de PME en Wallonie (Hainaut, Brabant wallon, Namur, Bruxelles) — notamment à Mons, Charleroi, Namur, Braine-le-Comte, La Louvière — et à distance pour les échanges qui ne nécessitent pas de présence terrain. La liste des villes est sur la page Zones.",
+  },
+  {
+    q: "Puis-je réserver une visite sur mon lieu de travail ?",
+    a: "Oui. Sur la page Rendez-vous vous choisissez un créneau en ligne : première visite gratuite d’environ 45 minutes chez vous, confirmée sous 24h ouvrées.",
   },
   {
     q: "Qu'est-ce que l'automatisation de processus, concrètement ?",

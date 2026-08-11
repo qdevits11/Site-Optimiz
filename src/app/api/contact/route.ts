@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { getMailConfig, isMailConfigured } from "@/config/mail";
+import { formatSlotForDisplay, isValidSlotId } from "@/lib/booking";
 
 export const runtime = "nodejs";
 
 type ContactPayload = {
-  type?: "contact" | "devis";
+  type?: "contact" | "devis" | "booking";
   name: string;
   phone?: string;
   email: string;
@@ -17,6 +18,9 @@ type ContactPayload = {
   pain?: string;
   companySize?: string;
   budget?: string;
+  address?: string;
+  city?: string;
+  slotId?: string;
 };
 
 function escapeHtml(value: string) {
@@ -28,40 +32,58 @@ function escapeHtml(value: string) {
 }
 
 function buildEmailHtml(data: ContactPayload) {
-  const isDevis = data.type === "devis";
-  const rows: [string, string][] = isDevis
-    ? [
-        ["Nom", data.name],
-        ["Téléphone", data.phone || "non renseigné"],
-        ["Mail", data.email],
-        ["Société", data.company],
-        ["Code postal", data.postalCode || "non renseigné"],
-        ["Besoin", data.need || "non renseigné"],
-        ["Frein principal", data.pain || "non renseigné"],
-        ["Taille", data.companySize || "non renseigné"],
-        ["Budget", data.budget || "non renseigné"],
-        ["Commentaire", data.comment || "non renseigné"],
-      ]
-    : [
-        ["Nom", data.name],
-        ["Téléphone", data.phone || "non renseigné"],
-        ["Mail", data.email],
-        ["Société", data.company],
-        ["Principal enjeu", data.challenge || "non renseigné"],
-      ];
+  const type = data.type ?? "contact";
+  const rows: [string, string][] =
+    type === "devis"
+      ? [
+          ["Nom", data.name],
+          ["Téléphone", data.phone || "non renseigné"],
+          ["Mail", data.email],
+          ["Société", data.company],
+          ["Code postal", data.postalCode || "non renseigné"],
+          ["Besoin", data.need || "non renseigné"],
+          ["Frein principal", data.pain || "non renseigné"],
+          ["Taille", data.companySize || "non renseigné"],
+          ["Budget", data.budget || "non renseigné"],
+          ["Commentaire", data.comment || "non renseigné"],
+        ]
+      : type === "booking"
+        ? [
+            ["Nom", data.name],
+            ["Téléphone", data.phone || "non renseigné"],
+            ["Mail", data.email],
+            ["Société", data.company],
+            ["Créneau souhaité", data.slotId ? formatSlotForDisplay(data.slotId) : "non renseigné"],
+            ["Ville", data.city || "non renseigné"],
+            ["Adresse de visite", data.address || "non renseigné"],
+            ["Sujet", data.challenge || "non renseigné"],
+          ]
+        : [
+            ["Nom", data.name],
+            ["Téléphone", data.phone || "non renseigné"],
+            ["Mail", data.email],
+            ["Société", data.company],
+            ["Principal enjeu", data.challenge || "non renseigné"],
+          ];
+
+  const heading =
+    type === "devis"
+      ? "Nouvelle demande de devis Optmiz"
+      : type === "booking"
+        ? "Nouvelle réservation de visite Optmiz"
+        : "Nouvelle demande Optmiz";
+
+  const intro =
+    type === "devis"
+      ? "Un visiteur a complété le formulaire de qualification."
+      : type === "booking"
+        ? "Un visiteur a demandé un créneau pour une première visite sur site."
+        : "Un visiteur a complété le formulaire de contact.";
 
   return `
     <div style="font-family: Arial, sans-serif; color: #142e26; line-height: 1.5;">
-      <h1 style="font-size: 20px; margin-bottom: 16px;">
-        ${isDevis ? "Nouvelle demande de devis Optmiz" : "Nouvelle demande Optmiz"}
-      </h1>
-      <p style="margin-bottom: 20px;">
-        ${
-          isDevis
-            ? "Un visiteur a complété le formulaire de qualification."
-            : "Un visiteur a complété le formulaire de contact."
-        }
-      </p>
+      <h1 style="font-size: 20px; margin-bottom: 16px;">${heading}</h1>
+      <p style="margin-bottom: 20px;">${intro}</p>
       <table style="border-collapse: collapse; width: 100%; max-width: 640px;">
         ${rows
           .map(
@@ -94,7 +116,8 @@ export async function POST(request: Request) {
     }
 
     const body = (await request.json()) as Partial<ContactPayload>;
-    const type = body.type === "devis" ? "devis" : "contact";
+    const type =
+      body.type === "devis" ? "devis" : body.type === "booking" ? "booking" : "contact";
     const name = body.name?.trim() ?? "";
     const email = body.email?.trim() ?? "";
     const company = body.company?.trim() ?? "";
@@ -106,6 +129,9 @@ export async function POST(request: Request) {
     const pain = body.pain?.trim() ?? "";
     const companySize = body.companySize?.trim() ?? "";
     const budget = body.budget?.trim() ?? "";
+    const address = body.address?.trim() ?? "";
+    const city = body.city?.trim() ?? "";
+    const slotId = body.slotId?.trim() ?? "";
 
     if (!name || !email || !company) {
       return NextResponse.json(
@@ -118,6 +144,21 @@ export async function POST(request: Request) {
       if (!postalCode || !need || !pain || !companySize || !budget) {
         return NextResponse.json(
           { error: "Merci de compléter toutes les étapes du formulaire." },
+          { status: 400 },
+        );
+      }
+    }
+
+    if (type === "booking") {
+      if (!phone || !address || !city || !slotId) {
+        return NextResponse.json(
+          { error: "Merci de choisir un créneau et d’indiquer téléphone, ville et adresse." },
+          { status: 400 },
+        );
+      }
+      if (!isValidSlotId(slotId)) {
+        return NextResponse.json(
+          { error: "Ce créneau n’est plus disponible. Choisissez un autre horaire." },
           { status: 400 },
         );
       }
@@ -148,12 +189,17 @@ export async function POST(request: Request) {
       pain,
       companySize,
       budget,
+      address,
+      city,
+      slotId,
     };
 
     const subject =
       type === "devis"
         ? `Nouvelle demande de devis (${company}${postalCode ? ` · ${postalCode}` : ""})`
-        : `Nouvelle demande contact (${company})`;
+        : type === "booking"
+          ? `Réservation visite (${company}${city ? ` · ${city}` : ""}${slotId ? ` · ${formatSlotForDisplay(slotId)}` : ""})`
+          : `Nouvelle demande contact (${company})`;
 
     const textLines =
       type === "devis"
@@ -171,15 +217,28 @@ export async function POST(request: Request) {
             `Budget: ${budget}`,
             `Commentaire: ${comment || "non renseigné"}`,
           ]
-        : [
-            "Nouvelle demande Optmiz",
-            "",
-            `Nom: ${name}`,
-            `Téléphone: ${phone || "non renseigné"}`,
-            `Mail: ${email}`,
-            `Société: ${company}`,
-            `Principal enjeu: ${challenge || "non renseigné"}`,
-          ];
+        : type === "booking"
+          ? [
+              "Nouvelle réservation de visite Optmiz",
+              "",
+              `Nom: ${name}`,
+              `Téléphone: ${phone}`,
+              `Mail: ${email}`,
+              `Société: ${company}`,
+              `Créneau: ${formatSlotForDisplay(slotId)}`,
+              `Ville: ${city}`,
+              `Adresse: ${address}`,
+              `Sujet: ${challenge || "non renseigné"}`,
+            ]
+          : [
+              "Nouvelle demande Optmiz",
+              "",
+              `Nom: ${name}`,
+              `Téléphone: ${phone || "non renseigné"}`,
+              `Mail: ${email}`,
+              `Société: ${company}`,
+              `Principal enjeu: ${challenge || "non renseigné"}`,
+            ];
 
     const info = await transporter.sendMail({
       from: mailConfig.from,

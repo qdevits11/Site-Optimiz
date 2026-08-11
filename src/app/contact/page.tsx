@@ -11,7 +11,7 @@ export const metadata: Metadata = pageMetadata(page);
 
 const infoItems = [
   { label: "Localisation", value: `${siteConfig.location.city}, ${siteConfig.location.region}` },
-  { label: "Zone d’intervention", value: "Wallonie (Hainaut, Bruxelles, Nivelles) et à distance" },
+  { label: "Zone d’intervention", value: "Wallonie & Bruxelles (pages locales)" },
   { label: "Téléphone", value: siteConfig.phoneDisplay, href: siteConfig.phoneHref },
   { label: "Email", value: siteConfig.email, href: `mailto:${siteConfig.email}` },
   { label: "Réponse", value: "Sous 24h ouvrées" },
@@ -31,7 +31,10 @@ export default function ContactPage() {
             Parlons de <span className="text-accent">votre situation</span>
           </>
         }
-        subtitle="Un premier échange de 30 minutes, gratuit et sans engagement, pour savoir si Optmiz peut vous aider."
+        subtitle="Un premier échange de 30 à 45 minutes, gratuit et sans engagement — sur place chez vous ou à distance."
+        ctaHref="/rendez-vous"
+        ctaLabel="Réserver une visite"
+        note="Gratuit · Sans engagement · Confirmation sous 24h"
       />
 
       <section className="page-section">
@@ -60,7 +63,11 @@ export default function ContactPage() {
             ))}
           </div>
           <p className="page-lead" style={{ marginTop: "1.1rem" }}>
-            Une question avant de réserver un créneau ? Consultez la{" "}
+            Pour une visite sur votre lieu de travail,{" "}
+            <Link href="/rendez-vous" className="text-link">
+              réservez un créneau en ligne
+            </Link>
+            . Une question avant ? Consultez la{" "}
             <Link href="/faq" className="text-link">
               FAQ
             </Link>{" "}
@@ -68,6 +75,13 @@ export default function ContactPage() {
             <a href={`mailto:${siteConfig.email}`} className="text-link">
               {siteConfig.email}
             </a>
+            .
+          </p>
+          <p className="page-lead" style={{ marginTop: "0.5rem" }}>
+            Vous cherchez Optmiz près de chez vous ? Voir nos{" "}
+            <Link href="/zones" className="text-link">
+              zones d’intervention
+            </Link>
             .
           </p>
           <p className="page-lead" style={{ marginTop: "0.5rem" }}>

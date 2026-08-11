@@ -7,6 +7,8 @@ type PageHeroProps = {
   note?: string;
   eyebrow?: string;
   breadcrumbs?: Crumb[];
+  ctaHref?: string;
+  ctaLabel?: string;
 };
 
 export function PageHero({
@@ -15,6 +17,8 @@ export function PageHero({
   note = "Sans engagement · Réponse sous 24h",
   eyebrow,
   breadcrumbs,
+  ctaHref = "/#devis",
+  ctaLabel = "Obtenir mon devis gratuit",
 }: PageHeroProps) {
   return (
     <section className="page-shell">
@@ -25,11 +29,11 @@ export function PageHero({
         <p className="section-lead">{subtitle}</p>
         <div style={{ marginTop: "1.35rem" }}>
           <Link
-            href="/#devis"
+            href={ctaHref}
             className="btn-primary-glow section-cta"
             style={{ display: "inline-flex" }}
           >
-            Obtenir mon devis gratuit
+            {ctaLabel}
           </Link>
           <p className="hero-note font-mono">{note}</p>
         </div>

@@ -10,18 +10,19 @@ export function CTA() {
           <div className="contact-heading">
             <p className="eyebrow font-mono">Étape suivante</p>
             <h2 className="font-display">
-              Obtenez votre <span className="text-accent">devis gratuit</span>
+              On vient <span className="text-accent">chez vous</span>
             </h2>
             <p className="section-lead">
-              Quelques questions pour cadrer votre besoin. Sans engagement. Réponse sous 24h.
+              Réservez un créneau pour une première visite gratuite sur votre lieu de travail — ou
+              démarrez un devis guidé en ligne.
             </p>
           </div>
           <div className="inline-actions" style={{ alignSelf: "center" }}>
-            <Link href="/#devis" className="btn-primary-glow btn-cta section-cta">
-              Commencer mon devis
+            <Link href="/rendez-vous" className="btn-primary-glow btn-cta section-cta">
+              Réserver une visite
             </Link>
-            <Link href="/contact" className="btn-ghost section-cta">
-              Contact simple
+            <Link href="/#devis" className="btn-ghost section-cta">
+              Devis guidé
             </Link>
           </div>
         </div>

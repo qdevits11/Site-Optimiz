@@ -6,7 +6,7 @@
 - Site: https://www.optmiz.be
 - Email: contact@optmiz.be
 - Localisation: Soignies, Wallonie, Belgique
-- Zone d'intervention: Wallonie (Hainaut, Bruxelles, Nivelles) et à distance
+- Zone d'intervention: Wallonie (Hainaut, Brabant wallon, Namur, Bruxelles) et à distance — pages locales sur /zones
 - Fondateur: Quentin Devits
 - Langue du site: français (Belgique)
 
@@ -15,7 +15,7 @@
 Optmiz accompagne les PME belges pour automatiser les tâches répétitives et digitaliser les processus métier. L'approche part du terrain (flux réels, outils existants, habitudes d'équipe), pas d'une stack théorique.
 
 Promesses commerciales clés:
-- Diagnostic gratuit et sans engagement
+- Diagnostic gratuit et sans engagement (visite sur site réservable en ligne sur /rendez-vous)
 - Réponse sous 24h après demande
 - Prix fixe cadré avant démarrage
 - Solutions simples que les équipes adoptent réellement
@@ -87,7 +87,10 @@ Parcours commercial typique:
 ## FAQ essentielles
 
 Q: Optmiz intervient-il partout en Belgique ?
-A: Optmiz est basé à Soignies et intervient principalement en Wallonie (Hainaut, Bruxelles, Nivelles), et à distance pour les échanges qui ne nécessitent pas de présence terrain.
+A: Optmiz est basé à Soignies et intervient principalement en Wallonie (Hainaut, Brabant wallon, Namur, Bruxelles) — pages locales sur /zones — et à distance pour les échanges qui ne nécessitent pas de présence terrain.
+
+Q: Puis-je réserver une visite sur mon lieu de travail ?
+A: Oui. Sur /rendez-vous vous choisissez un créneau en ligne : première visite gratuite d'environ 45 minutes chez vous, confirmée sous 24h ouvrées.
 
 Q: Quelle est la différence entre automatisation et digitalisation ?
 A: Digitaliser, c'est transformer une information papier/manuelle en version numérique exploitable. Automatiser, c'est supprimer l'intervention humaine répétitive sur un processus déjà digitalisé.
