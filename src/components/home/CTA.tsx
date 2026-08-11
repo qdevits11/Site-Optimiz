@@ -18,7 +18,7 @@ export function CTA() {
             </p>
           </div>
           <div className="inline-actions" style={{ alignSelf: "center" }}>
-            <Link href="/rendez-vous" className="btn-primary-glow btn-cta section-cta">
+            <Link href="/#devis" className="btn-primary-glow btn-cta section-cta">
               Réserver une visite
             </Link>
             <Link href="/#devis" className="btn-ghost section-cta">

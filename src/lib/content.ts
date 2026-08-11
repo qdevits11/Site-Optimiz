@@ -84,7 +84,7 @@ export const generalFaqs = [
   },
   {
     q: "Puis-je réserver une visite sur mon lieu de travail ?",
-    a: "Oui. Après le questionnaire de devis, vous choisissez un créneau via Calendly (agenda synchronisé). La visite se fait à l’adresse que vous indiquez. Vous pouvez aussi passer par la page Rendez-vous.",
+    a: "Oui. Après le questionnaire de devis sur la page d’accueil, vous choisissez un créneau via Calendly (agenda synchronisé). La visite se fait à l’adresse que vous indiquez.",
   },
   {
     q: "Qu'est-ce que l'automatisation de processus, concrètement ?",

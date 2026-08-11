@@ -28,7 +28,7 @@ export default function ZonesPage() {
           </>
         }
         subtitle="Basés à Soignies, nous nous déplaçons chez les PME wallonnes pour un premier diagnostic gratuit — sur votre lieu de travail."
-        ctaHref="/rendez-vous"
+        ctaHref="/#devis"
         ctaLabel="Réserver une visite"
         note="Soignies · Hainaut · Brabant wallon · Namur · Bruxelles"
       />
@@ -69,10 +69,11 @@ export default function ZonesPage() {
           <h2 className="page-title">On vient chez vous</h2>
           <p className="page-lead">
             Le premier rendez-vous se fait de préférence sur votre lieu de travail : c’est là que
-            se voient les process réels. Réservez un créneau en ligne, gratuit et sans engagement.
+            se voient les process réels. Passez par le devis guidé pour choisir un créneau
+            synchronisé avec l’agenda Optmiz.
           </p>
           <div style={{ marginTop: "1.25rem" }}>
-            <Link href="/rendez-vous" className="btn-primary-glow section-cta" style={{ display: "inline-flex" }}>
+            <Link href="/#devis" className="btn-primary-glow section-cta" style={{ display: "inline-flex" }}>
               Réserver un créneau
             </Link>
           </div>

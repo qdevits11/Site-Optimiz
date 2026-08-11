@@ -88,8 +88,7 @@ export function Nav() {
             { href: "/", label: "Accueil" },
             ...links,
             { href: "/pourquoi-nous", label: "Pourquoi nous" },
-            { href: "/rendez-vous", label: "Réserver une visite" },
-            { href: "/#devis", label: "Devis gratuit" },
+            { href: "/#devis", label: "Réserver une visite" },
           ].map((link, index) => (
             <Link
               key={`${link.href}-${link.label}`}
@@ -145,7 +144,7 @@ export function Nav() {
             </nav>
 
             <div className="nav-actions">
-              <Link ref={ctaMagnet} href="/rendez-vous" className="nav-cta btn-primary-glow">
+              <Link ref={ctaMagnet} href="/#devis" className="nav-cta btn-primary-glow">
                 Réserver une visite
               </Link>
               <button

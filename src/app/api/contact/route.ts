@@ -1,14 +1,13 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { getMailConfig, isMailConfigured } from "@/config/mail";
-import { formatSlotForDisplay, isValidSlotId } from "@/lib/booking";
 import { buildCalendlyPrefillUrl, getCalendlyUrl, isCalendlyConfigured } from "@/lib/calendly";
 import { siteConfig } from "@/lib/seo";
 
 export const runtime = "nodejs";
 
 type ContactPayload = {
-  type?: "contact" | "devis" | "booking";
+  type?: "contact" | "devis";
   name: string;
   phone?: string;
   email: string;
@@ -22,7 +21,6 @@ type ContactPayload = {
   budget?: string;
   address?: string;
   city?: string;
-  slotId?: string;
   sendClientCalendly?: boolean;
 };
 
@@ -52,38 +50,21 @@ function buildEmailHtml(data: ContactPayload, calendlyUrl?: string) {
           ["Budget", data.budget || "non renseigné"],
           ["Commentaire", data.comment || "non renseigné"],
         ]
-      : type === "booking"
-        ? [
-            ["Nom", data.name],
-            ["Téléphone", data.phone || "non renseigné"],
-            ["Mail", data.email],
-            ["Société", data.company],
-            ["Créneau souhaité", data.slotId ? formatSlotForDisplay(data.slotId) : "non renseigné"],
-            ["Ville", data.city || "non renseigné"],
-            ["Adresse de visite", data.address || "non renseigné"],
-            ["Sujet", data.challenge || "non renseigné"],
-          ]
-        : [
-            ["Nom", data.name],
-            ["Téléphone", data.phone || "non renseigné"],
-            ["Mail", data.email],
-            ["Société", data.company],
-            ["Principal enjeu", data.challenge || "non renseigné"],
-          ];
+      : [
+          ["Nom", data.name],
+          ["Téléphone", data.phone || "non renseigné"],
+          ["Mail", data.email],
+          ["Société", data.company],
+          ["Principal enjeu", data.challenge || "non renseigné"],
+        ];
 
   const heading =
-    type === "devis"
-      ? "Nouvelle demande de devis Optmiz"
-      : type === "booking"
-        ? "Nouvelle réservation de visite Optmiz"
-        : "Nouvelle demande Optmiz";
+    type === "devis" ? "Nouvelle demande de devis Optmiz" : "Nouvelle demande Optmiz";
 
   const intro =
     type === "devis"
       ? "Un visiteur a complété le formulaire de qualification. Il choisit ensuite un créneau Calendly pour la visite sur site."
-      : type === "booking"
-        ? "Un visiteur a demandé un créneau pour une première visite sur site."
-        : "Un visiteur a complété le formulaire de contact.";
+      : "Un visiteur a complété le formulaire de contact.";
 
   const calendlyBlock =
     calendlyUrl && type === "devis"
@@ -164,8 +145,7 @@ export async function POST(request: Request) {
     }
 
     const body = (await request.json()) as Partial<ContactPayload>;
-    const type =
-      body.type === "devis" ? "devis" : body.type === "booking" ? "booking" : "contact";
+    const type = body.type === "devis" ? "devis" : "contact";
     const name = body.name?.trim() ?? "";
     const email = body.email?.trim() ?? "";
     const company = body.company?.trim() ?? "";
@@ -179,7 +159,6 @@ export async function POST(request: Request) {
     const budget = body.budget?.trim() ?? "";
     const address = body.address?.trim() ?? "";
     const city = body.city?.trim() ?? "";
-    const slotId = body.slotId?.trim() ?? "";
     const sendClientCalendly = Boolean(body.sendClientCalendly);
 
     if (!name || !email || !company) {
@@ -202,21 +181,6 @@ export async function POST(request: Request) {
             error:
               "Merci d’indiquer téléphone, ville et adresse de visite pour organiser le rendez-vous.",
           },
-          { status: 400 },
-        );
-      }
-    }
-
-    if (type === "booking") {
-      if (!phone || !address || !city || !slotId) {
-        return NextResponse.json(
-          { error: "Merci de choisir un créneau et d’indiquer téléphone, ville et adresse." },
-          { status: 400 },
-        );
-      }
-      if (!isValidSlotId(slotId)) {
-        return NextResponse.json(
-          { error: "Ce créneau n’est plus disponible. Choisissez un autre horaire." },
           { status: 400 },
         );
       }
@@ -255,16 +219,13 @@ export async function POST(request: Request) {
       budget,
       address,
       city,
-      slotId,
       sendClientCalendly,
     };
 
     const subject =
       type === "devis"
         ? `Nouvelle demande de devis (${company}${city ? ` · ${city}` : postalCode ? ` · ${postalCode}` : ""})`
-        : type === "booking"
-          ? `Réservation visite (${company}${city ? ` · ${city}` : ""}${slotId ? ` · ${formatSlotForDisplay(slotId)}` : ""})`
-          : `Nouvelle demande contact (${company})`;
+        : `Nouvelle demande contact (${company})`;
 
     const textLines =
       type === "devis"
@@ -285,28 +246,15 @@ export async function POST(request: Request) {
             `Commentaire: ${comment || "non renseigné"}`,
             calendlyUrl ? `Calendly client: ${calendlyUrl}` : "",
           ].filter(Boolean)
-        : type === "booking"
-          ? [
-              "Nouvelle réservation de visite Optmiz",
-              "",
-              `Nom: ${name}`,
-              `Téléphone: ${phone}`,
-              `Mail: ${email}`,
-              `Société: ${company}`,
-              `Créneau: ${formatSlotForDisplay(slotId)}`,
-              `Ville: ${city}`,
-              `Adresse: ${address}`,
-              `Sujet: ${challenge || "non renseigné"}`,
-            ]
-          : [
-              "Nouvelle demande Optmiz",
-              "",
-              `Nom: ${name}`,
-              `Téléphone: ${phone || "non renseigné"}`,
-              `Mail: ${email}`,
-              `Société: ${company}`,
-              `Principal enjeu: ${challenge || "non renseigné"}`,
-            ];
+        : [
+            "Nouvelle demande Optmiz",
+            "",
+            `Nom: ${name}`,
+            `Téléphone: ${phone || "non renseigné"}`,
+            `Mail: ${email}`,
+            `Société: ${company}`,
+            `Principal enjeu: ${challenge || "non renseigné"}`,
+          ];
 
     const info = await transporter.sendMail({
       from: mailConfig.from,

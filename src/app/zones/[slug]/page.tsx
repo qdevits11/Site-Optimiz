@@ -44,7 +44,7 @@ export default async function CityPage({ params }: CityPageProps) {
   const faqs = [
     {
       q: `Vous déplacez-vous à ${city.name} ?`,
-      a: `Oui. Optmiz est basé à Soignies et se déplace à ${city.name} et dans la région pour un premier rendez-vous gratuit sur votre lieu de travail. Vous pouvez aussi réserver un créneau en ligne.`,
+      a: `Oui. Optmiz est basé à Soignies et se déplace à ${city.name} et dans la région pour un premier rendez-vous gratuit sur votre lieu de travail. Réservez via le devis guidé sur la page d’accueil : questionnaire puis créneau Calendly.`,
     },
     {
       q: `Que peut-on automatiser dans une PME à ${city.name} ?`,
@@ -126,7 +126,7 @@ export default async function CityPage({ params }: CityPageProps) {
           </>
         }
         subtitle={city.intro}
-        ctaHref="/rendez-vous"
+        ctaHref="/#devis"
         ctaLabel="Réserver une visite sur place"
         note={`${city.province} · ${city.postalCode} · ${city.populationLabel} habitants`}
       />
@@ -168,7 +168,7 @@ export default async function CityPage({ params }: CityPageProps) {
               </div>
             </dl>
             <Link
-              href={`/rendez-vous`}
+              href="/#devis"
               className="btn-primary-glow section-cta"
               style={{ display: "inline-flex", marginTop: "1rem" }}
             >
@@ -256,7 +256,7 @@ export default async function CityPage({ params }: CityPageProps) {
             écrivez-nous si vous préférez commencer par un message.
           </p>
           <div className="inline-actions" style={{ marginTop: "1.25rem" }}>
-            <Link href="/rendez-vous" className="btn-primary-glow section-cta">
+            <Link href="/#devis" className="btn-primary-glow section-cta">
               Réserver un créneau
             </Link>
             <Link href="/contact" className="btn-ghost section-cta">

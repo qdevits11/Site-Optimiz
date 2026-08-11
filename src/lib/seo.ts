@@ -167,14 +167,6 @@ export const sitePages: SitePage[] = [
     priority: 0.7,
   },
   {
-    path: "/rendez-vous",
-    title: "Réserver une visite gratuite chez vous · Optmiz",
-    description:
-      "Choisissez un créneau en ligne : Optmiz se déplace chez vous en Wallonie pour un premier diagnostic gratuit de 45 minutes, sans engagement.",
-    changeFrequency: "monthly",
-    priority: 0.9,
-  },
-  {
     path: "/zones",
     title: "Zones d’intervention Optmiz · Wallonie & Bruxelles",
     description:
