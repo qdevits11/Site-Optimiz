@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+import { markIntroDone } from "@/lib/intro";
 
 const CustomCursor = dynamic(
   () => import("@/components/ui/CustomCursor").then((m) => m.CustomCursor),
@@ -30,13 +31,24 @@ export function ClientEffects() {
       // Intro only when the document itself was loaded on the homepage.
       if (bootPath === "/") {
         setShowIntro(true);
+      } else {
+        markIntroDone();
       }
+    } else if (!showIntro) {
+      markIntroDone();
     }
-  }, []);
+  }, [showIntro]);
 
   return (
     <>
-      {showIntro ? <Preloader onDone={() => setShowIntro(false)} /> : null}
+      {showIntro ? (
+        <Preloader
+          onDone={() => {
+            markIntroDone();
+            setShowIntro(false);
+          }}
+        />
+      ) : null}
       <GradientOrbs />
       <CustomCursor />
     </>

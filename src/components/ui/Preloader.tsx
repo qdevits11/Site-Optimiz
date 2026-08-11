@@ -10,7 +10,12 @@ type PreloaderProps = {
 
 export function Preloader({ onDone }: PreloaderProps) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const onDoneRef = useRef(onDone);
   const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    onDoneRef.current = onDone;
+  }, [onDone]);
 
   useEffect(() => {
     registerGsap();
@@ -18,7 +23,7 @@ export function Preloader({ onDone }: PreloaderProps) {
 
     if (reduced) {
       setVisible(false);
-      onDone?.();
+      onDoneRef.current?.();
       return;
     }
 
@@ -36,7 +41,7 @@ export function Preloader({ onDone }: PreloaderProps) {
       onComplete: () => {
         document.body.classList.remove("is-preloading");
         setVisible(false);
-        onDone?.();
+        onDoneRef.current?.();
       },
     });
 
@@ -62,7 +67,7 @@ export function Preloader({ onDone }: PreloaderProps) {
       tl.kill();
       document.body.classList.remove("is-preloading");
     };
-  }, [onDone]);
+  }, []);
 
   if (!visible) return null;
 
