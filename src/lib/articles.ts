@@ -280,52 +280,52 @@ export const articles: Article[] = [
     ],
   },
   {
-    slug: "generer-leads-qualifies-site-web-pme",
-    title: "Générer des leads qualifiés grâce à un site web bien conçu (sans frustrer vos prospects)",
+    slug: "outils-integres-site-internet-pme",
+    title: "Formulaires, calendrier, boutique en ligne : les outils qui rendent un site internet vraiment utile",
     description:
-      "Un site qui reçoit des visites ne sert à rien s'il ne transforme pas ces visites en demandes qualifiées. Formulaire structuré, mail automatique, prise de rendez-vous en ligne : ce qui fait vraiment la différence.",
+      "Un site vitrine sans outils intégrés reste un dépliant numérique. Formulaire structuré, prise de rendez-vous en ligne, boutique en ligne : ce qui transforme un site en véritable outil pour votre PME.",
     excerpt:
-      "Recevoir des visites ne suffit pas. Voici comment un site bien conçu transforme un visiteur en lead qualifié, sans le frustrer en cours de route.",
+      "Un site qui reçoit des visites ne sert à rien s'il ne fait rien de ces visites. Voici les outils qui changent vraiment la donne.",
     publishedAt: "2026-08-11",
-    readingMinutes: 5,
+    readingMinutes: 6,
     sections: [
       {
         paragraphs: [
-          "Beaucoup de PME ont un site internet qui reçoit des visites… et qui ne génère presque aucune demande exploitable. Le problème n'est presque jamais le trafic : c'est ce qui se passe entre l'arrivée du visiteur et le moment où il devient une vraie opportunité commerciale.",
+          "Beaucoup de PME ont un site internet qui reçoit des visites… et qui ne génère presque aucune demande, aucune vente, aucun rendez-vous. Le problème n'est presque jamais le trafic : c'est l'absence d'outils qui transforment une visite en action concrète. Un site vitrine sans rien derrière reste un dépliant numérique, quel que soit son design.",
         ],
       },
       {
         heading: "Un formulaire structuré vaut mieux qu'une simple adresse mail",
         paragraphs: [
-          "Afficher \"contact@entreprise.be\" laisse le visiteur seul face à la page blanche d'un mail : il doit deviner quoi écrire, et beaucoup abandonnent avant d'avoir tapé une ligne. Un formulaire structuré (nom, société, coordonnées, et surtout une question ciblée comme \"quel est votre principal frein aujourd'hui ?\") fait le travail à sa place.",
-          "Le résultat n'est pas seulement plus de demandes : c'est des demandes qualifiées. Vous savez déjà, avant même le premier échange, à qui vous parlez et sur quoi porte le besoin. C'est exactement ce que fait le formulaire de diagnostic sur ce site.",
+          "Afficher \"contact@entreprise.be\" laisse le visiteur seul face à la page blanche d'un mail : il doit deviner quoi écrire, et beaucoup abandonnent avant d'avoir tapé une ligne. Un formulaire structuré (nom, société, coordonnées, et une question ciblée comme \"quel est votre principal frein aujourd'hui ?\") fait le travail à sa place, et transforme une simple visite en demande qualifiée : vous savez déjà, avant le premier échange, à qui vous parlez et sur quoi porte le besoin.",
+          "Le risque, ensuite, est de frustrer ce prospect si vous ne pouvez pas le prendre en charge tout de suite. Un engagement clair (\"réponse sous 24h\") affiché au moment de la demande, suivi d'une confirmation automatique immédiate, suffit à éviter que le silence ne le fasse partir voir ailleurs.",
         ],
       },
       {
-        heading: "Le risque numéro un : frustrer un prospect que vous ne pouvez pas prendre en charge tout de suite",
+        heading: "Un calendrier de prise de rendez-vous en ligne",
         paragraphs: [
-          "Un formulaire qui capte une demande mais reste sans réponse claire pendant plusieurs jours produit l'effet inverse de celui recherché : le prospect se sent ignoré, et va voir ailleurs. Le problème n'est pas de ne pas pouvoir répondre immédiatement, c'est de laisser le silence s'installer.",
-          "La solution la plus simple est aussi la plus efficace : un engagement clair et tenu (\"réponse sous 24h\", par exemple) affiché au moment de la demande, puis une confirmation automatique immédiate qui rassure le prospect que sa demande est bien arrivée. Ce n'est pas de la vitesse à tout prix, c'est de la prévisibilité.",
+          "Les allers-retours par mail pour trouver une heure qui convient à tout le monde sont une friction inutile, et une source d'abandon. Proposer un système de réservation de créneau directement sur le site supprime cette friction : le prospect choisit lui-même un moment disponible dans votre agenda, sans négociation.",
+          "C'est aussi un gain de temps réel pour vous, et une image professionnelle dès le premier contact. Un mail automatique envoyé juste après la réservation peut en plus préparer le rendez-vous : expliquer le déroulé, rassurer sur l'absence d'engagement, donner une idée claire de ce qui sera abordé.",
         ],
       },
       {
-        heading: "Automatiser un mail d'accueil avant le premier rendez-vous",
+        heading: "Une boutique en ligne quand la vente s'y prête",
         paragraphs: [
-          "Entre l'envoi du formulaire et le premier échange, il y a souvent un vide : le prospect ne sait pas à quoi s'attendre, combien de temps ça va durer, ni ce qu'il doit préparer. Un mail automatique envoyé juste après la demande peut combler ce vide : expliquer le déroulé du premier échange, rassurer sur l'absence d'engagement, donner une idée claire de ce qui sera abordé.",
-          "Ce mail ne remplace pas le contact humain, il le prépare. Un prospect qui arrive au rendez-vous en sachant à quoi s'attendre est plus engagé, pose de meilleures questions, et avance plus vite dans sa décision.",
+          "Pour une activité qui vend des produits ou des prestations standardisées, une boutique en ligne réduit directement le nombre de commandes prises par téléphone ou par mail : le client choisit, paie et reçoit une confirmation sans intervention humaine à chaque étape.",
+          "Bien conçue, elle synchronise le stock en temps réel (pour ne jamais vendre ce qui n'est plus disponible), sécurise le paiement, et libère du temps commercial pour les demandes qui ont réellement besoin d'un humain.",
         ],
       },
       {
-        heading: "Laisser le prospect réserver lui-même un créneau",
+        heading: "D'autres outils, selon ce que votre activité demande",
         paragraphs: [
-          "Les allers-retours par mail pour trouver une heure qui convient à tout le monde sont une friction inutile, et une source d'abandon. Proposer un système de réservation de créneau directement sur le site (le prospect choisit lui-même un moment disponible dans votre agenda) supprime cette friction et donne une image professionnelle et organisée dès le premier contact.",
-          "C'est aussi un gain de temps réel pour vous : moins de mails de coordination, moins de créneaux mal notés, et un agenda qui reste sous votre contrôle (vous définissez les plages disponibles, pas l'inverse).",
+          "Formulaires, calendrier et boutique en ligne couvrent la majorité des besoins, mais d'autres outils peuvent avoir du sens selon votre réalité : un espace client pour suivre une commande ou un dossier, une génération automatique de documents (devis, factures) à partir d'un formulaire, ou un chat pour répondre aux questions les plus fréquentes avant même le premier contact.",
+          "Aucun de ces outils n'est ajouté par défaut. Chacun répond à un besoin identifié pendant l'audit, jamais à une mode ou à une liste de fonctionnalités standard.",
         ],
       },
       {
-        heading: "Un site web n'est utile que s'il capture les bons leads",
+        heading: "Un site web n'est utile que s'il intègre les bons outils",
         paragraphs: [
-          "Un site \"joli\" qui ne fait rien de tout ça reste un dépliant numérique. Un site pensé pour qualifier, rassurer et faciliter la prise de rendez-vous devient un véritable outil commercial. C'est cette logique qui guide la manière dont nous concevons un site internet chez Optmiz : jamais pour la forme, toujours pour un résultat mesurable.",
+          "Un site \"joli\" qui ne fait rien de tout ça reste une carte de visite numérique. Un site pensé pour qualifier, vendre, faciliter la prise de rendez-vous ou suivre un dossier devient un véritable outil commercial. C'est cette logique qui guide la manière dont nous concevons un site internet chez Optmiz : jamais un outil pour la forme, toujours pour un résultat mesurable.",
         ],
       },
     ],
