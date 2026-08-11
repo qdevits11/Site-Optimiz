@@ -10,11 +10,11 @@ type BookBody = {
   start?: string;
   name?: string;
   email?: string;
-  phone?: string;
   company?: string;
   city?: string;
   address?: string;
-  note?: string;
+  need?: string;
+  companySize?: string;
 };
 
 function escapeHtml(value: string) {
@@ -49,16 +49,19 @@ export async function POST(request: Request) {
     const start = body.start?.trim() ?? "";
     const name = body.name?.trim() ?? "";
     const email = body.email?.trim() ?? "";
-    const phone = body.phone?.trim() ?? "";
     const company = body.company?.trim() ?? "";
     const city = body.city?.trim() ?? "";
     const address = body.address?.trim() ?? "";
-    const note = body.note?.trim() ?? "";
+    const need = body.need?.trim() ?? "";
+    const companySize = body.companySize?.trim() ?? "";
     const fullAddress = [address, city].filter(Boolean).join(", ");
 
-    if (!start || !name || !email || !phone || !address || !city) {
+    if (!start || !name || !email || !address || !city || !need || !companySize) {
       return NextResponse.json(
-        { error: "Nom, e-mail, téléphone, adresse, ville et créneau sont obligatoires." },
+        {
+          error:
+            "Nom, e-mail, adresse, ville, priorité, taille d’entreprise et créneau sont obligatoires.",
+        },
         { status: 400 },
       );
     }
@@ -67,10 +70,10 @@ export async function POST(request: Request) {
       start,
       name,
       email,
-      phone,
       address: fullAddress,
       company,
-      note,
+      need,
+      companySize,
     });
 
     if (isMailConfigured()) {
@@ -85,14 +88,14 @@ export async function POST(request: Request) {
       const slotLabel = formatSlot(start);
       const rows: [string, string][] = [
         ["Nom", name],
-        ["Téléphone", phone],
         ["Mail", email],
         ["Société", company || "non renseigné"],
+        ["Priorité", need],
+        ["Taille", companySize],
         ["Créneau", slotLabel],
         ["Ville", city],
         ["Adresse de visite", address],
-        ["Note", note || "non renseigné"],
-        ["Cal.com UID", booking?.uid || "n/a"],
+        ["Réservation", booking?.uid || "n/a"],
       ];
 
       await transporter.sendMail({
@@ -101,13 +104,13 @@ export async function POST(request: Request) {
         replyTo: email,
         subject: `Visite réservée (${company || name} · ${city} · ${slotLabel})`,
         text: [
-          "Nouvelle visite réservée via Cal.com",
+          "Nouvelle visite réservée",
           "",
           ...rows.map(([label, value]) => `${label}: ${value}`),
         ].join("\n"),
         html: `
           <div style="font-family: Arial, sans-serif; color: #142e26; line-height: 1.5;">
-            <h1 style="font-size: 20px;">Visite réservée via Cal.com</h1>
+            <h1 style="font-size: 20px;">Visite réservée</h1>
             <p>Le prospect a choisi un créneau synchronisé avec votre agenda.</p>
             <table style="border-collapse: collapse; width: 100%; max-width: 640px;">
               ${rows
@@ -125,7 +128,7 @@ export async function POST(request: Request) {
                 .join("")}
             </table>
             <p style="margin-top: 16px; font-size: 13px; color: #5a6b66;">
-              ${escapeHtml(siteConfig.name)} · confirmation aussi dans Cal.com / votre agenda
+              ${escapeHtml(siteConfig.name)} · aussi visible dans votre agenda
             </p>
           </div>
         `,

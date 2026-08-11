@@ -157,6 +157,8 @@ export type CreateCalBookingInput = {
   phone?: string;
   address: string;
   company?: string;
+  need?: string;
+  companySize?: string;
   note?: string;
 };
 
@@ -182,6 +184,8 @@ export async function createCalBooking(input: CreateCalBookingInput) {
     metadata: {
       source: "optmiz-site",
       ...(input.company ? { company: input.company.slice(0, 500) } : {}),
+      ...(input.need ? { need: input.need.slice(0, 500) } : {}),
+      ...(input.companySize ? { companySize: input.companySize.slice(0, 500) } : {}),
       ...(input.note ? { note: input.note.slice(0, 500) } : {}),
     },
   };
