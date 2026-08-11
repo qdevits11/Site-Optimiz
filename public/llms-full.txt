@@ -21,6 +21,16 @@ Promesses commerciales clés:
 - Solutions simples que les équipes adoptent réellement
 - Focus PME wallonnes / belges
 
+## Services (trois types de livrables, un seul process)
+
+Optmiz choisit le livrable et l'outil après l'audit terrain, jamais avant. Trois domaines d'intervention :
+
+1. Automatisation de processus — relances, calculs, notifications, pointages automatisés.
+2. Création de site internet sur mesure — construit uniquement quand il sert un besoin métier réel (configurateur, structuration commerciale, formulaires connectés au CRM), pas un site vitrine générique. Pas d'attachement à un CMS ou une techno particulière.
+3. Systèmes de gestion sur mesure (ERP/CRM/facturation) — structuration des données, factures, suivi commercial, production, RH. L'outil est choisi selon le besoin : Odoo si le périmètre s'y prête, développement sur mesure si c'est plus adapté. Jamais l'inverse.
+
+Dans les trois cas, le parcours est identique : diagnostic gratuit → audit terrain payant → devis fixe → réalisation.
+
 ## Problèmes traités
 
 - Tâches répétitives chronophages (relances, encodages, exports)

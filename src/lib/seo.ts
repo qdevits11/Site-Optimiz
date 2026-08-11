@@ -53,6 +53,11 @@ export const siteConfig = {
     "consultant digitalisation PME",
     "automatisation tâches répétitives",
     "digitalisation PME Hainaut",
+    "création site internet PME Wallonie",
+    "site web sur mesure PME Belgique",
+    "ERP sur mesure PME Belgique",
+    "système de gestion PME",
+    "digitalisation facturation PME",
     "Optmiz",
     "Soignies",
   ],
@@ -105,6 +110,30 @@ export const sitePages: SitePage[] = [
       "Diagnostic gratuit, audit terrain payant, devis fixe avant démarrage. Forfaits Zen pour maintenance et amélioration continue.",
     changeFrequency: "monthly",
     priority: 0.85,
+  },
+  {
+    path: "/services",
+    title: "Nos services, automatisation, sites web, systèmes de gestion",
+    description:
+      "Automatisation de processus, création de site internet, systèmes de gestion (ERP/CRM) sur mesure : toujours choisis selon votre réalité.",
+    changeFrequency: "monthly",
+    priority: 0.85,
+  },
+  {
+    path: "/services/creation-site-web",
+    title: "Création de site internet sur mesure pour PME en Wallonie",
+    description:
+      "Un site web utile à votre activité : configurateur, structuration commerciale ou vitrine claire, connecté à vos autres outils.",
+    changeFrequency: "monthly",
+    priority: 0.8,
+  },
+  {
+    path: "/services/systemes-de-gestion",
+    title: "Systèmes de gestion sur mesure (ERP, CRM, facturation) pour PME",
+    description:
+      "Données, factures et suivi client structurés avec l'outil qui convient à votre réalité : Odoo si ça a du sens, sur mesure sinon.",
+    changeFrequency: "monthly",
+    priority: 0.8,
   },
   {
     path: "/ressources",
@@ -245,6 +274,8 @@ export function buildOrganizationJsonLd() {
       "Digitalisation PME",
       "Optimisation opérationnelle",
       "Intégration d'outils métier",
+      "Création de sites web sur mesure",
+      "Systèmes de gestion (ERP/CRM)",
     ],
     priceRange: "€€",
     sameAs: siteConfig.sameAs,
@@ -422,6 +453,26 @@ export function buildServiceJsonLd() {
         },
       ],
     },
+  };
+}
+
+export function buildServiceOfferingJsonLd(service: {
+  name: string;
+  description: string;
+  path: string;
+}) {
+  const url = absoluteUrl(service.path);
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${url}/#service`,
+    name: service.name,
+    description: service.description,
+    url,
+    provider: {
+      "@id": `${siteConfig.url}/#organization`,
+    },
+    areaServed: siteConfig.areaServed.map((name) => ({ "@type": "Place", name })),
   };
 }
 

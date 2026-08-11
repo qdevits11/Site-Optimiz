@@ -17,11 +17,17 @@ export function SeoIntro() {
             Concrètement, cela veut dire des relances clients envoyées automatiquement, des
             pointages RH centralisés sans ressaisie, des calculs de masse générés en quelques
             heures au lieu de plusieurs semaines, ou des feuilles de temps digitalisées sur le
-            terrain. Chaque projet démarre par un diagnostic gratuit, se cadre via un audit terrain,
-            puis se réalise à prix fixe, sans facturation à l’heure.
+            terrain. Selon le besoin identifié pendant l’audit, cela peut aussi passer par un site
+            internet sur mesure ou un système de gestion (ERP/CRM, facturation) : jamais un outil
+            imposé par défaut, toujours celui qui convient à votre réalité. Chaque projet démarre
+            par un diagnostic gratuit, se cadre via un audit terrain, puis se réalise à prix fixe,
+            sans facturation à l’heure.
           </p>
         </div>
         <div className="seo-intro-links">
+          <Link href="/services" className="text-link">
+            Voir nos services →
+          </Link>
           <Link href="/notre-methodologie" className="text-link">
             Découvrir la méthode Optmiz →
           </Link>
