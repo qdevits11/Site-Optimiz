@@ -84,7 +84,7 @@ export const generalFaqs = [
   },
   {
     q: "Puis-je réserver une visite sur mon lieu de travail ?",
-    a: "Oui. Sur la page d’accueil, indiquez vos coordonnées et l’adresse de visite, puis choisissez un créneau libre (Cal.com, synchronisé avec l’agenda Optmiz).",
+    a: "Oui. Sur la page d’accueil, indiquez vos coordonnées et l’adresse de visite, puis choisissez un créneau libre synchronisé avec l’agenda Optmiz.",
   },
   {
     q: "Qu'est-ce que l'automatisation de processus, concrètement ?",

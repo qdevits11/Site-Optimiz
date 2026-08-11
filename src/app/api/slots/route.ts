@@ -9,7 +9,7 @@ export async function GET() {
       return NextResponse.json(
         {
           error:
-            "Cal.com non configuré. Ajoutez CAL_API_KEY et CAL_EVENT_TYPE_ID (ou CAL_USERNAME + CAL_EVENT_TYPE_SLUG).",
+            "Les créneaux ne sont pas disponibles pour le moment. Réessayez plus tard ou écrivez à contact@optmiz.be.",
           configured: false,
         },
         { status: 503 },

@@ -40,7 +40,7 @@ export async function POST(request: Request) {
   try {
     if (!isCalConfigured()) {
       return NextResponse.json(
-        { error: "Cal.com n’est pas configuré. Impossible de réserver un créneau." },
+        { error: "Réservation indisponible pour le moment. Réessayez plus tard ou contactez-nous." },
         { status: 503 },
       );
     }

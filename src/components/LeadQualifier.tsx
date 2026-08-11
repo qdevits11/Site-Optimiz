@@ -178,7 +178,7 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
               Visite confirmée : <strong>{bookedLabel}</strong>
               {lead?.city ? ` · ${lead.city}` : ""}.
             </p>
-            <p>Vous recevrez aussi la confirmation Cal.com par e-mail.</p>
+            <p>Une confirmation vous est envoyée par e-mail.</p>
           </motion.div>
         ) : step === 0 ? (
           <motion.div

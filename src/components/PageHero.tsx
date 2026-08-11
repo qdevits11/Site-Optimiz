@@ -18,7 +18,7 @@ export function PageHero({
   eyebrow,
   breadcrumbs,
   ctaHref = "/#devis",
-  ctaLabel = "Obtenir mon devis gratuit",
+  ctaLabel = "Réserver une visite",
 }: PageHeroProps) {
   return (
     <section className="page-shell">

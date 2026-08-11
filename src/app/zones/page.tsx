@@ -69,8 +69,8 @@ export default function ZonesPage() {
           <h2 className="page-title">On vient chez vous</h2>
           <p className="page-lead">
             Le premier rendez-vous se fait de préférence sur votre lieu de travail : c’est là que
-            se voient les process réels. Passez par le devis guidé pour choisir un créneau
-            synchronisé avec l’agenda Optmiz.
+            se voient les process réels. Réservez un créneau en 2 étapes sur l’accueil
+            (coordonnées + horaire libre).
           </p>
           <div style={{ marginTop: "1.25rem" }}>
             <Link href="/#devis" className="btn-primary-glow section-cta" style={{ display: "inline-flex" }}>

@@ -58,9 +58,9 @@ export function ContactForm() {
           Une question ? <span className="text-accent">Écrivez-nous</span>
         </h2>
         <p className="section-lead">
-          Pour un échange simple ou une précision. Pour un devis qualifié,{" "}
+          Pour un échange simple ou une précision. Pour une visite sur place,{" "}
           <Link href="/#devis" className="text-link">
-            passez par le formulaire de devis
+            réservez un créneau
           </Link>
           .
         </p>
@@ -184,7 +184,7 @@ export function ContactForm() {
                 <p className="form-note font-mono">
                   Sans engagement · Réponse sous 24h ·{" "}
                   <Link href="/#devis" className="text-link">
-                    Préférer un devis ?
+                    Réserver une visite ?
                   </Link>
                 </p>
               </div>
