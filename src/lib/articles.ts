@@ -281,7 +281,7 @@ export const articles: Article[] = [
   },
   {
     slug: "outils-integres-site-internet-pme",
-    title: "Formulaires, calendrier, boutique en ligne : les outils qui rendent un site internet vraiment utile",
+    title: "Pourquoi la plupart des sites internet de PME ne rapportent aucun client",
     description:
       "Un site vitrine sans outils intégrés reste un dépliant numérique. Formulaire structuré, prise de rendez-vous en ligne, boutique en ligne : ce qui transforme un site en véritable outil pour votre PME.",
     excerpt:
