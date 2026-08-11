@@ -1,125 +1,30 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useRef } from "react";
 import { LeadQualifier } from "@/components/LeadQualifier";
-import { gsap, registerGsap, SplitText } from "@/lib/gsap";
-import { whenIntroReady } from "@/lib/intro";
 
 const HeroCanvas = dynamic(() => import("@/components/home/HeroCanvas"), {
   ssr: false,
 });
 
 export function Hero() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
-  const formRef = useRef<HTMLDivElement>(null);
-  const eyebrowRef = useRef<HTMLParagraphElement>(null);
-
-  useEffect(() => {
-    registerGsap();
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!titleRef.current) return;
-
-    if (prefersReduced) {
-      sectionRef.current?.classList.add("is-hero-ready");
-      return;
-    }
-
-    const ctx = gsap.context(() => {
-      const split = new SplitText(titleRef.current!, {
-        type: "chars,words",
-        charsClass: "hero-char",
-        wordsClass: "hero-word",
-      });
-
-      gsap.set(split.chars, { yPercent: 120, opacity: 0, rotateX: 40 });
-      gsap.set(subtitleRef.current, { opacity: 0, y: 16, filter: "blur(10px)" });
-      gsap.set(eyebrowRef.current, { opacity: 0, y: 10 });
-      gsap.set(formRef.current, { opacity: 0, y: 22, scale: 0.98 });
-
-      let tl: gsap.core.Timeline | null = null;
-
-      const cancelWait = whenIntroReady(() => {
-        sectionRef.current?.classList.add("is-hero-ready");
-
-        tl = gsap.timeline({ delay: 0.08 });
-
-        tl.to(eyebrowRef.current, {
-          opacity: 1,
-          y: 0,
-          duration: 0.45,
-          ease: "power2.out",
-        }).to(
-          split.chars,
-          {
-            yPercent: 0,
-            opacity: 1,
-            rotateX: 0,
-            duration: 0.85,
-            stagger: 0.018,
-            ease: "power4.out",
-          },
-          "-=0.15",
-        );
-
-        const accent = titleRef.current!.querySelector(".accent-word");
-        if (accent) {
-          tl.to(
-            accent,
-            {
-              duration: 0.5,
-              scrambleText: {
-                text: accent.textContent || "",
-                chars: "upperCase",
-                revealDelay: 0.05,
-              },
-            },
-            "-=0.35",
-          );
-        }
-
-        tl.to(
-          subtitleRef.current,
-          { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.65, ease: "power2.out" },
-          "-=0.4",
-        ).to(
-          formRef.current,
-          { opacity: 1, y: 0, scale: 1, duration: 0.7, ease: "power3.out" },
-          "-=0.45",
-        );
-      });
-
-      return () => {
-        cancelWait();
-        tl?.kill();
-        split.revert();
-      };
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section ref={sectionRef} className="hero">
+    <section className="hero">
       <HeroCanvas />
       <div className="hero-veil" aria-hidden />
-      <div className="hero-inner container-site hero-with-qualifier">
+      <div className="hero-inner hero-with-qualifier">
         <div className="hero-copy">
-          <p ref={eyebrowRef} className="hero-eyebrow font-mono">
-            Automatisation pour PME · Wallonie
-          </p>
-          <h1 ref={titleRef} className="hero-title font-display">
+          <p className="hero-eyebrow font-mono">Automatisation pour PME · Wallonie</p>
+          <h1 className="hero-title font-display">
             Moins de tâches manuelles.{" "}
             <span className="accent-word text-accent">Plus de temps utile.</span>
           </h1>
-          <p ref={subtitleRef} className="hero-subtitle">
+          <p className="hero-subtitle">
             Optmiz repère ce qui vous ralentit, puis le transforme en process simples, fiables et
             mesurables, sans jargon, sans surprise.
           </p>
         </div>
-        <div ref={formRef} className="hero-form-stage">
+        <div className="hero-form-stage">
           <LeadQualifier variant="hero" id="devis" />
         </div>
       </div>

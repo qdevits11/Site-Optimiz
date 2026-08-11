@@ -103,73 +103,55 @@ body::before {
   min-height: auto;
   display: flex;
   align-items: center;
-  padding: 4.75rem 0 1.5rem;
+  padding: 5.75rem clamp(1.25rem, 4vw, 2.25rem) 2rem;
   overflow: hidden;
 }
 
 @media (min-width: 900px) {
   .hero {
-    min-height: auto;
-    max-height: none;
-    padding: 5.25rem 0 1.5rem;
-  }
-}
-
-@media (min-width: 980px) {
-  .hero {
-    /* Aim for one viewport without clipping overflow content */
     min-height: 100svh;
-    padding: 4.75rem 0 1.15rem;
+    padding-top: 6.75rem;
+    padding-bottom: 2.75rem;
   }
 }
 
 .hero-with-qualifier {
   display: grid;
-  gap: 1.25rem;
-  max-width: none;
+  grid-template-columns: 1fr;
+  gap: 1.75rem;
   width: 100%;
-  align-items: center;
+  align-items: start;
 }
 
-@media (min-width: 980px) {
+/* Grand écran : texte à gauche, formulaire à droite */
+@media (min-width: 900px) {
   .hero-with-qualifier {
-    grid-template-columns: minmax(0, 1fr) minmax(300px, 400px);
-    gap: 1.5rem;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
+    gap: clamp(1.75rem, 4vw, 3rem);
     align-items: center;
   }
 }
 
 .hero-copy {
-  max-width: 34rem;
+  max-width: 36rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .hero-form-stage {
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
+  /* Téléphone : formulaire centré sous le texte */
   margin-inline: auto;
 }
 
-@media (min-width: 980px) {
+@media (min-width: 900px) {
   .hero-form-stage {
-    margin-inline: 0 0 auto;
-    justify-self: end;
-  }
-}
-
-/* Keep hero copy/form hidden until intro finishes (avoids flash under preloader) */
-.hero:not(.is-hero-ready) .hero-eyebrow,
-.hero:not(.is-hero-ready) .hero-title,
-.hero:not(.is-hero-ready) .hero-subtitle,
-.hero:not(.is-hero-ready) .hero-form-stage {
-  opacity: 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero:not(.is-hero-ready) .hero-eyebrow,
-  .hero:not(.is-hero-ready) .hero-title,
-  .hero:not(.is-hero-ready) .hero-subtitle,
-  .hero:not(.is-hero-ready) .hero-form-stage {
-    opacity: 1;
+    /* Desktop : collé à droite dans sa colonne */
+    margin-inline: 0;
+    max-width: none;
+    justify-self: stretch;
   }
 }
 
@@ -200,7 +182,10 @@ body::before {
 }
 
 .hero-inner.hero-with-qualifier {
+  /* Marges latérales généreuses ; pas de double retrait avec .container-site */
+  width: min(1120px, 100%);
   max-width: none;
+  margin-inline: auto;
 }
 
 .hero-eyebrow {
@@ -208,30 +193,23 @@ body::before {
   font-size: 0.75rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-bottom: 0.75rem;
+  margin: 0 0 0.85rem;
 }
 
 .hero-title {
-  font-size: clamp(2.1rem, 4.6vw, 3.35rem);
+  font-size: clamp(2.15rem, 4.8vw, 3.5rem);
   font-weight: 700;
-  line-height: 1.05;
+  line-height: 1.1;
   letter-spacing: -0.035em;
   margin: 0;
-  max-width: 14ch;
-  perspective: 800px;
-}
-
-.hero-word,
-.hero-char {
-  display: inline-block;
-  will-change: transform, opacity;
+  max-width: 15ch;
 }
 
 .hero-subtitle {
-  margin-top: 0.85rem;
-  max-width: 38rem;
+  margin: 1rem 0 0;
+  max-width: 34rem;
   color: var(--muted);
-  font-size: clamp(0.95rem, 1.5vw, 1.08rem);
+  font-size: clamp(0.98rem, 1.5vw, 1.12rem);
   line-height: 1.55;
 }
 
@@ -2085,7 +2063,7 @@ body.nav-overlay-open {
   border-radius: 1rem;
 }
 
-@media (min-width: 980px) {
+@media (min-width: 900px) {
   .lead-qualifier-hero {
     margin-inline: 0;
     justify-self: stretch;
@@ -2133,11 +2111,11 @@ body.nav-overlay-open {
   min-height: 64px;
 }
 
-@media (max-height: 760px) and (min-width: 980px) {
+@media (max-height: 760px) and (min-width: 900px) {
   .hero {
     min-height: 100svh;
-    padding-top: 4.25rem;
-    padding-bottom: 0.75rem;
+    padding-top: 5.5rem;
+    padding-bottom: 1.25rem;
   }
 
   .hero-title {
