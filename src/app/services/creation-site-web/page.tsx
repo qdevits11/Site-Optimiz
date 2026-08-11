@@ -28,6 +28,14 @@ const capabilities = [
     text: "Les demandes ne finissent plus dans une boîte mail : elles alimentent directement vos outils de suivi.",
   },
   {
+    title: "Calendrier de prise de rendez-vous",
+    text: "Le prospect réserve lui-même un créneau disponible, sans allers-retours par mail.",
+  },
+  {
+    title: "Boutique en ligne",
+    text: "Vente directe, paiement sécurisé et stock synchronisé, quand votre activité s’y prête.",
+  },
+  {
     title: "Vitrine claire, pensée pour convertir",
     text: "Un site qui explique ce que vous faites et pousse vers l’action, sans jargon ni surcharge.",
   },
@@ -121,6 +129,12 @@ export default function CreationSiteWebPage() {
             </Link>{" "}
             : un configurateur de produit multi-pays, connecté au CRM, qui a remplacé des dizaines
             de mails et d’appels dispersés.
+          </p>
+          <p className="page-lead">
+            Pour aller plus loin sur les outils qui rendent un site vraiment utile :{" "}
+            <Link href="/ressources/outils-integres-site-internet-pme" className="text-link">
+              formulaires, calendrier, boutique en ligne →
+            </Link>
           </p>
           <div style={{ marginTop: "1rem" }}>
             <CtaButton>Parler de mon projet ›</CtaButton>

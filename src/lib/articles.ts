@@ -279,6 +279,62 @@ export const articles: Article[] = [
       { href: "/#contact", label: "Réserver mon diagnostic gratuit" },
     ],
   },
+  {
+    slug: "outils-integres-site-internet-pme",
+    title: "Pourquoi la plupart des sites internet de PME ne rapportent aucun client",
+    description:
+      "Un site vitrine sans outils intégrés reste un dépliant numérique. Formulaire structuré, prise de rendez-vous en ligne, boutique en ligne : ce qui transforme un site en véritable outil pour votre PME.",
+    excerpt:
+      "Un site qui reçoit des visites ne sert à rien s'il ne fait rien de ces visites. Voici les outils qui changent vraiment la donne.",
+    publishedAt: "2026-08-11",
+    readingMinutes: 6,
+    sections: [
+      {
+        paragraphs: [
+          "Beaucoup de PME ont un site internet qui reçoit des visites… et qui ne génère presque aucune demande, aucune vente, aucun rendez-vous. Le problème n'est presque jamais le trafic : c'est l'absence d'outils qui transforment une visite en action concrète. Un site vitrine sans rien derrière reste un dépliant numérique, quel que soit son design.",
+        ],
+      },
+      {
+        heading: "Un formulaire structuré vaut mieux qu'une simple adresse mail",
+        paragraphs: [
+          "Afficher \"contact@entreprise.be\" laisse le visiteur seul face à la page blanche d'un mail : il doit deviner quoi écrire, et beaucoup abandonnent avant d'avoir tapé une ligne. Un formulaire structuré (nom, société, coordonnées, et une question ciblée comme \"quel est votre principal frein aujourd'hui ?\") fait le travail à sa place, et transforme une simple visite en demande qualifiée : vous savez déjà, avant le premier échange, à qui vous parlez et sur quoi porte le besoin.",
+          "Le risque, ensuite, est de frustrer ce prospect si vous ne pouvez pas le prendre en charge tout de suite. Un engagement clair (\"réponse sous 24h\") affiché au moment de la demande, suivi d'une confirmation automatique immédiate, suffit à éviter que le silence ne le fasse partir voir ailleurs.",
+        ],
+      },
+      {
+        heading: "Un calendrier de prise de rendez-vous en ligne",
+        paragraphs: [
+          "Les allers-retours par mail pour trouver une heure qui convient à tout le monde sont une friction inutile, et une source d'abandon. Proposer un système de réservation de créneau directement sur le site supprime cette friction : le prospect choisit lui-même un moment disponible dans votre agenda, sans négociation.",
+          "C'est aussi un gain de temps réel pour vous, et une image professionnelle dès le premier contact. Un mail automatique envoyé juste après la réservation peut en plus préparer le rendez-vous : expliquer le déroulé, rassurer sur l'absence d'engagement, donner une idée claire de ce qui sera abordé.",
+        ],
+      },
+      {
+        heading: "Une boutique en ligne quand la vente s'y prête",
+        paragraphs: [
+          "Pour une activité qui vend des produits ou des prestations standardisées, une boutique en ligne réduit directement le nombre de commandes prises par téléphone ou par mail : le client choisit, paie et reçoit une confirmation sans intervention humaine à chaque étape.",
+          "Bien conçue, elle synchronise le stock en temps réel (pour ne jamais vendre ce qui n'est plus disponible), sécurise le paiement, et libère du temps commercial pour les demandes qui ont réellement besoin d'un humain.",
+        ],
+      },
+      {
+        heading: "D'autres outils, selon ce que votre activité demande",
+        paragraphs: [
+          "Formulaires, calendrier et boutique en ligne couvrent la majorité des besoins, mais d'autres outils peuvent avoir du sens selon votre réalité : un espace client pour suivre une commande ou un dossier, une génération automatique de documents (devis, factures) à partir d'un formulaire, ou un chat pour répondre aux questions les plus fréquentes avant même le premier contact.",
+          "Aucun de ces outils n'est ajouté par défaut. Chacun répond à un besoin identifié pendant l'audit, jamais à une mode ou à une liste de fonctionnalités standard.",
+        ],
+      },
+      {
+        heading: "Un site web n'est utile que s'il intègre les bons outils",
+        paragraphs: [
+          "Un site \"joli\" qui ne fait rien de tout ça reste une carte de visite numérique. Un site pensé pour qualifier, vendre, faciliter la prise de rendez-vous ou suivre un dossier devient un véritable outil commercial. C'est cette logique qui guide la manière dont nous concevons un site internet chez Optmiz : jamais un outil pour la forme, toujours pour un résultat mesurable.",
+        ],
+      },
+    ],
+    relatedLinks: [
+      { href: "/services/creation-site-web", label: "Notre approche de la création de site internet" },
+      { href: "/ressources/par-ou-commencer-automatisation", label: "Par où commencer votre projet d'automatisation" },
+      { href: "/contact", label: "Voir un exemple concret : notre propre formulaire" },
+    ],
+  },
 ];
 
 export function getArticleBySlug(slug: string): Article | undefined {
