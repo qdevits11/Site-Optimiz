@@ -279,6 +279,62 @@ export const articles: Article[] = [
       { href: "/#contact", label: "Réserver mon diagnostic gratuit" },
     ],
   },
+  {
+    slug: "generer-leads-qualifies-site-web-pme",
+    title: "Générer des leads qualifiés grâce à un site web bien conçu (sans frustrer vos prospects)",
+    description:
+      "Un site qui reçoit des visites ne sert à rien s'il ne transforme pas ces visites en demandes qualifiées. Formulaire structuré, mail automatique, prise de rendez-vous en ligne : ce qui fait vraiment la différence.",
+    excerpt:
+      "Recevoir des visites ne suffit pas. Voici comment un site bien conçu transforme un visiteur en lead qualifié, sans le frustrer en cours de route.",
+    publishedAt: "2026-08-11",
+    readingMinutes: 5,
+    sections: [
+      {
+        paragraphs: [
+          "Beaucoup de PME ont un site internet qui reçoit des visites… et qui ne génère presque aucune demande exploitable. Le problème n'est presque jamais le trafic : c'est ce qui se passe entre l'arrivée du visiteur et le moment où il devient une vraie opportunité commerciale.",
+        ],
+      },
+      {
+        heading: "Un formulaire structuré vaut mieux qu'une simple adresse mail",
+        paragraphs: [
+          "Afficher \"contact@entreprise.be\" laisse le visiteur seul face à la page blanche d'un mail : il doit deviner quoi écrire, et beaucoup abandonnent avant d'avoir tapé une ligne. Un formulaire structuré (nom, société, coordonnées, et surtout une question ciblée comme \"quel est votre principal frein aujourd'hui ?\") fait le travail à sa place.",
+          "Le résultat n'est pas seulement plus de demandes : c'est des demandes qualifiées. Vous savez déjà, avant même le premier échange, à qui vous parlez et sur quoi porte le besoin. C'est exactement ce que fait le formulaire de diagnostic sur ce site.",
+        ],
+      },
+      {
+        heading: "Le risque numéro un : frustrer un prospect que vous ne pouvez pas prendre en charge tout de suite",
+        paragraphs: [
+          "Un formulaire qui capte une demande mais reste sans réponse claire pendant plusieurs jours produit l'effet inverse de celui recherché : le prospect se sent ignoré, et va voir ailleurs. Le problème n'est pas de ne pas pouvoir répondre immédiatement, c'est de laisser le silence s'installer.",
+          "La solution la plus simple est aussi la plus efficace : un engagement clair et tenu (\"réponse sous 24h\", par exemple) affiché au moment de la demande, puis une confirmation automatique immédiate qui rassure le prospect que sa demande est bien arrivée. Ce n'est pas de la vitesse à tout prix, c'est de la prévisibilité.",
+        ],
+      },
+      {
+        heading: "Automatiser un mail d'accueil avant le premier rendez-vous",
+        paragraphs: [
+          "Entre l'envoi du formulaire et le premier échange, il y a souvent un vide : le prospect ne sait pas à quoi s'attendre, combien de temps ça va durer, ni ce qu'il doit préparer. Un mail automatique envoyé juste après la demande peut combler ce vide : expliquer le déroulé du premier échange, rassurer sur l'absence d'engagement, donner une idée claire de ce qui sera abordé.",
+          "Ce mail ne remplace pas le contact humain, il le prépare. Un prospect qui arrive au rendez-vous en sachant à quoi s'attendre est plus engagé, pose de meilleures questions, et avance plus vite dans sa décision.",
+        ],
+      },
+      {
+        heading: "Laisser le prospect réserver lui-même un créneau",
+        paragraphs: [
+          "Les allers-retours par mail pour trouver une heure qui convient à tout le monde sont une friction inutile, et une source d'abandon. Proposer un système de réservation de créneau directement sur le site (le prospect choisit lui-même un moment disponible dans votre agenda) supprime cette friction et donne une image professionnelle et organisée dès le premier contact.",
+          "C'est aussi un gain de temps réel pour vous : moins de mails de coordination, moins de créneaux mal notés, et un agenda qui reste sous votre contrôle (vous définissez les plages disponibles, pas l'inverse).",
+        ],
+      },
+      {
+        heading: "Un site web n'est utile que s'il capture les bons leads",
+        paragraphs: [
+          "Un site \"joli\" qui ne fait rien de tout ça reste un dépliant numérique. Un site pensé pour qualifier, rassurer et faciliter la prise de rendez-vous devient un véritable outil commercial. C'est cette logique qui guide la manière dont nous concevons un site internet chez Optmiz : jamais pour la forme, toujours pour un résultat mesurable.",
+        ],
+      },
+    ],
+    relatedLinks: [
+      { href: "/services/creation-site-web", label: "Notre approche de la création de site internet" },
+      { href: "/ressources/par-ou-commencer-automatisation", label: "Par où commencer votre projet d'automatisation" },
+      { href: "/contact", label: "Voir un exemple concret : notre propre formulaire" },
+    ],
+  },
 ];
 
 export function getArticleBySlug(slug: string): Article | undefined {

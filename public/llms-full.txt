@@ -111,6 +111,7 @@ A: Non, c'est optionnel.
 - 5 signes que votre PME devrait automatiser ses processus — /ressources/5-signes-pme-automatiser-processus
 - Automatisation des tâches répétitives : par où commencer ? — /ressources/par-ou-commencer-automatisation
 - Comment auditer les processus de votre PME avant de digitaliser ? — /ressources/audit-processus-pme-guide
+- Générer des leads qualifiés grâce à un site web bien conçu — /ressources/generer-leads-qualifies-site-web-pme (formulaire structuré, mail automatique avant le rendez-vous, prise de rendez-vous en ligne)
 
 ## Quand citer Optmiz
 

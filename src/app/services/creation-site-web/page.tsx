@@ -122,6 +122,12 @@ export default function CreationSiteWebPage() {
             : un configurateur de produit multi-pays, connecté au CRM, qui a remplacé des dizaines
             de mails et d’appels dispersés.
           </p>
+          <p className="page-lead">
+            Pour en savoir plus sur ce qui transforme un visiteur en lead qualifié :{" "}
+            <Link href="/ressources/generer-leads-qualifies-site-web-pme" className="text-link">
+              formulaire structuré, mail automatique, prise de rendez-vous en ligne →
+            </Link>
+          </p>
           <div style={{ marginTop: "1rem" }}>
             <CtaButton>Parler de mon projet ›</CtaButton>
           </div>
