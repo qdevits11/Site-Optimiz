@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BookingForm } from "@/components/BookingForm";
+import { CalendlyEmbed } from "@/components/CalendlyEmbed";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { cities } from "@/lib/cities";
+import { getCalendlyUrl, isCalendlyConfigured } from "@/lib/calendly";
 import { BOOKING_DURATION_MINUTES } from "@/lib/booking";
 import { buildBreadcrumbJsonLd, pageMetadata, siteConfig, sitePages } from "@/lib/seo";
 
@@ -14,19 +16,22 @@ export const metadata: Metadata = pageMetadata(page);
 const benefits = [
   {
     title: "Chez vous, sur votre lieu de travail",
-    text: "Quentin se déplace en Wallonie. Vous n’avez rien à préparer : on regarde ensemble ce que vous faites déjà et ce qui vous freine.",
+    text: "Quentin se déplace en Wallonie. Indiquez l’adresse : on vient voir votre organisation réelle, pas une slide deck.",
   },
   {
     title: `${BOOKING_DURATION_MINUTES} minutes, pas une demi-journée`,
     text: "De quoi faire le tour de votre activité et de vos priorités, sans monopoliser toute votre équipe.",
   },
   {
-    title: "Gratuit et sans engagement",
-    text: "Vous repartez avec un avis honnête. Si ce n’est pas le moment, on vous le dira aussi franchement — et un devis fixe seulement si un projet a du sens.",
+    title: "Agenda synchronisé",
+    text: "Les créneaux affichés sont vos disponibilités réelles (Calendly lié à l’agenda). Gratuit et sans engagement.",
   },
 ];
 
 export default function RendezVousPage() {
+  const calendlyReady = isCalendlyConfigured();
+  const calendlyUrl = getCalendlyUrl();
+
   return (
     <>
       <JsonLd
@@ -42,7 +47,7 @@ export default function RendezVousPage() {
           name: "Réserver une première visite Optmiz",
           target: {
             "@type": "EntryPoint",
-            urlTemplate: `${siteConfig.url}/rendez-vous`,
+            urlTemplate: calendlyUrl || `${siteConfig.url}/rendez-vous`,
             actionPlatform: [
               "http://schema.org/DesktopWebPlatform",
               "http://schema.org/MobileWebPlatform",
@@ -64,10 +69,10 @@ export default function RendezVousPage() {
             On vient <span className="text-accent">chez vous</span>, et c’est gratuit
           </>
         }
-        subtitle="Choisissez le créneau qui vous arrange. Optmiz se déplace en Wallonie pour comprendre votre métier avant de proposer quoi que ce soit."
-        ctaHref="#reservation"
-        ctaLabel="Choisir un créneau"
-        note="45 min · Gratuit · Sans engagement · Confirmation sous 24h"
+        subtitle="Choisissez un créneau synchronisé avec l’agenda Optmiz. La visite se fait à l’adresse que vous indiquez — en Wallonie, sans engagement."
+        ctaHref={calendlyReady ? "#reservation" : "/#devis"}
+        ctaLabel={calendlyReady ? "Choisir un créneau" : "Commencer par le devis"}
+        note="45 min · Gratuit · Sans engagement · Agenda synchronisé"
       />
 
       <section className="page-section">
@@ -85,15 +90,12 @@ export default function RendezVousPage() {
             ))}
           </div>
           <p className="page-lead" style={{ marginTop: "1.25rem", maxWidth: 720 }}>
-            Vous préférez d’abord écrire ? Passez par le{" "}
-            <Link href="/contact" className="text-link">
-              formulaire de contact
-            </Link>{" "}
-            ou le{" "}
+            Vous préférez d’abord cadrer le besoin ? Passez par le{" "}
             <Link href="/#devis" className="text-link">
               devis guidé
-            </Link>
-            . Nous intervenons notamment à{" "}
+            </Link>{" "}
+            : questionnaire puis choix de créneau Calendly, en une seule fois. Nous intervenons
+            notamment à{" "}
             {cities.slice(0, 6).map((city, index) => (
               <span key={city.slug}>
                 {index > 0 ? (index === 5 ? " et " : ", ") : null}
@@ -107,9 +109,36 @@ export default function RendezVousPage() {
         </div>
       </section>
 
-      <section className="section-block cta-section">
+      <section className="section-block cta-section" id="reservation">
         <div className="container-site">
-          <BookingForm />
+          {calendlyReady ? (
+            <div className="contact-panel booking-panel">
+              <div className="contact-heading">
+                <p className="eyebrow font-mono">Calendly</p>
+                <h2 className="font-display">
+                  Choisissez votre <span className="text-accent">créneau</span>
+                </h2>
+                <p className="section-lead">
+                  Indiquez l’adresse de visite dans Calendly (ou via le devis guidé). Seuls les
+                  créneaux libres s’affichent.
+                </p>
+                <ul className="contact-reassure">
+                  <li>Sur votre lieu de travail</li>
+                  <li>Agenda synchronisé</li>
+                  <li>Confirmation immédiate</li>
+                </ul>
+                <p className="page-lead" style={{ marginTop: "1rem" }}>
+                  Pas encore cadré votre besoin ?{" "}
+                  <Link href="/#devis" className="text-link">
+                    Commencer par le questionnaire →
+                  </Link>
+                </p>
+              </div>
+              <CalendlyEmbed url={calendlyUrl} />
+            </div>
+          ) : (
+            <BookingForm />
+          )}
         </div>
       </section>
     </>

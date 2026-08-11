@@ -61,8 +61,18 @@ Config dans **Vercel → Project → Settings → Environment Variables** (Produ
 | `SMTP_PASS` | mot de passe de la boîte |
 | `SMTP_FROM` | `Optmiz <contact@optmiz.be>` |
 | `CONTACT_TO_EMAIL` | `q.devits.optmiz@gmail.com` |
+| `NEXT_PUBLIC_CALENDLY_URL` | `https://calendly.com/votre-compte/visite-optmiz` |
 
 Puis **Redeploy** le projet pour prendre en compte les variables.
+
+### Calendly (visite chez le client)
+
+1. Créer un événement Calendly « Première visite Optmiz » (≈ 45 min).
+2. Connecter Google Calendar / Outlook pour n’afficher que les créneaux libres.
+3. Ajouter une question personnalisée « Adresse de la visite » (recommandé).
+4. Coller l’URL de l’événement dans `NEXT_PUBLIC_CALENDLY_URL`.
+
+Après le questionnaire du hero, le prospect voit l’embed Calendly et reçoit aussi le lien par e-mail.
 
 ## Démarrage
 

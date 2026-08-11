@@ -1,7 +1,9 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { FormEvent, useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
+import { CalendlyEmbed } from "@/components/CalendlyEmbed";
+import { buildCalendlyPrefillUrl, isCalendlyConfigured } from "@/lib/calendly";
 
 const NEEDS = [
   { value: "automatiser", label: "Automatiser un process répétitif" },
@@ -45,7 +47,10 @@ const STEP_META: { title: string; hint: string }[] = [
   { title: "Qu’est-ce qui vous coûte le plus de temps ?", hint: "Choisissez le frein principal" },
   { title: "Combien de personnes dans l’entreprise ?", hint: "Taille de la société" },
   { title: "Quel budget envisagez-vous ?", hint: "Fourchette indicative" },
-  { title: "Vos coordonnées", hint: "Pour vous recontacter sous 24h" },
+  {
+    title: "Coordonnées & lieu de visite",
+    hint: "On vient chez vous — indiquez où, puis choisissez un créneau",
+  },
 ];
 
 const labelOf = <T extends { value: string; label: string }>(
@@ -58,7 +63,16 @@ type LeadQualifierProps = {
   id?: string;
 };
 
+type SubmittedLead = {
+  name: string;
+  email: string;
+  address: string;
+  city: string;
+  calendlyUrl: string;
+};
+
 export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifierProps) {
+  const calendlyReady = useMemo(() => isCalendlyConfigured(), []);
   const [step, setStep] = useState<Step>(0);
   const [answers, setAnswers] = useState<Answers>({
     need: "",
@@ -68,7 +82,7 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
   });
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [submitted, setSubmitted] = useState(false);
+  const [submittedLead, setSubmittedLead] = useState<SubmittedLead | null>(null);
 
   function selectAndAdvance<K extends keyof Answers>(key: K, value: Answers[K]) {
     setAnswers((prev) => ({ ...prev, [key]: value }));
@@ -88,6 +102,11 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
 
     const form = event.currentTarget;
     const formData = new FormData(form);
+    const name = String(formData.get("name") || "").trim();
+    const email = String(formData.get("email") || "").trim();
+    const city = String(formData.get("city") || "").trim();
+    const address = String(formData.get("address") || "").trim();
+    const fullAddress = [address, city].filter(Boolean).join(", ");
 
     try {
       const response = await fetch("/api/contact", {
@@ -95,22 +114,30 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           type: "devis",
-          name: String(formData.get("name") || ""),
+          name,
           phone: String(formData.get("phone") || ""),
-          email: String(formData.get("email") || ""),
+          email,
           company: String(formData.get("company") || ""),
           postalCode: String(formData.get("postalCode") || ""),
+          city,
+          address,
           comment: String(formData.get("comment") || ""),
           need: labelOf(NEEDS, answers.need),
           pain: labelOf(PAINS, answers.pain),
           companySize: labelOf(SIZES, answers.companySize),
           budget: labelOf(BUDGETS, answers.budget),
+          sendClientCalendly: true,
         }),
       });
 
-      const payload = (await response.json()) as { error?: string };
+      const payload = (await response.json()) as { error?: string; calendlyUrl?: string };
       if (!response.ok) throw new Error(payload.error || "Envoi impossible.");
-      setSubmitted(true);
+
+      const calendlyUrl =
+        payload.calendlyUrl ||
+        buildCalendlyPrefillUrl({ name, email, address: fullAddress });
+
+      setSubmittedLead({ name, email, address: fullAddress, city, calendlyUrl });
       form.reset();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Envoi impossible.");
@@ -120,37 +147,66 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
   }
 
   const progress = ((step + 1) / 5) * 100;
+  const showCalendly = Boolean(submittedLead?.calendlyUrl);
 
   return (
     <div
       id={id}
-      className={`lead-qualifier${variant === "hero" ? " lead-qualifier-hero" : ""}`}
+      className={`lead-qualifier${variant === "hero" ? " lead-qualifier-hero" : ""}${
+        showCalendly ? " lead-qualifier-calendly" : ""
+      }`}
       data-cursor="card"
     >
       <div className="lead-qualifier-head">
-        <p className="lead-qualifier-kicker font-mono">Devis gratuit</p>
-        <p className="lead-qualifier-reassure">Sans engagement · Réponse sous 24h</p>
+        <p className="lead-qualifier-kicker font-mono">
+          {showCalendly ? "Créneau de visite" : "Devis gratuit"}
+        </p>
+        <p className="lead-qualifier-reassure">
+          {showCalendly
+            ? "Chez vous · Agenda synchronisé · Sans engagement"
+            : "Sans engagement · Visite chez vous"}
+        </p>
       </div>
 
-      <div className="lead-qualifier-progress" aria-hidden>
-        <div className="lead-qualifier-progress-bar" style={{ width: `${progress}%` }} />
-      </div>
-      <p className="lead-qualifier-step font-mono">
-        Étape {step + 1} / 5
-      </p>
+      {!showCalendly ? (
+        <>
+          <div className="lead-qualifier-progress" aria-hidden>
+            <div className="lead-qualifier-progress-bar" style={{ width: `${progress}%` }} />
+          </div>
+          <p className="lead-qualifier-step font-mono">Étape {step + 1} / 5</p>
+        </>
+      ) : null}
 
       <AnimatePresence mode="wait">
-        {submitted ? (
+        {submittedLead ? (
           <motion.div
             key="success"
-            className="lead-qualifier-success"
+            className="lead-qualifier-success lead-qualifier-success-calendly"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.35 }}
           >
-            <p className="font-display lead-qualifier-success-title">C’est envoyé</p>
-            <p>Nous vous recontactons sous 24h avec un créneau.</p>
+            <p className="font-display lead-qualifier-success-title">Demande reçue</p>
+            <p>
+              Dernière étape : choisissez un créneau pour la visite
+              {submittedLead.city ? ` à ${submittedLead.city}` : ""}. Les disponibilités viennent
+              directement de l’agenda Optmiz.
+            </p>
+            {showCalendly ? (
+              <CalendlyEmbed url={submittedLead.calendlyUrl} className="lead-calendly" />
+            ) : (
+              <p>
+                Un e-mail avec le lien de réservation vous a été envoyé
+                {submittedLead.email ? ` à ${submittedLead.email}` : ""}.
+              </p>
+            )}
+            {!calendlyReady ? (
+              <p className="lead-calendly-note">
+                Si le calendrier ne s’affiche pas, vérifiez votre boîte mail : le lien Calendly y
+                figure aussi.
+              </p>
+            ) : null}
           </motion.div>
         ) : (
           <motion.div
@@ -259,6 +315,24 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
                   />
                 </label>
                 <label>
+                  Ville / commune *
+                  <input
+                    name="city"
+                    required
+                    placeholder="Ex. : Charleroi"
+                    autoComplete="address-level2"
+                  />
+                </label>
+                <label className="full">
+                  Adresse de la visite *
+                  <input
+                    name="address"
+                    required
+                    placeholder="Rue, n° — où nous devons venir"
+                    autoComplete="street-address"
+                  />
+                </label>
+                <label>
                   Mail *
                   <input
                     name="email"
@@ -269,8 +343,8 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
                   />
                 </label>
                 <label>
-                  Téléphone
-                  <input name="phone" type="tel" placeholder="+32 ..." autoComplete="tel" />
+                  Téléphone *
+                  <input name="phone" type="tel" required placeholder="+32 ..." autoComplete="tel" />
                 </label>
                 <label className="full">
                   Commentaire
@@ -283,7 +357,8 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
                 <label className="full consent">
                   <input type="checkbox" required />
                   <span>
-                    J&apos;accepte que mes données soient utilisées par Optmiz pour me recontacter.
+                    J&apos;accepte que mes données soient utilisées par Optmiz pour organiser la
+                    visite et me recontacter.
                   </span>
                 </label>
                 {error ? (
@@ -300,7 +375,7 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
                     className="btn-primary-glow btn-cta contact-submit-btn"
                     disabled={pending}
                   >
-                    {pending ? "Envoi en cours…" : "Obtenir mon devis gratuit"}
+                    {pending ? "Envoi en cours…" : "Continuer vers le créneau"}
                   </button>
                 </div>
               </form>

@@ -84,7 +84,7 @@ export const generalFaqs = [
   },
   {
     q: "Puis-je réserver une visite sur mon lieu de travail ?",
-    a: "Oui. Sur la page Rendez-vous vous choisissez un créneau en ligne : première visite gratuite d’environ 45 minutes chez vous, confirmée sous 24h ouvrées.",
+    a: "Oui. Après le questionnaire de devis, vous choisissez un créneau via Calendly (agenda synchronisé). La visite se fait à l’adresse que vous indiquez. Vous pouvez aussi passer par la page Rendez-vous.",
   },
   {
     q: "Qu'est-ce que l'automatisation de processus, concrètement ?",
