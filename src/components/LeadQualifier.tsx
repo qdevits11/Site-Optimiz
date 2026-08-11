@@ -194,7 +194,11 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
               directement de l’agenda Optmiz.
             </p>
             {showCalendly ? (
-              <CalendlyEmbed url={submittedLead.calendlyUrl} className="lead-calendly" />
+              <CalendlyEmbed
+                url={submittedLead.calendlyUrl}
+                className="lead-calendly"
+                mode={variant === "hero" ? "button" : "inline"}
+              />
             ) : (
               <p>
                 Un e-mail avec le lien de réservation vous a été envoyé

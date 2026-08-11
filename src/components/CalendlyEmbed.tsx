@@ -6,6 +6,9 @@ type CalendlyEmbedProps = {
   url: string;
   title?: string;
   className?: string;
+  /** inline = widget intégré ; button = ouvre le popup Calendly */
+  mode?: "inline" | "button";
+  buttonLabel?: string;
 };
 
 declare global {
@@ -16,14 +19,26 @@ declare global {
         parentElement: HTMLElement;
         resize?: boolean;
       }) => void;
+      initPopupWidget: (options: { url: string }) => void;
     };
   }
 }
 
 const SCRIPT_SRC = "https://assets.calendly.com/assets/external/widget.js";
+const CSS_HREF = "https://assets.calendly.com/assets/external/widget.css";
+
+function ensureStylesheet() {
+  if (typeof document === "undefined") return;
+  if (document.querySelector(`link[href="${CSS_HREF}"]`)) return;
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = CSS_HREF;
+  document.head.appendChild(link);
+}
 
 function loadCalendlyScript(): Promise<void> {
   if (typeof window === "undefined") return Promise.resolve();
+  ensureStylesheet();
   if (window.Calendly) return Promise.resolve();
 
   const existing = document.querySelector<HTMLScriptElement>(`script[src="${SCRIPT_SRC}"]`);
@@ -51,13 +66,16 @@ export function CalendlyEmbed({
   url,
   title = "Choisir un créneau de visite",
   className = "",
+  mode = "inline",
+  buttonLabel = "Choisir mon créneau",
 }: CalendlyEmbedProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const reactId = useId();
 
   useEffect(() => {
+    if (!url || mode !== "inline") return;
     const parent = containerRef.current;
-    if (!parent || !url) return;
+    if (!parent) return;
 
     let cancelled = false;
     parent.innerHTML = "";
@@ -86,9 +104,40 @@ export function CalendlyEmbed({
       cancelled = true;
       if (parent) parent.innerHTML = "";
     };
-  }, [url, reactId]);
+  }, [url, reactId, mode]);
 
   if (!url) return null;
+
+  if (mode === "button") {
+    return (
+      <div className={`calendly-embed calendly-embed-button ${className}`.trim()}>
+        <button
+          type="button"
+          className="btn-primary-glow btn-cta contact-submit-btn"
+          onClick={() => {
+            loadCalendlyScript()
+              .then(() => {
+                if (window.Calendly) {
+                  window.Calendly.initPopupWidget({ url });
+                } else {
+                  window.open(url, "_blank", "noopener,noreferrer");
+                }
+              })
+              .catch(() => window.open(url, "_blank", "noopener,noreferrer"));
+          }}
+        >
+          {buttonLabel}
+        </button>
+        <p className="lead-calendly-note">
+          Ou{" "}
+          <a href={url} target="_blank" rel="noopener noreferrer" className="text-link">
+            ouvrir Calendly dans un nouvel onglet
+          </a>
+          .
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className={`calendly-embed ${className}`.trim()}>
