@@ -53,3 +53,17 @@ be clipped by it.
 - For in-page anchors (except `/#devis` on the homepage hero), use
   `scroll-margin-top: var(--site-nav-clearance)` or rely on
   `html { scroll-padding-top: var(--site-nav-clearance) }`.
+
+## Buttons: order and colors
+
+Action button groups must follow this order and styling everywhere
+(LeadQualifier, confirmation, `/visite/gerer`, etc.):
+
+1. **Primary action** first: green `btn-primary-glow` (confirm, modify,
+   choose date, etc.).
+2. **Retour** next: gray `btn-ghost`, always after the primary action.
+3. **Annuler** last: red `btn-danger-glow`, never before primary/retour.
+
+If the screen’s main action *is* cancellation (e.g. “Confirmer
+l’annulation”), use `btn-danger-glow` as that primary, then Retour after
+it. Do not place Retour before the primary CTA.

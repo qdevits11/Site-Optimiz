@@ -46,7 +46,9 @@ export function CustomCursor() {
     const onOver = (event: MouseEvent) => {
       const target = event.target as HTMLElement | null;
       if (!target) return;
-      const cta = target.closest("[data-cursor='cta'], .btn-primary-glow");
+      const cta = target.closest(
+        "[data-cursor='cta'], .btn-primary-glow, .btn-danger-glow",
+      );
       const interactive = target.closest("a, button");
       const card = target.closest("[data-cursor='card']");
 

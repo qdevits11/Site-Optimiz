@@ -336,6 +336,9 @@ export function VisitManager({ token, initialAction }: VisitManagerProps) {
           </p>
         ) : null}
         <form onSubmit={onCancelConfirm} className="visit-manage-actions">
+          <button type="submit" className="btn-danger-glow btn-cta" disabled={pending}>
+            {pending ? "Annulation…" : "Confirmer l’annulation"}
+          </button>
           <button
             type="button"
             className="btn-ghost"
@@ -345,9 +348,6 @@ export function VisitManager({ token, initialAction }: VisitManagerProps) {
             }}
           >
             Retour
-          </button>
-          <button type="submit" className="btn-primary-glow btn-cta" disabled={pending}>
-            {pending ? "Annulation…" : "Confirmer l’annulation"}
           </button>
         </form>
       </div>
@@ -462,6 +462,14 @@ export function VisitManager({ token, initialAction }: VisitManagerProps) {
         <div className="visit-manage-actions">
           <button
             type="button"
+            className="btn-primary-glow btn-cta"
+            disabled={pending || !selectedStart || slotsLoading}
+            onClick={onRescheduleConfirm}
+          >
+            {pending ? "Enregistrement…" : "Confirmer le nouveau créneau"}
+          </button>
+          <button
+            type="button"
             className="btn-ghost"
             onClick={() => {
               setError(null);
@@ -469,14 +477,6 @@ export function VisitManager({ token, initialAction }: VisitManagerProps) {
             }}
           >
             Retour
-          </button>
-          <button
-            type="button"
-            className="btn-primary-glow btn-cta"
-            disabled={pending || !selectedStart || slotsLoading}
-            onClick={onRescheduleConfirm}
-          >
-            {pending ? "Enregistrement…" : "Confirmer le nouveau créneau"}
           </button>
         </div>
       </div>
@@ -508,15 +508,19 @@ export function VisitManager({ token, initialAction }: VisitManagerProps) {
         </p>
       ) : null}
       <div className="visit-manage-actions">
-        <button type="button" className="btn-ghost" onClick={() => setMode("cancel")}>
-          Annuler
-        </button>
         <button
           type="button"
           className="btn-primary-glow btn-cta"
           onClick={() => setMode("reschedule")}
         >
           Modifier le créneau
+        </button>
+        <button
+          type="button"
+          className="btn-danger-glow btn-cta"
+          onClick={() => setMode("cancel")}
+        >
+          Annuler
         </button>
       </div>
     </div>

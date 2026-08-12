@@ -557,6 +557,13 @@ export function LeadQualifier({ variant = "section", id }: LeadQualifierProps) {
               ) : null}
               <div className="full lead-contact-actions">
                 <button
+                  type="submit"
+                  className="btn-primary-glow btn-cta contact-submit-btn"
+                  disabled={pending}
+                >
+                  {pending ? "Vérification…" : "Choisir une date"}
+                </button>
+                <button
                   type="button"
                   className="btn-ghost lead-back"
                   onClick={() => {
@@ -565,13 +572,6 @@ export function LeadQualifier({ variant = "section", id }: LeadQualifierProps) {
                   }}
                 >
                   Retour
-                </button>
-                <button
-                  type="submit"
-                  className="btn-primary-glow btn-cta contact-submit-btn"
-                  disabled={pending}
-                >
-                  {pending ? "Vérification…" : "Choisir une date"}
                 </button>
               </div>
             </form>
@@ -584,6 +584,9 @@ export function LeadQualifier({ variant = "section", id }: LeadQualifierProps) {
                 Créneau déjà prévu : <strong>{existingVisit.slotLabel}</strong>.
               </p>
               <div className="lead-contact-actions" style={{ marginTop: "0.85rem" }}>
+                <a className="btn-primary-glow btn-cta" href={existingVisit.manageUrl}>
+                  Modifier ou annuler
+                </a>
                 <button
                   type="button"
                   className="btn-ghost lead-back"
@@ -595,9 +598,6 @@ export function LeadQualifier({ variant = "section", id }: LeadQualifierProps) {
                 >
                   Retour
                 </button>
-                <a className="btn-primary-glow btn-cta" href={existingVisit.manageUrl}>
-                  Modifier ou annuler
-                </a>
               </div>
             </div>
           ) : null}
@@ -717,6 +717,14 @@ export function LeadQualifier({ variant = "section", id }: LeadQualifierProps) {
               <div className="lead-contact-actions" style={{ marginTop: "0.75rem" }}>
                 <button
                   type="button"
+                  className="btn-primary-glow btn-cta contact-submit-btn"
+                  disabled={pending || !selectedStart || slotsLoading}
+                  onClick={onBook}
+                >
+                  {pending ? "Réservation…" : "Confirmer la visite"}
+                </button>
+                <button
+                  type="button"
                   className="btn-ghost lead-back"
                   onClick={() => {
                     setError(null);
@@ -725,14 +733,6 @@ export function LeadQualifier({ variant = "section", id }: LeadQualifierProps) {
                   }}
                 >
                   Retour
-                </button>
-                <button
-                  type="button"
-                  className="btn-primary-glow btn-cta contact-submit-btn"
-                  disabled={pending || !selectedStart || slotsLoading}
-                  onClick={onBook}
-                >
-                  {pending ? "Réservation…" : "Confirmer la visite"}
                 </button>
               </div>
             </div>
