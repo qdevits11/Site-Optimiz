@@ -13,6 +13,7 @@ import {
   sendInternalMail,
 } from "@/lib/mailer";
 import { absoluteUrl, siteConfig } from "@/lib/seo";
+import { addressHasStreetNumber, isValidBookingEmail } from "@/lib/booking-validation";
 import { buildClientVisitConfirmationEmail } from "@/lib/visit-confirmation-email";
 import { buildConfirmVisitIcs } from "@/lib/visit-ics-mail";
 
@@ -65,6 +66,20 @@ export async function POST(request: Request) {
           error:
             "Nom, e-mail, adresse, ville, priorité, taille d’entreprise et créneau sont obligatoires.",
         },
+        { status: 400 },
+      );
+    }
+
+    if (!isValidBookingEmail(email)) {
+      return NextResponse.json(
+        { error: "Indiquez une adresse e-mail valide (avec @ et un point)." },
+        { status: 400 },
+      );
+    }
+
+    if (!addressHasStreetNumber(address)) {
+      return NextResponse.json(
+        { error: "L’adresse doit contenir un numéro (ex. : Rue de la Gare 12)." },
         { status: 400 },
       );
     }

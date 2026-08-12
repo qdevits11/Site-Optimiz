@@ -6,6 +6,7 @@ import {
   BOOKING_CONFIRMATION_STORAGE_KEY,
   type BookingConfirmationDetails,
 } from "@/lib/booking-confirmation";
+import { addressHasStreetNumber, isValidBookingEmail } from "@/lib/booking-validation";
 
 const NEEDS = [
   { value: "automatiser", label: "Automatiser un process répétitif" },
@@ -33,14 +34,13 @@ type CalSlot = {
   timeLabel: string;
 };
 
-type Lead = {
+type ContactDraft = {
   name: string;
   email: string;
   company: string;
   city: string;
   address: string;
-  need: Need;
-  companySize: Size;
+  consent: boolean;
 };
 
 type LeadQualifierProps = {
@@ -49,6 +49,15 @@ type LeadQualifierProps = {
 };
 
 const WEEKDAYS = ["lun", "mar", "mer", "jeu", "ven", "sam", "dim"] as const;
+
+const EMPTY_CONTACT: ContactDraft = {
+  name: "",
+  email: "",
+  company: "",
+  city: "",
+  address: "",
+  consent: false,
+};
 
 function labelOf<T extends { value: string; label: string }>(
   options: readonly T[],
@@ -88,7 +97,6 @@ function buildMonthCells(viewMonth: Date, availableDays: Set<string>) {
   const month = viewMonth.getMonth();
   const first = new Date(year, month, 1);
   const daysInMonth = new Date(year, month + 1, 0).getDate();
-  // Monday-first offset
   const startOffset = (first.getDay() + 6) % 7;
   const cells: Array<{
     key: string;
@@ -121,7 +129,7 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
   const [step, setStep] = useState<Step>(0);
   const [need, setNeed] = useState<Need | "">("");
   const [companySize, setCompanySize] = useState<Size | "">("");
-  const [lead, setLead] = useState<Lead | null>(null);
+  const [contact, setContact] = useState<ContactDraft>(EMPTY_CONTACT);
   const [slots, setSlots] = useState<CalSlot[]>([]);
   const [slotsLoading, setSlotsLoading] = useState(false);
   const [slotsError, setSlotsError] = useState<string | null>(null);
@@ -146,6 +154,7 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
   );
   const daySlots = selectedDay ? (slotsByDay.get(selectedDay) ?? []) : [];
   const selectedDayLabel = daySlots[0]?.dayLabel ?? "";
+  const isScheduleStep = step === 3;
 
   useEffect(() => {
     if (step !== 3) return;
@@ -185,6 +194,20 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
     };
   }, [step]);
 
+  useEffect(() => {
+    if (variant !== "hero") return;
+    if (!isScheduleStep) return;
+    const node = document.getElementById(id);
+    if (!node) return;
+    window.requestAnimationFrame(() => {
+      node.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+  }, [variant, isScheduleStep, selectedDay, id]);
+
+  function updateContact<K extends keyof ContactDraft>(key: K, value: ContactDraft[K]) {
+    setContact((prev) => ({ ...prev, [key]: value }));
+  }
+
   function selectNeed(value: Need) {
     setNeed(value);
     setError(null);
@@ -203,25 +226,56 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
       setError("Revenez aux étapes précédentes pour compléter votre profil.");
       return;
     }
+    const name = contact.name.trim();
+    const email = contact.email.trim();
+    const city = contact.city.trim();
+    const address = contact.address.trim();
+
+    if (!name || !email || !city || !address) {
+      setError("Complétez nom, e-mail, ville et adresse de visite.");
+      return;
+    }
+    if (!isValidBookingEmail(email)) {
+      setError("Indiquez une adresse e-mail valide (avec @ et un point).");
+      return;
+    }
+    if (!addressHasStreetNumber(address)) {
+      setError("L’adresse doit contenir un numéro (ex. : Rue de la Gare 12).");
+      return;
+    }
+    if (!contact.consent) {
+      setError("Merci d’accepter l’utilisation de vos données pour organiser la visite.");
+      return;
+    }
+
     setError(null);
-    const data = new FormData(event.currentTarget);
-    setLead({
-      name: String(data.get("name") || "").trim(),
-      email: String(data.get("email") || "").trim(),
-      company: String(data.get("company") || "").trim(),
-      city: String(data.get("city") || "").trim(),
-      address: String(data.get("address") || "").trim(),
-      need,
-      companySize,
-    });
+    setContact((prev) => ({
+      ...prev,
+      name,
+      email,
+      city,
+      address,
+      company: prev.company.trim(),
+    }));
     setStep(3);
   }
 
   async function onBook() {
-    if (!lead || !selectedStart) {
+    const name = contact.name.trim();
+    const email = contact.email.trim();
+    const city = contact.city.trim();
+    const address = contact.address.trim();
+    const company = contact.company.trim();
+
+    if (!need || !companySize || !selectedStart) {
       setError("Choisissez une date puis un horaire.");
       return;
     }
+    if (!isValidBookingEmail(email) || !addressHasStreetNumber(address)) {
+      setError("Revenez à l’étape précédente pour corriger e-mail ou adresse.");
+      return;
+    }
+
     setPending(true);
     setError(null);
     setExistingVisit(null);
@@ -231,13 +285,13 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           start: selectedStart,
-          name: lead.name,
-          email: lead.email,
-          company: lead.company,
-          city: lead.city,
-          address: lead.address,
-          need: labelOf(NEEDS, lead.need),
-          companySize: labelOf(SIZES, lead.companySize),
+          name,
+          email,
+          company,
+          city,
+          address,
+          need: labelOf(NEEDS, need),
+          companySize: labelOf(SIZES, companySize),
         }),
       });
       const payload = (await response.json()) as {
@@ -265,13 +319,13 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
       if (!response.ok) throw new Error(payload.error || "Réservation impossible.");
       const slot = slots.find((s) => s.start === selectedStart);
       const confirmation: BookingConfirmationDetails = {
-        name: lead.name,
-        email: lead.email,
-        company: lead.company,
-        city: lead.city,
-        address: lead.address,
-        need: labelOf(NEEDS, lead.need),
-        companySize: labelOf(SIZES, lead.companySize),
+        name,
+        email,
+        company,
+        city,
+        address,
+        need: labelOf(NEEDS, need),
+        companySize: labelOf(SIZES, companySize),
         slotLabel: payload.slotLabel || slot?.label || selectedStart,
         manageUrl: payload.manageUrl,
       };
@@ -312,7 +366,9 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
   return (
     <div
       id={id}
-      className={`lead-qualifier${variant === "hero" ? " lead-qualifier-hero" : ""}`}
+      className={`lead-qualifier${variant === "hero" ? " lead-qualifier-hero" : ""}${
+        isScheduleStep ? " is-schedule-step" : ""
+      }`}
       data-cursor="card"
     >
       <div className="lead-qualifier-head">
@@ -336,268 +392,292 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
           exit={{ opacity: 0, x: -12 }}
           transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
         >
-            <h2 className="lead-qualifier-title font-display">{stepTitle}</h2>
-            <p className="lead-qualifier-hint">{stepHint}</p>
+          <h2 className="lead-qualifier-title font-display">{stepTitle}</h2>
+          <p className="lead-qualifier-hint">{stepHint}</p>
 
-            {step === 0 ? (
-              <div className="lead-options" role="listbox" aria-label="Priorité">
-                {NEEDS.map((option) => (
-                  <button
-                    key={option.value}
-                    type="button"
-                    role="option"
-                    aria-selected={need === option.value}
-                    className={`lead-option${need === option.value ? " is-selected" : ""}`}
-                    onClick={() => selectNeed(option.value)}
-                  >
-                    <span>{option.label}</span>
-                  </button>
-                ))}
+          {step === 0 ? (
+            <div className="lead-options" role="listbox" aria-label="Priorité">
+              {NEEDS.map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  role="option"
+                  aria-selected={need === option.value}
+                  className={`lead-option${need === option.value ? " is-selected" : ""}`}
+                  onClick={() => selectNeed(option.value)}
+                >
+                  <span>{option.label}</span>
+                </button>
+              ))}
+            </div>
+          ) : null}
+
+          {step === 1 ? (
+            <div className="lead-options lead-options-compact" role="listbox" aria-label="Taille">
+              {SIZES.map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  role="option"
+                  aria-selected={companySize === option.value}
+                  className={`lead-option${companySize === option.value ? " is-selected" : ""}`}
+                  onClick={() => selectSize(option.value)}
+                >
+                  <span>{option.label}</span>
+                </button>
+              ))}
+            </div>
+          ) : null}
+
+          {step === 2 ? (
+            <form onSubmit={onContactSubmit} className="lead-contact-form">
+              <label>
+                Nom *
+                <input
+                  name="name"
+                  required
+                  value={contact.name}
+                  onChange={(e) => updateContact("name", e.target.value)}
+                  placeholder="Votre nom et prénom"
+                  autoComplete="name"
+                />
+              </label>
+              <label>
+                Mail *
+                <input
+                  name="email"
+                  type="email"
+                  required
+                  value={contact.email}
+                  onChange={(e) => updateContact("email", e.target.value)}
+                  placeholder="contact@entreprise.be"
+                  autoComplete="email"
+                />
+              </label>
+              <label>
+                Société
+                <input
+                  name="company"
+                  value={contact.company}
+                  onChange={(e) => updateContact("company", e.target.value)}
+                  placeholder="Optionnel"
+                  autoComplete="organization"
+                />
+              </label>
+              <label>
+                Ville *
+                <input
+                  name="city"
+                  required
+                  value={contact.city}
+                  onChange={(e) => updateContact("city", e.target.value)}
+                  placeholder="Ex. : Charleroi"
+                  autoComplete="address-level2"
+                />
+              </label>
+              <label className="full">
+                Adresse de visite *
+                <input
+                  name="address"
+                  required
+                  value={contact.address}
+                  onChange={(e) => updateContact("address", e.target.value)}
+                  placeholder="Rue et n° (ex. : Rue de la Gare 12)"
+                  autoComplete="street-address"
+                />
+              </label>
+              <label className="full consent">
+                <input
+                  type="checkbox"
+                  required
+                  checked={contact.consent}
+                  onChange={(e) => updateContact("consent", e.target.checked)}
+                />
+                <span>
+                  J&apos;accepte que mes données soient utilisées par Optmiz pour organiser la
+                  visite.
+                </span>
+              </label>
+              {error ? (
+                <p className="form-error full" role="alert">
+                  {error}
+                </p>
+              ) : null}
+              <div className="full lead-contact-actions">
+                <button
+                  type="button"
+                  className="btn-ghost lead-back"
+                  onClick={() => {
+                    setError(null);
+                    setStep(1);
+                  }}
+                >
+                  Retour
+                </button>
+                <button type="submit" className="btn-primary-glow btn-cta contact-submit-btn">
+                  Choisir une date
+                </button>
               </div>
-            ) : null}
+            </form>
+          ) : null}
 
-            {step === 1 ? (
-              <div className="lead-options lead-options-compact" role="listbox" aria-label="Taille">
-                {SIZES.map((option) => (
-                  <button
-                    key={option.value}
-                    type="button"
-                    role="option"
-                    aria-selected={companySize === option.value}
-                    className={`lead-option${companySize === option.value ? " is-selected" : ""}`}
-                    onClick={() => selectSize(option.value)}
-                  >
-                    <span>{option.label}</span>
-                  </button>
-                ))}
-              </div>
-            ) : null}
+          {step === 3 ? (
+            <div className="lead-schedule">
+              {slotsLoading ? (
+                <p className="lead-qualifier-hint">Chargement du calendrier…</p>
+              ) : null}
+              {slotsError ? (
+                <p className="form-error" role="alert">
+                  {slotsError}
+                </p>
+              ) : null}
 
-            {step === 2 ? (
-              <form onSubmit={onContactSubmit} className="lead-contact-form">
-                <label>
-                  Nom *
-                  <input name="name" required placeholder="Votre nom et prénom" autoComplete="name" />
-                </label>
-                <label>
-                  Mail *
-                  <input
-                    name="email"
-                    type="email"
-                    required
-                    placeholder="contact@entreprise.be"
-                    autoComplete="email"
-                  />
-                </label>
-                <label>
-                  Société
-                  <input name="company" placeholder="Optionnel" autoComplete="organization" />
-                </label>
-                <label>
-                  Ville *
-                  <input
-                    name="city"
-                    required
-                    placeholder="Ex. : Charleroi"
-                    autoComplete="address-level2"
-                  />
-                </label>
-                <label className="full">
-                  Adresse de visite *
-                  <input
-                    name="address"
-                    required
-                    placeholder="Rue et n°"
-                    autoComplete="street-address"
-                  />
-                </label>
-                <label className="full consent">
-                  <input type="checkbox" required />
-                  <span>
-                    J&apos;accepte que mes données soient utilisées par Optmiz pour organiser la
-                    visite.
-                  </span>
-                </label>
-                {error ? (
-                  <p className="form-error full" role="alert">
-                    {error}
-                  </p>
-                ) : null}
-                <div className="full lead-contact-actions">
-                  <button
-                    type="button"
-                    className="btn-ghost lead-back"
-                    onClick={() => {
-                      setError(null);
-                      setStep(1);
-                    }}
-                  >
-                    Retour
-                  </button>
-                  <button type="submit" className="btn-primary-glow btn-cta contact-submit-btn">
-                    Choisir une date
-                  </button>
-                </div>
-              </form>
-            ) : null}
+              {!slotsLoading && !slotsError && availableDays.size === 0 ? (
+                <p className="lead-qualifier-hint">
+                  Aucun créneau libre sur la période. Écrivez-nous à contact@optmiz.be.
+                </p>
+              ) : null}
 
-            {step === 3 ? (
-              <div className="lead-schedule">
-                {slotsLoading ? (
-                  <p className="lead-qualifier-hint">Chargement du calendrier…</p>
-                ) : null}
-                {slotsError ? (
-                  <p className="form-error" role="alert">
-                    {slotsError}
-                  </p>
-                ) : null}
+              {!slotsLoading && availableDays.size > 0 ? (
+                <>
+                  <div className="lead-calendar">
+                    <div className="lead-calendar-nav">
+                      <button
+                        type="button"
+                        className="lead-calendar-nav-btn"
+                        aria-label="Mois précédent"
+                        onClick={() =>
+                          setViewMonth(
+                            new Date(viewMonth.getFullYear(), viewMonth.getMonth() - 1, 1),
+                          )
+                        }
+                      >
+                        ‹
+                      </button>
+                      <p className="lead-calendar-month">{monthLabel(viewMonth)}</p>
+                      <button
+                        type="button"
+                        className="lead-calendar-nav-btn"
+                        aria-label="Mois suivant"
+                        onClick={() =>
+                          setViewMonth(
+                            new Date(viewMonth.getFullYear(), viewMonth.getMonth() + 1, 1),
+                          )
+                        }
+                      >
+                        ›
+                      </button>
+                    </div>
+                    <div className="lead-calendar-weekdays" aria-hidden>
+                      {WEEKDAYS.map((day) => (
+                        <span key={day}>{day}</span>
+                      ))}
+                    </div>
+                    <div className="lead-calendar-grid" role="grid" aria-label="Calendrier">
+                      {monthCells.map((cell) =>
+                        cell.day == null ? (
+                          <span key={cell.key} className="lead-calendar-empty" />
+                        ) : (
+                          <button
+                            key={cell.key}
+                            type="button"
+                            className={`lead-calendar-day${
+                              cell.available ? " is-available" : ""
+                            }${selectedDay === cell.dayKey ? " is-selected" : ""}${
+                              cell.past || !cell.available ? " is-disabled" : ""
+                            }`}
+                            disabled={!cell.available}
+                            onClick={() => {
+                              if (!cell.dayKey) return;
+                              setSelectedDay(cell.dayKey);
+                              setSelectedStart("");
+                              setError(null);
+                            }}
+                          >
+                            {cell.day}
+                          </button>
+                        ),
+                      )}
+                    </div>
+                  </div>
 
-                {!slotsLoading && !slotsError && availableDays.size === 0 ? (
-                  <p className="lead-qualifier-hint">
-                    Aucun créneau libre sur la période. Écrivez-nous à contact@optmiz.be.
-                  </p>
-                ) : null}
-
-                {!slotsLoading && availableDays.size > 0 ? (
-                  <>
-                    <div className="lead-calendar">
-                      <div className="lead-calendar-nav">
-                        <button
-                          type="button"
-                          className="lead-calendar-nav-btn"
-                          aria-label="Mois précédent"
-                          onClick={() =>
-                            setViewMonth(
-                              new Date(viewMonth.getFullYear(), viewMonth.getMonth() - 1, 1),
-                            )
-                          }
-                        >
-                          ‹
-                        </button>
-                        <p className="lead-calendar-month">{monthLabel(viewMonth)}</p>
-                        <button
-                          type="button"
-                          className="lead-calendar-nav-btn"
-                          aria-label="Mois suivant"
-                          onClick={() =>
-                            setViewMonth(
-                              new Date(viewMonth.getFullYear(), viewMonth.getMonth() + 1, 1),
-                            )
-                          }
-                        >
-                          ›
-                        </button>
-                      </div>
-                      <div className="lead-calendar-weekdays" aria-hidden>
-                        {WEEKDAYS.map((day) => (
-                          <span key={day}>{day}</span>
+                  {selectedDay ? (
+                    <div className="lead-times" role="listbox" aria-label="Horaires">
+                      <p className="booking-field-label">{selectedDayLabel}</p>
+                      <div className="lead-times-list">
+                        {daySlots.map((slot) => (
+                          <button
+                            key={slot.start}
+                            type="button"
+                            role="option"
+                            aria-selected={selectedStart === slot.start}
+                            className={`lead-time-chip${
+                              selectedStart === slot.start ? " is-selected" : ""
+                            }`}
+                            onClick={() => setSelectedStart(slot.start)}
+                          >
+                            {slot.timeLabel}
+                          </button>
                         ))}
                       </div>
-                      <div className="lead-calendar-grid" role="grid" aria-label="Calendrier">
-                        {monthCells.map((cell) =>
-                          cell.day == null ? (
-                            <span key={cell.key} className="lead-calendar-empty" />
-                          ) : (
-                            <button
-                              key={cell.key}
-                              type="button"
-                              className={`lead-calendar-day${
-                                cell.available ? " is-available" : ""
-                              }${selectedDay === cell.dayKey ? " is-selected" : ""}${
-                                cell.past || !cell.available ? " is-disabled" : ""
-                              }`}
-                              disabled={!cell.available}
-                              onClick={() => {
-                                if (!cell.dayKey) return;
-                                setSelectedDay(cell.dayKey);
-                                setSelectedStart("");
-                                setError(null);
-                              }}
-                            >
-                              {cell.day}
-                            </button>
-                          ),
-                        )}
-                      </div>
                     </div>
+                  ) : (
+                    <p className="lead-qualifier-hint">Sélectionnez une date disponible.</p>
+                  )}
+                </>
+              ) : null}
 
-                    {selectedDay ? (
-                      <div className="lead-times" role="listbox" aria-label="Horaires">
-                        <p className="booking-field-label">{selectedDayLabel}</p>
-                        <div className="lead-times-list">
-                          {daySlots.map((slot) => (
-                            <button
-                              key={slot.start}
-                              type="button"
-                              role="option"
-                              aria-selected={selectedStart === slot.start}
-                              className={`lead-time-chip${
-                                selectedStart === slot.start ? " is-selected" : ""
-                              }`}
-                              onClick={() => setSelectedStart(slot.start)}
-                            >
-                              {slot.timeLabel}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    ) : (
-                      <p className="lead-qualifier-hint">Sélectionnez une date disponible.</p>
-                    )}
-                  </>
-                ) : null}
+              {error ? (
+                <p className="form-error" role="alert">
+                  {error}
+                </p>
+              ) : null}
 
-                {error ? (
-                  <p className="form-error" role="alert">
-                    {error}
-                  </p>
-                ) : null}
+              {existingVisit ? (
+                <p className="lead-qualifier-hint" style={{ marginTop: "0.5rem" }}>
+                  Créneau déjà prévu : <strong>{existingVisit.slotLabel}</strong>.{" "}
+                  <a className="text-link" href={existingVisit.manageUrl}>
+                    Modifier ou annuler
+                  </a>
+                </p>
+              ) : null}
 
-                {existingVisit ? (
-                  <p className="lead-qualifier-hint" style={{ marginTop: "0.5rem" }}>
-                    Créneau déjà prévu : <strong>{existingVisit.slotLabel}</strong>.{" "}
-                    <a className="text-link" href={existingVisit.manageUrl}>
-                      Modifier ou annuler
-                    </a>
-                  </p>
-                ) : null}
-
-                <div className="lead-contact-actions" style={{ marginTop: "0.75rem" }}>
-                  <button
-                    type="button"
-                    className="btn-ghost lead-back"
-                    onClick={() => {
-                      setError(null);
-                      setExistingVisit(null);
-                      setStep(2);
-                    }}
-                  >
-                    Retour
-                  </button>
-                  <button
-                    type="button"
-                    className="btn-primary-glow btn-cta contact-submit-btn"
-                    disabled={pending || !selectedStart || slotsLoading || Boolean(existingVisit)}
-                    onClick={onBook}
-                  >
-                    {pending ? "Réservation…" : "Confirmer la visite"}
-                  </button>
-                </div>
+              <div className="lead-contact-actions" style={{ marginTop: "0.75rem" }}>
+                <button
+                  type="button"
+                  className="btn-ghost lead-back"
+                  onClick={() => {
+                    setError(null);
+                    setExistingVisit(null);
+                    setStep(2);
+                  }}
+                >
+                  Retour
+                </button>
+                <button
+                  type="button"
+                  className="btn-primary-glow btn-cta contact-submit-btn"
+                  disabled={pending || !selectedStart || slotsLoading || Boolean(existingVisit)}
+                  onClick={onBook}
+                >
+                  {pending ? "Réservation…" : "Confirmer la visite"}
+                </button>
               </div>
-            ) : null}
+            </div>
+          ) : null}
 
-            {step === 1 ? (
-              <button
-                type="button"
-                className="lead-back-link"
-                onClick={() => {
-                  setError(null);
-                  setStep(0);
-                }}
-              >
-                ← Retour
-              </button>
-            ) : null}
+          {step === 1 ? (
+            <button
+              type="button"
+              className="lead-back-link"
+              onClick={() => {
+                setError(null);
+                setStep(0);
+              }}
+            >
+              ← Retour
+            </button>
+          ) : null}
         </motion.div>
       </AnimatePresence>
     </div>

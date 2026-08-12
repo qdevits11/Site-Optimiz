@@ -102,9 +102,10 @@ body::before {
   position: relative;
   min-height: auto;
   display: flex;
-  align-items: center;
+  align-items: safe center;
   padding: 5.75rem clamp(1.25rem, 4vw, 2.25rem) 2rem;
-  overflow: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 @media (min-width: 900px) {
@@ -186,6 +187,7 @@ body::before {
   position: absolute;
   inset: 0;
   z-index: 0;
+  overflow: hidden;
 }
 
 .hero-veil {
@@ -2692,6 +2694,23 @@ body.nav-overlay-open {
 
 .lead-qualifier-hero .lead-times-list {
   max-height: 9.5rem;
+}
+
+.lead-qualifier-hero.is-schedule-step {
+  /* Laisse le calendrier respirer dans le hero sans le couper */
+  align-self: start;
+}
+
+@media (min-width: 900px) {
+  .hero:has(.lead-qualifier-hero.is-schedule-step) {
+    align-items: flex-start;
+    min-height: auto;
+    padding-bottom: 3rem;
+  }
+
+  .hero:has(.lead-qualifier-hero.is-schedule-step) .hero-with-qualifier {
+    align-items: start;
+  }
 }
 
 .visit-manage-section {
