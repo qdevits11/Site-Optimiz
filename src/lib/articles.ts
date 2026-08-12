@@ -191,25 +191,25 @@ export const articles: Article[] = [
         ],
       },
       {
-        heading: "Étape 1 — Lister les tâches répétitives réelles, pas supposées",
+        heading: "Étape 1 : Lister les tâches répétitives réelles, pas supposées",
         paragraphs: [
           "Demandez à vos équipes ce qu'elles font vraiment chaque semaine, pas ce que la fiche de poste dit qu'elles devraient faire. Les vraies pertes de temps se trouvent presque toujours dans les tâches « annexes » : exports, relances, corrections, ressaisies.",
         ],
       },
       {
-        heading: "Étape 2 — Prioriser par impact × fréquence",
+        heading: "Étape 2 : Prioriser par impact × fréquence",
         paragraphs: [
           "Une tâche qui prend 5 minutes mais se répète 50 fois par jour pèse plus qu'une tâche de 2 heures qui n'arrive qu'une fois par mois. Classez vos candidats à l'automatisation sur ces deux critères avant de choisir par où commencer.",
         ],
       },
       {
-        heading: "Étape 3 — Cartographier le processus actuel, avant / après",
+        heading: "Étape 3 : Cartographier le processus actuel, avant / après",
         paragraphs: [
           "Décrivez précisément les étapes actuelles : qui fait quoi, avec quel outil, à quelle fréquence, avec quelles exceptions. C'est cette cartographie qui révèle les vrais points de friction, souvent différents de ce qu'on imaginait au départ.",
         ],
       },
       {
-        heading: "Étape 4 — Tester sur un périmètre restreint avant de généraliser",
+        heading: "Étape 4 : Tester sur un périmètre restreint avant de généraliser",
         paragraphs: [
           "Automatiser directement l'ensemble d'un processus complexe multiplie le risque. Commencer sur un périmètre limité (une équipe, un type de dossier) permet de valider l'approche avant de l'étendre.",
         ],

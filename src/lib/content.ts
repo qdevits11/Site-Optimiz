@@ -80,7 +80,7 @@ export const caseStudies: AccordionItem[] = [
 export const generalFaqs = [
   {
     q: "Optmiz intervient-il partout en Belgique ?",
-    a: "Optmiz est basé à Soignies et intervient principalement auprès de PME en Wallonie (Hainaut, Brabant wallon, Namur, Bruxelles) — notamment à Mons, Charleroi, Namur, Braine-le-Comte, La Louvière — et à distance pour les échanges qui ne nécessitent pas de présence terrain. La liste des villes est sur la page Zones.",
+    a: "Optmiz est basé à Soignies et intervient principalement auprès de PME en Wallonie (Hainaut, Brabant wallon, Namur, Bruxelles), notamment à Mons, Charleroi, Namur, Braine-le-Comte, La Louvière, ainsi qu'à distance pour les échanges qui ne nécessitent pas de présence terrain. La liste des villes est sur la page Zones.",
   },
   {
     q: "Puis-je réserver une visite sur mon lieu de travail ?",

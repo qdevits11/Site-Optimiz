@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { sitelinkCandidates } from "@/lib/navigation";
 
 /**
- * IMPORTANT — domaine canonique
+ * IMPORTANT : domaine canonique
  * L'apex "https://optmiz.be" ne répond pas en HTTPS (échec de handshake TLS,
  * DNS pointant vers un service de redirection HTTP-only chez le registrar).
  * Tant que ce n'est pas corrigé côté DNS/Vercel, le domaine fiable est

@@ -38,7 +38,7 @@ console.log(`   ${redirectUri}`);
 console.log("\n2. Open this URL in a browser (signed in as the Optmiz calendar account):\n");
 console.log(authUrl.toString());
 console.log(
-  "\n3. After approve, the browser lands on a URL that may fail to load — copy the full URL,",
+  "\n3. After approve, the browser lands on a URL that may fail to load: copy the full URL,",
 );
 console.log("   or just the `code=` query value, and paste it below.\n");
 
@@ -83,6 +83,6 @@ if (!res.ok) {
 console.log("\nAdd these to Vercel → Environment Variables:\n");
 console.log(`GOOGLE_CLIENT_ID=${clientId}`);
 console.log(`GOOGLE_CLIENT_SECRET=${clientSecret}`);
-console.log(`GOOGLE_REFRESH_TOKEN=${json.refresh_token || "(missing — revoke access and retry with prompt=consent)"}`);
+console.log(`GOOGLE_REFRESH_TOKEN=${json.refresh_token || "(missing: revoke access and retry with prompt=consent)"}`);
 console.log(`GOOGLE_CALENDAR_ID=primary`);
 console.log("\nThen Redeploy.");

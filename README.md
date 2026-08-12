@@ -65,12 +65,12 @@ Config dans **Vercel → Project → Settings → Environment Variables** (Produ
 | `GOOGLE_REFRESH_TOKEN` | refresh token (scope Calendar) |
 | `GOOGLE_CALENDAR_ID` | `primary` (ou id d’agenda) |
 | `BOOKING_TIMEZONE` | `Europe/Brussels` (optionnel) |
-| `BOOKING_DURATION_MINUTES` | `45` (optionnel) — durée d’une visite |
-| `BOOKING_DAY_START` | `09:00` (optionnel) — premier créneau |
-| `BOOKING_DAY_END` | `17:00` (optionnel) — dernier créneau (heure de début) |
-| `BOOKING_SLOT_INTERVAL_MINUTES` | `30` (optionnel) — grille des horaires proposés |
+| `BOOKING_DURATION_MINUTES` | `45` (optionnel) : durée d’une visite |
+| `BOOKING_DAY_START` | `09:00` (optionnel) : premier créneau |
+| `BOOKING_DAY_END` | `17:00` (optionnel) : dernier créneau (heure de début) |
+| `BOOKING_SLOT_INTERVAL_MINUTES` | `30` (optionnel) : grille des horaires proposés |
 | `BOOKING_HORIZON_DAYS` | `14` (optionnel) |
-| `BOOKING_BUFFER_MINUTES` | `60` (optionnel) — 1 h minimum entre deux RDV |
+| `BOOKING_BUFFER_MINUTES` | `60` (optionnel) : 1 h minimum entre deux RDV |
 | `BOOKING_MANAGE_SECRET` | secret pour signer les liens annuler/modifier (optionnel) |
 
 `BOOKING_SLOT_TIMES` n’est plus utilisé (ancienne liste fixe). Les créneaux libres = grille lun–ven ci-dessus, moins les plages occupées dans Google Agenda (avec la marge `BOOKING_BUFFER_MINUTES`).
@@ -97,7 +97,7 @@ node scripts/google-calendar-oauth.mjs
 6. Scope requis : `https://www.googleapis.com/auth/calendar`.
 7. Optionnel : `GOOGLE_CALENDAR_ID` si ce n’est pas l’agenda principal.
 
-Parcours site : **2–4 étapes** — priorité, taille, coordonnées + adresse, puis calendrier / horaires (API Google).
+Parcours site : **2-4 étapes** : priorité, taille, coordonnées + adresse, puis calendrier / horaires (API Google).
 
 ### E-mail de confirmation (brand Optmiz)
 
@@ -134,12 +134,12 @@ npm start
 
 ### Soumettre le sitemap aux moteurs de recherche
 
-**Google** — nécessite une connexion à [Google Search Console](https://search.google.com/search-console) (une propriété existe déjà, vérifiée via une entrée TXT DNS `google-site-verification`) :
+**Google** : nécessite une connexion à [Google Search Console](https://search.google.com/search-console) (une propriété existe déjà, vérifiée via une entrée TXT DNS `google-site-verification`) :
 1. Ouvrir la propriété `optmiz.be` ou `www.optmiz.be` dans Search Console.
 2. Menu **Sitemaps** → coller `sitemap.xml` → **Envoyer**.
 3. Après ajout de nouvelles pages, utiliser **Inspection de l'URL → Demander une indexation** pour les pages prioritaires.
 
-**Bing, Yandex, Naver, Seznam.cz, Yep** — automatisé via [IndexNow](https://www.indexnow.org/) (aucune connexion requise, clé de vérification déjà déployée sur le site) :
+**Bing, Yandex, Naver, Seznam.cz, Yep** : automatisé via [IndexNow](https://www.indexnow.org/) (aucune connexion requise, clé de vérification déjà déployée sur le site) :
 
 ```bash
 npm run submit:indexnow

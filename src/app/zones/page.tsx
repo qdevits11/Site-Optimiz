@@ -27,7 +27,7 @@ export default function ZonesPage() {
             Optmiz près de <span className="text-accent">chez vous</span>
           </>
         }
-        subtitle="Basés à Soignies, nous nous déplaçons chez les PME wallonnes pour un premier diagnostic gratuit — sur votre lieu de travail."
+        subtitle="Basés à Soignies, nous nous déplaçons chez les PME wallonnes pour un premier diagnostic gratuit, sur votre lieu de travail."
         ctaHref="/#devis"
         ctaLabel="Réserver une visite"
         note="Soignies · Hainaut · Brabant wallon · Namur · Bruxelles"
@@ -39,7 +39,7 @@ export default function ZonesPage() {
           <h2 className="page-title">Choisissez votre ville</h2>
           <p className="page-lead" style={{ maxWidth: 680, marginBottom: "1.5rem" }}>
             Chaque page détaille comment Optmiz intervient localement : automatisation,
-            digitalisation, site utile et systèmes de gestion — avec un rendez-vous possible sur
+            digitalisation, site utile et systèmes de gestion, avec un rendez-vous possible sur
             place.
           </p>
           <div className="zones-grid">

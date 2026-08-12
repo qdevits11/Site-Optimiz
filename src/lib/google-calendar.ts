@@ -10,11 +10,11 @@ import { google } from "googleapis";
  * - GOOGLE_CALENDAR_ID               (défaut: primary)
  * - BOOKING_TIMEZONE                 (défaut: Europe/Brussels)
  * - BOOKING_DURATION_MINUTES         (défaut: 45)
- * - BOOKING_DAY_START                (défaut: 09:00) — premier créneau
- * - BOOKING_DAY_END                  (défaut: 17:00) — dernier créneau (heure de début)
+ * - BOOKING_DAY_START                (défaut: 09:00) : premier créneau
+ * - BOOKING_DAY_END                  (défaut: 17:00) : dernier créneau (heure de début)
  * - BOOKING_SLOT_INTERVAL_MINUTES    (défaut: 30)
  * - BOOKING_HORIZON_DAYS             (défaut: 14)
- * - BOOKING_BUFFER_MINUTES           (défaut: 60) — 1 h entre deux RDV (autour des busy)
+ * - BOOKING_BUFFER_MINUTES           (défaut: 60) : 1 h entre deux RDV (autour des busy)
  *
  * Ancienne variable BOOKING_SLOT_TIMES : ignorée (remplacée par la grille ci-dessus).
  */

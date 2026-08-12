@@ -31,7 +31,7 @@ export default function ContactPage() {
             Parlons de <span className="text-accent">votre situation</span>
           </>
         }
-        subtitle="Un premier échange de 30 à 45 minutes, gratuit et sans engagement — sur place chez vous ou à distance."
+        subtitle="Un premier échange de 30 à 45 minutes, gratuit et sans engagement, sur place chez vous ou à distance."
         ctaHref="/#devis"
         ctaLabel="Réserver une visite"
         note="Gratuit · Sans engagement · Créneau synchronisé"

@@ -24,7 +24,7 @@ export const cities: City[] = [
     intro:
       "Basé à Soignies, Optmiz accompagne les PME locales qui perdent du temps sur des tâches manuelles, des Excel fragiles ou des outils qui ne se parlent pas. Un premier rendez-vous se fait souvent chez vous, sur votre lieu de travail.",
     localContext:
-      "Soignies concentre artisans, commerces, PME industrielles et services de proximité. Dans un tissu où tout le monde se connaît, ce qui freine souvent la croissance n’est pas le manque de clients : c’est l’organisation interne — relances, pointages, facturation, reporting.",
+      "Soignies concentre artisans, commerces, PME industrielles et services de proximité. Dans un tissu où tout le monde se connaît, ce qui freine souvent la croissance n’est pas le manque de clients : c’est l’organisation interne, relances, pointages, facturation, reporting.",
     whyLocal:
       "Travailler avec une équipe basée à Soignies, c’est pouvoir se voir rapidement, observer vos process sur le terrain et avancer sans jargon. La proximité change la qualité du diagnostic.",
     industries: ["Artisanat & construction", "Services B2B", "Commerce de proximité", "Industrie légère"],
@@ -43,7 +43,7 @@ export const cities: City[] = [
     localContext:
       "Entre Bruxelles et Mons, Braine-le-Comte attire des entreprises en croissance qui jonglent déjà avec plusieurs outils. Le goulot d’étranglement arrive souvent quand le volume augmente : double saisie, relances oubliées, suivi client dispersé.",
     whyLocal:
-      "Depuis Soignies, nous nous déplaçons facilement à Braine-le-Comte pour voir votre organisation réelle — pas seulement ce qui est décrit dans un appel Teams.",
+      "Depuis Soignies, nous nous déplaçons facilement à Braine-le-Comte pour voir votre organisation réelle, pas seulement ce qui est décrit dans un appel Teams.",
     industries: ["Logistique & distribution", "Services aux entreprises", "Commerce", "Professions libérales"],
     neighborhoods: ["centre", "Henripont", "Petit-Roeulx", "Steenkerque"],
     nearbySlugs: ["soignies", "enghien", "nivelles", "la-louviere"],
@@ -92,7 +92,7 @@ export const cities: City[] = [
     intro:
       "Optmiz accompagne les PME namuroises dans l’automatisation et la digitalisation de leurs processus. Échange gratuit, déplacement sur site, prix fixe avant démarrage.",
     localContext:
-      "Capitale wallonne, Namur mêle administrations, professions libérales, commerces et PME de services. Beaucoup d’équipes compensent encore avec Excel et des mails — jusqu’au jour où ça casse.",
+      "Capitale wallonne, Namur mêle administrations, professions libérales, commerces et PME de services. Beaucoup d’équipes compensent encore avec Excel et des mails, jusqu’au jour où ça casse.",
     whyLocal:
       "Nous intervenons à Namur et dans sa périphérie pour un diagnostic terrain. L’objectif : des gains visibles rapidement, sans projeter une usine à gaz.",
     industries: ["Services & conseil", "Professions libérales", "Commerce", "BTP & artisans"],
@@ -111,7 +111,7 @@ export const cities: City[] = [
     localContext:
       "Au cœur du Centre, La Louvière concentre un tissu industriel et commercial solide. Les entreprises qui grandissent se heurtent souvent aux mêmes freins : saisies manuelles, outils isolés, suivi commercial dispersé.",
     whyLocal:
-      "Depuis Soignies, La Louvière est à deux pas. On vient observer vos flux réels avant de chiffrer quoi que ce soit — c’est la base du devis fixe.",
+      "Depuis Soignies, La Louvière est à deux pas. On vient observer vos flux réels avant de chiffrer quoi que ce soit, c’est la base du devis fixe.",
     industries: ["Industrie & logistique", "Commerce", "Services aux entreprises", "Construction"],
     neighborhoods: ["centre", "Haine-Saint-Pierre", "Saint-Vaast", "Trivières", "Strépy-Bracquegnies"],
     nearbySlugs: ["soignies", "mons", "binche", "charleroi"],
@@ -145,7 +145,7 @@ export const cities: City[] = [
     localContext:
       "Entre Soignies et Bruxelles, Enghien accueille commerces, artisans et petites structures qui grandissent sans toujours formaliser leurs outils. L’Excel « qui marche » finit souvent par coûter cher.",
     whyLocal:
-      "Basés à Soignies, nous sommes rapidement sur place à Enghien pour un diagnostic sans blabla — et un devis fixe si un projet a du sens.",
+      "Basés à Soignies, nous sommes rapidement sur place à Enghien pour un diagnostic sans blabla, et un devis fixe si un projet a du sens.",
     industries: ["Commerce de proximité", "Artisanat", "Services", "Horeca"],
     neighborhoods: ["centre", "Petit-Enghien", "Marcq"],
     nearbySlugs: ["soignies", "braine-le-comte", "ath", "bruxelles"],
@@ -162,7 +162,7 @@ export const cities: City[] = [
     localContext:
       "Ath combine un centre commercial vivant et un tissu de PME périurbaines. Beaucoup d’équipes perdent encore des heures sur des tâches administratives qui pourraient tourner seules.",
     whyLocal:
-      "Nous venons à Ath pour voir votre réalité terrain. C’est la seule base sérieuse pour proposer une automatisation utile — pas une slide deck.",
+      "Nous venons à Ath pour voir votre réalité terrain. C’est la seule base sérieuse pour proposer une automatisation utile, pas une slide deck.",
     industries: ["Agroalimentaire & commerce", "Artisanat", "Services", "Industrie légère"],
     neighborhoods: ["centre", "Maffle", "Ghislenghien", "Lanquesaint"],
     nearbySlugs: ["mons", "enghien", "tournai", "soignies"],
@@ -177,7 +177,7 @@ export const cities: City[] = [
     intro:
       "À Binche, Optmiz digitalise et automatise les process PME qui freinent vos équipes. Premier échange gratuit, sur place ou à distance.",
     localContext:
-      "Binche et ses environs regroupent commerces, artisans et PME industrielles. Quand l’activité tourne, l’admin suit rarement au même rythme — relances, pointages, factures.",
+      "Binche et ses environs regroupent commerces, artisans et PME industrielles. Quand l’activité tourne, l’admin suit rarement au même rythme, relances, pointages, factures.",
     whyLocal:
       "Proches de La Louvière et de Soignies, nous intervenons facilement à Binche pour un diagnostic terrain avant tout devis.",
     industries: ["Commerce", "Construction", "Industrie", "Services"],
@@ -194,7 +194,7 @@ export const cities: City[] = [
     intro:
       "Optmiz intervient à Tournai pour automatiser les tâches répétitives et structurer les outils des PME de Wallonie picarde. Diagnostic gratuit, devis fixe.",
     localContext:
-      "Tournai, ville frontalière dynamique, concentre commerce, logistique, industrie et services. Les PME qui grandissent vers la France ou le reste de la Belgique ont besoin de process fiables — pas de bricolage.",
+      "Tournai, ville frontalière dynamique, concentre commerce, logistique, industrie et services. Les PME qui grandissent vers la France ou le reste de la Belgique ont besoin de process fiables, pas de bricolage.",
     whyLocal:
       "Nous nous déplaçons à Tournai pour comprendre votre organisation réelle avant de proposer une solution. Transparence sur le prix dès le départ.",
     industries: ["Logistique & distribution", "Commerce", "Industrie", "Services B2B"],
@@ -211,7 +211,7 @@ export const cities: City[] = [
     intro:
       "Optmiz accompagne aussi des PME bruxelloises : automatisation de process, digitalisation et systèmes de gestion. Premier échange gratuit, sur site ou à distance.",
     localContext:
-      "À Bruxelles, la pression sur le temps et la qualité de service est forte. Les équipes compensent souvent avec des outils multiples — jusqu’à ce que les erreurs et les doublons coûtent trop cher.",
+      "À Bruxelles, la pression sur le temps et la qualité de service est forte. Les équipes compensent souvent avec des outils multiples, jusqu’à ce que les erreurs et les doublons coûtent trop cher.",
     whyLocal:
       "Nous intervenons à Bruxelles pour un diagnostic clair : quoi automatiser en premier, avec quels outils, pour quel budget fixe.",
     industries: ["Services & conseil", "Tech", "Commerce & retail", "Professions libérales"],
@@ -228,7 +228,7 @@ export const cities: City[] = [
     intro:
       "À Gembloux, Optmiz aide les PME à automatiser leurs process et digitaliser ce qui freine encore l’organisation. Premier rendez-vous gratuit, chez vous.",
     localContext:
-      "Entre Namur et Bruxelles, Gembloux concentre un tissu d’entreprises liées à l’agroalimentaire, aux services et à l’innovation. La croissance demande des outils qui suivent — sans complexité inutile.",
+      "Entre Namur et Bruxelles, Gembloux concentre un tissu d’entreprises liées à l’agroalimentaire, aux services et à l’innovation. La croissance demande des outils qui suivent, sans complexité inutile.",
     whyLocal:
       "Nous venons sur place à Gembloux pour observer vos flux avant de chiffrer. C’est la condition d’un devis fixe crédible.",
     industries: ["Agroalimentaire", "Services", "Tech & innovation", "Commerce"],

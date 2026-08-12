@@ -56,7 +56,7 @@ export default async function CityPage({ params }: CityPageProps) {
     },
     {
       q: `Intervenez-vous aussi autour de ${city.name} ?`,
-      a: `Oui. Au-delà de ${city.name}, nous accompagnons les PME de ${city.province} et plus largement en Wallonie${nearby.length ? ` — notamment vers ${nearby.map((c) => c.name).join(", ")}` : ""}.`,
+      a: `Oui. Au-delà de ${city.name}, nous accompagnons les PME de ${city.province} et plus largement en Wallonie${nearby.length ? `, notamment vers ${nearby.map((c) => c.name).join(", ")}` : ""}.`,
     },
   ];
 
@@ -68,7 +68,7 @@ export default async function CityPage({ params }: CityPageProps) {
     },
     {
       title: "Site internet utile",
-      text: "Un site qui structure vos demandes et se connecte à vos outils — pas une vitrine isolée.",
+      text: "Un site qui structure vos demandes et se connecte à vos outils, pas une vitrine isolée.",
       href: "/services/creation-site-web",
     },
     {
@@ -142,7 +142,7 @@ export default async function CityPage({ params }: CityPageProps) {
             </p>
             {city.neighborhoods.length ? (
               <p className="page-lead" style={{ marginTop: "0.85rem" }}>
-                Nous intervenons notamment du côté de {city.neighborhoods.join(", ")} — partout où
+                Nous intervenons notamment du côté de {city.neighborhoods.join(", ")}, partout où
                 vos équipes travaillent réellement.
               </p>
             ) : null}

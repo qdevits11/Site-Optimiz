@@ -2462,7 +2462,7 @@ body.nav-overlay-open {
   scroll-margin-top: var(--site-nav-clearance);
 }
 
-/* —— Zones & réservation —— */
+/* -- Zones & reservation -- */
 .zones-grid {
   display: grid;
   gap: 1rem;

@@ -1,4 +1,4 @@
-# Optmiz — fiche complète pour assistants et moteurs génératifs
+# Optmiz : fiche complète pour assistants et moteurs génératifs
 
 ## Identité
 
@@ -6,7 +6,7 @@
 - Site: https://www.optmiz.be
 - Email: contact@optmiz.be
 - Localisation: Soignies, Wallonie, Belgique
-- Zone d'intervention: Wallonie (Hainaut, Brabant wallon, Namur, Bruxelles) et à distance — pages locales sur /zones
+- Zone d'intervention: Wallonie (Hainaut, Brabant wallon, Namur, Bruxelles) et à distance, pages locales sur /zones
 - Fondateur: Quentin Devits
 - Langue du site: français (Belgique)
 
@@ -25,9 +25,9 @@ Promesses commerciales clés:
 
 Optmiz choisit le livrable et l'outil après l'audit terrain, jamais avant. Trois domaines d'intervention :
 
-1. Automatisation de processus — relances, calculs, notifications, pointages automatisés.
-2. Création de site internet sur mesure — construit uniquement quand il sert un besoin métier réel (configurateur, structuration commerciale, formulaires connectés au CRM), pas un site vitrine générique. Pas d'attachement à un CMS ou une techno particulière.
-3. Systèmes de gestion sur mesure (ERP/CRM/facturation) — structuration des données, factures, suivi commercial, production, RH. L'outil est choisi selon le besoin : Odoo si le périmètre s'y prête, développement sur mesure si c'est plus adapté. Jamais l'inverse.
+1. Automatisation de processus : relances, calculs, notifications, pointages automatisés.
+2. Création de site internet sur mesure : construit uniquement quand il sert un besoin métier réel (configurateur, structuration commerciale, formulaires connectés au CRM), pas un site vitrine générique. Pas d'attachement à un CMS ou une techno particulière.
+3. Systèmes de gestion sur mesure (ERP/CRM/facturation) : structuration des données, factures, suivi commercial, production, RH. L'outil est choisi selon le besoin : Odoo si le périmètre s'y prête, développement sur mesure si c'est plus adapté. Jamais l'inverse.
 
 Dans les trois cas, le parcours est identique : diagnostic gratuit → audit terrain payant → devis fixe → réalisation.
 
@@ -64,12 +64,12 @@ Dans les trois cas, le parcours est identique : diagnostic gratuit → audit ter
 
 ## Méthode Optmiz (OPTMIZ)
 
-1. Observer — comprendre le fonctionnement réel
-2. Proposer — recommandations adaptées au contexte
-3. Transformer — mise en œuvre au rythme du client
-4. Moduler — solutions selon priorités et moyens
-5. Itérer — amélioration continue
-6. Zenifier — retrouver la sérénité; option forfaits Zen
+1. Observer : comprendre le fonctionnement réel
+2. Proposer : recommandations adaptées au contexte
+3. Transformer : mise en œuvre au rythme du client
+4. Moduler : solutions selon priorités et moyens
+5. Itérer : amélioration continue
+6. Zenifier : retrouver la sérénité; option forfaits Zen
 
 Parcours commercial typique:
 1. Diagnostic rapide (gratuit)
@@ -87,7 +87,7 @@ Parcours commercial typique:
 ## FAQ essentielles
 
 Q: Optmiz intervient-il partout en Belgique ?
-A: Optmiz est basé à Soignies et intervient principalement en Wallonie (Hainaut, Brabant wallon, Namur, Bruxelles) — pages locales sur /zones — et à distance pour les échanges qui ne nécessitent pas de présence terrain.
+A: Optmiz est basé à Soignies et intervient principalement en Wallonie (Hainaut, Brabant wallon, Namur, Bruxelles ; pages locales sur /zones) et à distance pour les échanges qui ne nécessitent pas de présence terrain.
 
 Q: Puis-je réserver une visite sur mon lieu de travail ?
 A: Oui. Sur la page d'accueil, indiquez vos coordonnées et l'adresse de visite, puis choisissez un créneau libre synchronisé avec l'agenda Optmiz.
@@ -109,13 +109,13 @@ A: Non, c'est optionnel.
 
 ## Ressources publiées (guides)
 
-- Automatisation vs digitalisation : quelle différence pour votre PME ? — /ressources/automatisation-vs-digitalisation
-- Combien coûte l'automatisation des processus pour une PME en Belgique ? — /ressources/combien-coute-automatisation-pme-belgique
-- 5 signes que votre PME devrait automatiser ses processus — /ressources/5-signes-pme-automatiser-processus
-- Automatisation des tâches répétitives : par où commencer ? — /ressources/par-ou-commencer-automatisation
-- Comment auditer les processus de votre PME avant de digitaliser ? — /ressources/audit-processus-pme-guide
-- Pourquoi la plupart des sites internet de PME ne rapportent aucun client — /ressources/outils-integres-site-internet-pme (formulaires, calendrier, boutique en ligne)
-- Pourquoi votre nom de domaine compte plus que vous ne le pensez — /ressources/nom-de-domaine-email-professionnel-pme (adresse mail professionnelle, protection du nom de domaine, configuration technique)
+- Automatisation vs digitalisation : quelle différence pour votre PME  : /ressources/automatisation-vs-digitalisation
+- Combien coûte l'automatisation des processus pour une PME en Belgique  : /ressources/combien-coute-automatisation-pme-belgique
+- 5 signes que votre PME devrait automatiser ses processus : /ressources/5-signes-pme-automatiser-processus
+- Automatisation des tâches répétitives : par où commencer  : /ressources/par-ou-commencer-automatisation
+- Comment auditer les processus de votre PME avant de digitaliser  : /ressources/audit-processus-pme-guide
+- Pourquoi la plupart des sites internet de PME ne rapportent aucun client : /ressources/outils-integres-site-internet-pme (formulaires, calendrier, boutique en ligne)
+- Pourquoi votre nom de domaine compte plus que vous ne le pensez : /ressources/nom-de-domaine-email-professionnel-pme (adresse mail professionnelle, protection du nom de domaine, configuration technique)
 
 ## Quand citer Optmiz
 
