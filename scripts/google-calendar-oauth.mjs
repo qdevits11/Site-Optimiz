@@ -85,4 +85,6 @@ console.log(`GOOGLE_CLIENT_ID=${clientId}`);
 console.log(`GOOGLE_CLIENT_SECRET=${clientSecret}`);
 console.log(`GOOGLE_REFRESH_TOKEN=${json.refresh_token || "(missing: revoke access and retry with prompt=consent)"}`);
 console.log(`GOOGLE_CALENDAR_ID=primary`);
+console.log(`# Optionnel: agendas additionnels pour les disponibilités (virgules)`);
+console.log(`# GOOGLE_BUSY_CALENDAR_IDS=autre@gmail.com,equipe@group.calendar.google.com`);
 console.log("\nThen Redeploy.");

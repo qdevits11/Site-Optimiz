@@ -63,7 +63,8 @@ Config dans **Vercel → Project → Settings → Environment Variables** (Produ
 | `GOOGLE_CLIENT_ID` | OAuth 2.0 Client ID (Google Cloud) |
 | `GOOGLE_CLIENT_SECRET` | OAuth 2.0 Client Secret |
 | `GOOGLE_REFRESH_TOKEN` | refresh token (scope Calendar) |
-| `GOOGLE_CALENDAR_ID` | `primary` (ou id d’agenda) |
+| `GOOGLE_CALENDAR_ID` | `primary` (ou id d’agenda) : agenda où les RDV sont créés |
+| `GOOGLE_BUSY_CALENDAR_IDS` | (optionnel) agendas additionnels pour les disponibilités, séparés par virgule |
 | `BOOKING_TIMEZONE` | `Europe/Brussels` (optionnel) |
 | `BOOKING_DURATION_MINUTES` | `45` (optionnel) : durée d’une visite |
 | `BOOKING_DAY_START` | `09:00` (optionnel) : premier créneau |
@@ -73,7 +74,16 @@ Config dans **Vercel → Project → Settings → Environment Variables** (Produ
 | `BOOKING_BUFFER_MINUTES` | `60` (optionnel) : 1 h minimum entre deux RDV |
 | `BOOKING_MANAGE_SECRET` | secret pour signer les liens annuler/modifier (optionnel) |
 
-`BOOKING_SLOT_TIMES` n’est plus utilisé (ancienne liste fixe). Les créneaux libres = grille lun–ven ci-dessus, moins les plages occupées dans Google Agenda (avec la marge `BOOKING_BUFFER_MINUTES`).
+`BOOKING_SLOT_TIMES` n’est plus utilisé (ancienne liste fixe). Les créneaux libres = grille lun–ven ci-dessus, moins les plages occupées dans Google Agenda (agenda principal `GOOGLE_CALENDAR_ID` + agendas listés dans `GOOGLE_BUSY_CALENDAR_IDS`, avec la marge `BOOKING_BUFFER_MINUTES`).
+
+Exemple pour plusieurs agendas « busy » (en plus de l’agenda de réservation) :
+
+```bash
+GOOGLE_CALENDAR_ID=primary
+GOOGLE_BUSY_CALENDAR_IDS=perso@gmail.com,equipe@group.calendar.google.com
+```
+
+Chaque id est l’identifiant Google Calendar (souvent une adresse e-mail, ou l’id affiché dans Paramètres de l’agenda → Intégrer l’agenda). Le compte OAuth doit avoir au moins un accès en lecture (free/busy) sur ces agendas. Les réservations restent écrites uniquement dans `GOOGLE_CALENDAR_ID`.
 
 Puis **Redeploy** le projet pour prendre en compte les variables.
 
@@ -95,7 +105,8 @@ node scripts/google-calendar-oauth.mjs
 
    (ouvre l’URL d’auth, coller le code, récupérer `GOOGLE_REFRESH_TOKEN`).
 6. Scope requis : `https://www.googleapis.com/auth/calendar`.
-7. Optionnel : `GOOGLE_CALENDAR_ID` si ce n’est pas l’agenda principal.
+7. Optionnel : `GOOGLE_CALENDAR_ID` si ce n’est pas l’agenda principal (c’est là que les RDV Optmiz sont créés).
+8. Optionnel : `GOOGLE_BUSY_CALENDAR_IDS` pour bloquer aussi les créneaux déjà pris sur d’autres agendas (liste séparée par virgules). Le compte OAuth doit pouvoir lire le free/busy de ces agendas.
 
 Parcours site : **2-4 étapes** : priorité, taille, coordonnées + adresse, puis calendrier / horaires (API Google).
 

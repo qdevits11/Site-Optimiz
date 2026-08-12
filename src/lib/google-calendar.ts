@@ -7,7 +7,9 @@ import { google } from "googleapis";
  * - GOOGLE_CLIENT_ID
  * - GOOGLE_CLIENT_SECRET
  * - GOOGLE_REFRESH_TOKEN
- * - GOOGLE_CALENDAR_ID               (défaut: primary)
+ * - GOOGLE_CALENDAR_ID               (défaut: primary) : agenda où les RDV sont créés
+ * - GOOGLE_BUSY_CALENDAR_IDS         (optionnel) : agendas additionnels à consulter
+ *                                   pour les disponibilités (séparés par virgule)
  * - BOOKING_TIMEZONE                 (défaut: Europe/Brussels)
  * - BOOKING_DURATION_MINUTES         (défaut: 45)
  * - BOOKING_DAY_START                (défaut: 09:00) : premier créneau
@@ -17,6 +19,10 @@ import { google } from "googleapis";
  * - BOOKING_BUFFER_MINUTES           (défaut: 60) : 1 h entre deux RDV (autour des busy)
  *
  * Ancienne variable BOOKING_SLOT_TIMES : ignorée (remplacée par la grille ci-dessus).
+ *
+ * Les créneaux libres = grille lun–ven moins les plages occupées sur
+ * GOOGLE_CALENDAR_ID + tous les ids listés dans GOOGLE_BUSY_CALENDAR_IDS.
+ * Les réservations sont toujours écrites uniquement dans GOOGLE_CALENDAR_ID.
  */
 
 export type BookingSlot = {
@@ -59,6 +65,20 @@ function buildDaySlotTimes(dayStart: string, dayEnd: string, intervalMinutes: nu
   return times;
 }
 
+/** Parse a comma/semicolon/whitespace-separated list of calendar ids. */
+function parseCalendarIdList(value: string | undefined): string[] {
+  if (!value?.trim()) return [];
+  const seen = new Set<string>();
+  const ids: string[] = [];
+  for (const part of value.split(/[,;\n]+/)) {
+    const id = part.trim();
+    if (!id || seen.has(id)) continue;
+    seen.add(id);
+    ids.push(id);
+  }
+  return ids;
+}
+
 function getBookingConfig() {
   const duration = Number(process.env.BOOKING_DURATION_MINUTES || "45");
   const horizon = Number(process.env.BOOKING_HORIZON_DAYS || "14");
@@ -71,12 +91,18 @@ function getBookingConfig() {
     dayEnd,
     Number.isFinite(interval) && interval > 0 ? interval : 30,
   );
+  const calendarId = process.env.GOOGLE_CALENDAR_ID?.trim() || "primary";
+  const busyCalendarIds = parseCalendarIdList(process.env.GOOGLE_BUSY_CALENDAR_IDS).filter(
+    (id) => id !== calendarId,
+  );
 
   return {
     clientId: process.env.GOOGLE_CLIENT_ID?.trim() || "",
     clientSecret: process.env.GOOGLE_CLIENT_SECRET?.trim() || "",
     refreshToken: process.env.GOOGLE_REFRESH_TOKEN?.trim() || "",
-    calendarId: process.env.GOOGLE_CALENDAR_ID?.trim() || "primary",
+    calendarId,
+    /** Additional calendars consulted for free/busy (bookings still go to calendarId). */
+    busyCalendarIds,
     timeZone: process.env.BOOKING_TIMEZONE?.trim() || "Europe/Brussels",
     durationMinutes: Number.isFinite(duration) && duration > 0 ? duration : 45,
     horizonDays: Number.isFinite(horizon) && horizon > 0 ? Math.min(horizon, 31) : 14,
@@ -86,6 +112,41 @@ function getBookingConfig() {
     slotIntervalMinutes: Number.isFinite(interval) && interval > 0 ? interval : 30,
     slotTimes,
   };
+}
+
+type BookingConfig = ReturnType<typeof getBookingConfig>;
+
+/** Primary booking calendar + optional busy calendars (deduped). */
+function getAvailabilityCalendarIds(config: BookingConfig): string[] {
+  return [config.calendarId, ...config.busyCalendarIds];
+}
+
+type FreeBusyBlock = { start?: string | null; end?: string | null };
+
+function collectBusyBlocks(
+  calendars:
+    | Record<
+        string,
+        {
+          busy?: FreeBusyBlock[] | null;
+          errors?: Array<{ domain?: string | null; reason?: string | null }> | null;
+        }
+      >
+    | null
+    | undefined,
+  calendarIds: string[],
+): FreeBusyBlock[] {
+  const busy: FreeBusyBlock[] = [];
+  for (const id of calendarIds) {
+    const entry = calendars?.[id];
+    if (entry?.errors?.length) {
+      throw new Error(
+        `Agenda inaccessible (${id}). Vérifiez le partage avec le compte OAuth et GOOGLE_BUSY_CALENDAR_IDS.`,
+      );
+    }
+    if (entry?.busy?.length) busy.push(...entry.busy);
+  }
+  return busy;
 }
 
 export function isGoogleCalendarConfigured() {
@@ -230,6 +291,7 @@ export async function fetchAvailableSlots(): Promise<BookingSlot[]> {
   if (!candidates.length) return [];
 
   const calendar = getCalendarClient();
+  const calendarIds = getAvailabilityCalendarIds(config);
   const timeMin = candidates[0].start;
   const lastStart = new Date(candidates[candidates.length - 1].start);
   const timeMax = new Date(
@@ -241,11 +303,11 @@ export async function fetchAvailableSlots(): Promise<BookingSlot[]> {
       timeMin,
       timeMax,
       timeZone: config.timeZone,
-      items: [{ id: config.calendarId }],
+      items: calendarIds.map((id) => ({ id })),
     },
   });
 
-  const busy = freebusy.data.calendars?.[config.calendarId]?.busy || [];
+  const busy = collectBusyBlocks(freebusy.data.calendars, calendarIds);
   const bufferMs = config.bufferMinutes * 60 * 1000;
   const durationMs = config.durationMinutes * 60 * 1000;
 
@@ -372,23 +434,35 @@ function parseVisitFromEvent(event: {
 async function assertSlotFree(start: Date, end: Date, ignoreEventId?: string) {
   const config = getBookingConfig();
   const calendar = getCalendarClient();
+  const calendarIds = getAvailabilityCalendarIds(config);
+  const timeMin = new Date(start.getTime() - config.bufferMinutes * 60 * 1000).toISOString();
+  const timeMax = new Date(end.getTime() + config.bufferMinutes * 60 * 1000).toISOString();
   const freebusy = await calendar.freebusy.query({
     requestBody: {
-      timeMin: new Date(start.getTime() - config.bufferMinutes * 60 * 1000).toISOString(),
-      timeMax: new Date(end.getTime() + config.bufferMinutes * 60 * 1000).toISOString(),
+      timeMin,
+      timeMax,
       timeZone: config.timeZone,
-      items: [{ id: config.calendarId }],
+      items: calendarIds.map((id) => ({ id })),
     },
   });
-  const busy = freebusy.data.calendars?.[config.calendarId]?.busy || [];
-  if (busy.length === 0) return;
+
+  // Extra busy calendars always block (we never create/ignore events there).
+  const extraIds = calendarIds.filter((id) => id !== config.calendarId);
+  const extraBusy = collectBusyBlocks(freebusy.data.calendars, extraIds);
+  if (extraBusy.length > 0) {
+    throw new Error("Ce créneau vient d’être pris. Choisissez un autre horaire.");
+  }
+
+  // Primary calendar: also surface access errors via collectBusyBlocks.
+  const primaryBusy = collectBusyBlocks(freebusy.data.calendars, [config.calendarId]);
+  if (primaryBusy.length === 0) return;
 
   if (ignoreEventId) {
     // freebusy includes our own event when rescheduling; re-check with events.list
     const listed = await calendar.events.list({
       calendarId: config.calendarId,
-      timeMin: new Date(start.getTime() - config.bufferMinutes * 60 * 1000).toISOString(),
-      timeMax: new Date(end.getTime() + config.bufferMinutes * 60 * 1000).toISOString(),
+      timeMin,
+      timeMax,
       singleEvents: true,
       maxResults: 20,
     });
