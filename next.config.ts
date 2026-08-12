@@ -8,6 +8,12 @@ const nextConfig: NextConfig = {
         destination: "/",
         permanent: true,
       },
+      {
+        // QR code carte de visite → formulaire de prise de rendez-vous
+        source: "/demander-mon-echange-privilegie",
+        destination: "/#devis",
+        permanent: true,
+      },
     ];
   },
 };
