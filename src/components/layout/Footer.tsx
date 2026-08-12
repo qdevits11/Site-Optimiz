@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
+import { footerNavLinks } from "@/lib/navigation";
 import { siteConfig } from "@/lib/seo";
 
 export function Footer() {
@@ -19,15 +20,11 @@ export function Footer() {
           </p>
         </div>
         <div className="footer-links">
-          <Link href="/services">Services</Link>
-          <Link href="/notre-methodologie">Méthode</Link>
-          <Link href="/cas-concrets">Cas concrets</Link>
-          <Link href="/zones">Zones</Link>
-          <Link href="/ressources">Ressources</Link>
-          <Link href="/tarifs">Tarifs</Link>
-          <Link href="/pourquoi-nous">Pourquoi nous</Link>
-          <Link href="/faq">FAQ</Link>
-          <Link href="/contact">Contact</Link>
+          {footerNavLinks.map((link) => (
+            <Link key={link.href} href={link.href}>
+              {link.label}
+            </Link>
+          ))}
           <a
             href="https://www.linkedin.com/company/optmiz/"
             target="_blank"

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { sitelinkCandidates } from "@/lib/navigation";
 
 /**
  * IMPORTANT — domaine canonique
@@ -88,7 +89,7 @@ export const sitePages: SitePage[] = [
   },
   {
     path: "/notre-methodologie",
-    title: "La Méthode Optmiz, transformer vos processus sans chaos",
+    title: "Méthode Optmiz · transformer vos processus sans chaos",
     description:
       "6 étapes concrètes pour automatiser et digitaliser vos processus PME en Wallonie, sans tout bouleverser d'un coup.",
     changeFrequency: "monthly",
@@ -96,7 +97,7 @@ export const sitePages: SitePage[] = [
   },
   {
     path: "/cas-concrets",
-    title: "Cas concrets d'automatisation en PME belges",
+    title: "Cas concrets Optmiz · automatisation en PME belges",
     description:
       "Relances clients, pointages RH, notifications de loyers, feuilles de temps : résultats réels obtenus avec Optmiz.",
     changeFrequency: "monthly",
@@ -104,7 +105,7 @@ export const sitePages: SitePage[] = [
   },
   {
     path: "/pourquoi-nous",
-    title: "Pourquoi Optmiz ? 15 ans d'expérience terrain en digitalisation PME",
+    title: "Pourquoi Optmiz · 15 ans d'expérience terrain",
     description:
       "Quentin Devits accompagne les PME wallonnes : méthode claire, présence humaine, prix fixe et résultats rapides.",
     changeFrequency: "monthly",
@@ -112,7 +113,7 @@ export const sitePages: SitePage[] = [
   },
   {
     path: "/tarifs",
-    title: "Tarifs Optmiz, prix fixe, audit cadré, forfaits Zen",
+    title: "Tarifs Optmiz · prix fixe, audit et forfaits Zen",
     description:
       "Diagnostic gratuit, audit terrain payant, devis fixe avant démarrage. Forfaits Zen pour maintenance et amélioration continue.",
     changeFrequency: "monthly",
@@ -120,7 +121,7 @@ export const sitePages: SitePage[] = [
   },
   {
     path: "/services",
-    title: "Nos services, automatisation, sites web, systèmes de gestion",
+    title: "Services Optmiz · automatisation, sites web, systèmes de gestion",
     description:
       "Automatisation de processus, création de site internet, systèmes de gestion (ERP/CRM) sur mesure : toujours choisis selon votre réalité.",
     changeFrequency: "monthly",
@@ -304,11 +305,35 @@ export function buildWebsiteJsonLd() {
     "@id": `${siteConfig.url}/#website`,
     url: siteConfig.url,
     name: siteConfig.name,
+    alternateName: ["OPTMIZ", "Optmiz Wallonie"],
     description: siteConfig.description,
     inLanguage: "fr-BE",
     publisher: {
       "@id": `${siteConfig.url}/#organization`,
     },
+    hasPart: sitelinkCandidates.map((link) => ({
+      "@type": "WebPage",
+      "@id": `${absoluteUrl(link.path)}#webpage`,
+      name: link.name,
+      url: absoluteUrl(link.path),
+      isPartOf: { "@id": `${siteConfig.url}/#website` },
+    })),
+  };
+}
+
+/** Signale à Google les pages prioritaires pour les sitelinks de marque. */
+export function buildSiteNavigationJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "@id": `${siteConfig.url}/#sitenavigation`,
+    name: "Navigation Optmiz",
+    itemListElement: sitelinkCandidates.map((link, index) => ({
+      "@type": "SiteNavigationElement",
+      position: index + 1,
+      name: link.name,
+      url: absoluteUrl(link.path),
+    })),
   };
 }
 

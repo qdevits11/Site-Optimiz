@@ -7,15 +7,9 @@ import { createPortal } from "react-dom";
 import { Logo } from "@/components/ui/Logo";
 import { useMagnet } from "@/hooks/useMagnet";
 import { gsap, registerGsap, ScrollTrigger } from "@/lib/gsap";
+import { primaryNavLinks } from "@/lib/navigation";
 
-const links = [
-  { href: "/services", label: "Services", match: "/services" },
-  { href: "/notre-methodologie", label: "Méthode", match: "/notre-methodologie" },
-  { href: "/cas-concrets", label: "Preuves", match: "/cas-concrets" },
-  { href: "/zones", label: "Zones", match: "/zones" },
-  { href: "/ressources", label: "Ressources", match: "/ressources" },
-  { href: "/tarifs", label: "Tarifs", match: "/tarifs" },
-];
+const links = primaryNavLinks;
 
 export function Nav() {
   const pathname = usePathname();

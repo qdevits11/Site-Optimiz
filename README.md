@@ -123,6 +123,7 @@ npm start
 
 - Domaine canonique : `https://www.optmiz.be` (l'apex `optmiz.be` redirige en 308, géré par Vercel + DNS OVH).
 - Config centrale : `src/lib/seo.ts` (métadonnées, JSON-LD, liste des pages pour le sitemap).
+- Navigation / sitelinks : `src/lib/navigation.ts` (libellés courts + `SiteNavigationElement` dans le layout). Google choisit les sous-liens automatiquement ; on ne peut pas les forcer depuis Search Console.
 - Articles/guides : `src/lib/articles.ts`.
 - `robots.txt` (`src/app/robots.ts`) et `sitemap.xml` (`src/app/sitemap.ts`) générés automatiquement.
 - `public/llms.txt` et `public/llms-full.txt` : fiche descriptive pour les moteurs génératifs (GEO).

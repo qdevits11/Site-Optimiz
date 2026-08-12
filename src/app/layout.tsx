@@ -10,6 +10,7 @@ import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import {
   absoluteUrl,
   buildOrganizationJsonLd,
+  buildSiteNavigationJsonLd,
   buildWebsiteJsonLd,
   siteConfig,
 } from "@/lib/seo";
@@ -98,6 +99,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full bg-night text-text">
         <JsonLd data={buildOrganizationJsonLd()} />
         <JsonLd data={buildWebsiteJsonLd()} />
+        <JsonLd data={buildSiteNavigationJsonLd()} />
         <SmoothScroll>
           <ClientEffects />
           <Nav />

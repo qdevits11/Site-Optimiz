@@ -35,7 +35,7 @@ export default function MethodPage() {
         eyebrow="Méthode"
         title={
           <>
-            La Méthode <span className="text-accent">Optmiz</span>
+            Méthode <span className="text-accent">Optmiz</span>
           </>
         }
         subtitle="6 étapes simples pour transformer votre organisation, sans tout bouleverser d’un coup."
