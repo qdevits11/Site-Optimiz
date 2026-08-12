@@ -2758,14 +2758,8 @@ body.nav-overlay-open {
 }
 
 .confirmation-section {
-  /* Sous le menu fixe (padding-top nav + shell ~5.5–6.5rem) */
+  /* Sous le menu fixe (padding-top nav + shell ~5.5-6.5rem) */
   padding-top: 7.5rem;
-}
-
-@media (max-width: 640px) {
-  .confirmation-section {
-    padding-top: 6.75rem;
-  }
 }
 
 .visit-manage-card {
