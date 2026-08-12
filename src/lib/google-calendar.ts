@@ -7,12 +7,16 @@ import { google } from "googleapis";
  * - GOOGLE_CLIENT_ID
  * - GOOGLE_CLIENT_SECRET
  * - GOOGLE_REFRESH_TOKEN
- * - GOOGLE_CALENDAR_ID          (défaut: primary)
- * - BOOKING_TIMEZONE            (défaut: Europe/Brussels)
- * - BOOKING_DURATION_MINUTES    (défaut: 45)
- * - BOOKING_SLOT_TIMES          (défaut: 09:00,10:30,14:00,15:30)
- * - BOOKING_HORIZON_DAYS        (défaut: 14)
- * - BOOKING_BUFFER_MINUTES      (défaut: 15) — marge autour des événements existants
+ * - GOOGLE_CALENDAR_ID               (défaut: primary)
+ * - BOOKING_TIMEZONE                 (défaut: Europe/Brussels)
+ * - BOOKING_DURATION_MINUTES         (défaut: 45)
+ * - BOOKING_DAY_START                (défaut: 09:00) — premier créneau
+ * - BOOKING_DAY_END                  (défaut: 17:00) — dernier créneau (heure de début)
+ * - BOOKING_SLOT_INTERVAL_MINUTES    (défaut: 30)
+ * - BOOKING_HORIZON_DAYS             (défaut: 14)
+ * - BOOKING_BUFFER_MINUTES           (défaut: 60) — 1 h entre deux RDV (autour des busy)
+ *
+ * Ancienne variable BOOKING_SLOT_TIMES : ignorée (remplacée par la grille ci-dessus).
  */
 
 export type BookingSlot = {
@@ -23,14 +27,50 @@ export type BookingSlot = {
   timeLabel: string;
 };
 
+function parseHourMinute(value: string | undefined, fallbackHour: number, fallbackMinute: number) {
+  const match = /^(\d{1,2}):(\d{2})$/.exec(value?.trim() || "");
+  if (!match) return { hour: fallbackHour, minute: fallbackMinute };
+  const hour = Number(match[1]);
+  const minute = Number(match[2]);
+  if (!Number.isFinite(hour) || !Number.isFinite(minute) || hour > 23 || minute > 59) {
+    return { hour: fallbackHour, minute: fallbackMinute };
+  }
+  return { hour, minute };
+}
+
+function pad(n: number) {
+  return String(n).padStart(2, "0");
+}
+
+function buildDaySlotTimes(dayStart: string, dayEnd: string, intervalMinutes: number) {
+  const start = parseHourMinute(dayStart, 9, 0);
+  const end = parseHourMinute(dayEnd, 17, 0);
+  let cursor = start.hour * 60 + start.minute;
+  const last = end.hour * 60 + end.minute;
+  const times: string[] = [];
+  if (intervalMinutes <= 0 || cursor > last) return ["09:00"];
+
+  while (cursor <= last) {
+    const hour = Math.floor(cursor / 60);
+    const minute = cursor % 60;
+    times.push(`${pad(hour)}:${pad(minute)}`);
+    cursor += intervalMinutes;
+  }
+  return times;
+}
+
 function getBookingConfig() {
   const duration = Number(process.env.BOOKING_DURATION_MINUTES || "45");
   const horizon = Number(process.env.BOOKING_HORIZON_DAYS || "14");
-  const buffer = Number(process.env.BOOKING_BUFFER_MINUTES || "15");
-  const slotTimes = (process.env.BOOKING_SLOT_TIMES || "09:00,10:30,14:00,15:30")
-    .split(",")
-    .map((t) => t.trim())
-    .filter(Boolean);
+  const buffer = Number(process.env.BOOKING_BUFFER_MINUTES || "60");
+  const interval = Number(process.env.BOOKING_SLOT_INTERVAL_MINUTES || "30");
+  const dayStart = process.env.BOOKING_DAY_START?.trim() || "09:00";
+  const dayEnd = process.env.BOOKING_DAY_END?.trim() || "17:00";
+  const slotTimes = buildDaySlotTimes(
+    dayStart,
+    dayEnd,
+    Number.isFinite(interval) && interval > 0 ? interval : 30,
+  );
 
   return {
     clientId: process.env.GOOGLE_CLIENT_ID?.trim() || "",
@@ -40,8 +80,11 @@ function getBookingConfig() {
     timeZone: process.env.BOOKING_TIMEZONE?.trim() || "Europe/Brussels",
     durationMinutes: Number.isFinite(duration) && duration > 0 ? duration : 45,
     horizonDays: Number.isFinite(horizon) && horizon > 0 ? Math.min(horizon, 31) : 14,
-    bufferMinutes: Number.isFinite(buffer) && buffer >= 0 ? buffer : 15,
-    slotTimes: slotTimes.length ? slotTimes : ["09:00", "10:30", "14:00", "15:30"],
+    bufferMinutes: Number.isFinite(buffer) && buffer >= 0 ? buffer : 60,
+    dayStart,
+    dayEnd,
+    slotIntervalMinutes: Number.isFinite(interval) && interval > 0 ? interval : 30,
+    slotTimes,
   };
 }
 
@@ -59,10 +102,6 @@ function getCalendarClient() {
   const auth = new google.auth.OAuth2(config.clientId, config.clientSecret);
   auth.setCredentials({ refresh_token: config.refreshToken });
   return google.calendar({ version: "v3", auth });
-}
-
-function pad(n: number) {
-  return String(n).padStart(2, "0");
 }
 
 /** Parts of a calendar date in a given IANA timezone. */

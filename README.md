@@ -65,11 +65,15 @@ Config dans **Vercel → Project → Settings → Environment Variables** (Produ
 | `GOOGLE_REFRESH_TOKEN` | refresh token (scope Calendar) |
 | `GOOGLE_CALENDAR_ID` | `primary` (ou id d’agenda) |
 | `BOOKING_TIMEZONE` | `Europe/Brussels` (optionnel) |
-| `BOOKING_DURATION_MINUTES` | `45` (optionnel) |
-| `BOOKING_SLOT_TIMES` | `09:00,10:30,14:00,15:30` (optionnel) |
+| `BOOKING_DURATION_MINUTES` | `45` (optionnel) — durée d’une visite |
+| `BOOKING_DAY_START` | `09:00` (optionnel) — premier créneau |
+| `BOOKING_DAY_END` | `17:00` (optionnel) — dernier créneau (heure de début) |
+| `BOOKING_SLOT_INTERVAL_MINUTES` | `30` (optionnel) — grille des horaires proposés |
 | `BOOKING_HORIZON_DAYS` | `14` (optionnel) |
-| `BOOKING_BUFFER_MINUTES` | `15` (optionnel) |
+| `BOOKING_BUFFER_MINUTES` | `60` (optionnel) — 1 h minimum entre deux RDV |
 | `BOOKING_MANAGE_SECRET` | secret pour signer les liens annuler/modifier (optionnel) |
+
+`BOOKING_SLOT_TIMES` n’est plus utilisé (ancienne liste fixe). Les créneaux libres = grille lun–ven ci-dessus, moins les plages occupées dans Google Agenda (avec la marge `BOOKING_BUFFER_MINUTES`).
 
 Puis **Redeploy** le projet pour prendre en compte les variables.
 
