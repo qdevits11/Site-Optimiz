@@ -80,9 +80,9 @@ export function Preloader({ onDone }: PreloaderProps) {
           <span className="preloader-brand-glow" aria-hidden />
           <Logo
             variant="onDark"
-            height={72}
+            height={96}
             priority
-            sizes="(max-width: 640px) 36vw, 260px"
+            sizes="(max-width: 640px) 42vw, 320px"
             className="preloader-logo-img"
           />
         </div>
