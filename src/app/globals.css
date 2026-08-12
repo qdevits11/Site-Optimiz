@@ -345,6 +345,8 @@ body::before {
   z-index: 1;
   width: clamp(180px, 42vw, 320px) !important;
   height: auto !important;
+  /* Vector logo — keep edges crisp while GSAP animates scale/filter */
+  transform: translateZ(0);
 }
 
 .preloader-line {

@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 type LogoProps = {
   className?: string;
   /** Visual height in px (width follows aspect ratio). */
@@ -12,11 +10,12 @@ type LogoProps = {
   variant?: "onDark" | "brand";
 };
 
-const ASPECT = 278 / 83;
+/** Matches public/logo*.svg viewBox (162.75 × 44). */
+const ASPECT = 162.75 / 44;
 
 const SRC = {
-  onDark: "/logo-on-dark.webp",
-  brand: "/logo.webp",
+  onDark: "/logo-on-dark.svg",
+  brand: "/logo.svg",
 } as const;
 
 export function Logo({
@@ -28,14 +27,17 @@ export function Logo({
   const width = Math.round(height * ASPECT);
 
   return (
-    <Image
+    // SVG wordmark stays sharp at any size (unlike the old 278×83 raster).
+    // eslint-disable-next-line @next/next/no-img-element -- SVG logos; next/image rasterizes/blocks SVG by default
+    <img
       src={SRC[variant]}
       alt="Optmiz"
       width={width}
       height={height}
       className={`optmiz-logo ${className}`.trim()}
-      priority={priority}
-      sizes={`${width}px`}
+      decoding="async"
+      fetchPriority={priority ? "high" : "auto"}
+      draggable={false}
     />
   );
 }
