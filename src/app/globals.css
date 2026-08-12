@@ -2426,6 +2426,10 @@ body.nav-overlay-open {
   scroll-margin-top: 0;
 }
 
+#reservation {
+  scroll-margin-top: var(--site-nav-clearance);
+}
+
 /* —— Zones & réservation —— */
 .zones-grid {
   display: grid;
@@ -2593,7 +2597,7 @@ body.nav-overlay-open {
 }
 
 #reservation {
-  scroll-margin-top: 6rem;
+  scroll-margin-top: var(--site-nav-clearance);
 }
 
 .lead-qualifier .booking-days,
