@@ -59,11 +59,15 @@ be clipped by it.
 Action button groups must follow this order and styling everywhere
 (LeadQualifier, confirmation, `/visite/gerer`, etc.):
 
-1. **Primary action** first: green `btn-primary-glow` (confirm, modify,
-   choose date, etc.).
+1. **Primary action** first: green `btn-primary-glow` / `--accent` (confirm,
+   modify, choose date, etc.).
 2. **Retour** next: gray `btn-ghost`, always after the primary action.
-3. **Annuler** last: red `btn-danger-glow`, never before primary/retour.
+3. **Destructive / suppression** last: classic UX critical red via
+   `btn-danger-glow` / `--danger` (`#dc2626`). Use it for Annuler,
+   supprimer, confirmer une annulation, or any irreversible/critical
+   action. Never use green for destructive actions, and never place a
+   destructive button before primary/retour.
 
-If the screen’s main action *is* cancellation (e.g. “Confirmer
+If the screen’s main action *is* destructive (e.g. “Confirmer
 l’annulation”), use `btn-danger-glow` as that primary, then Retour after
 it. Do not place Retour before the primary CTA.
