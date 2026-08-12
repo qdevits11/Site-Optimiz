@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+import { HashScroll } from "@/components/layout/HashScroll";
 import { markIntroDone } from "@/lib/intro";
 
 const CustomCursor = dynamic(
@@ -40,6 +41,7 @@ export function ClientEffects() {
 
   return (
     <>
+      <HashScroll />
       {showIntro ? (
         <Preloader
           onDone={() => {
