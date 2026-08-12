@@ -104,7 +104,7 @@ export function Hero() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="hero">
+    <section ref={sectionRef} id="devis" className="hero">
       <HeroCanvas />
       <div className="hero-veil" aria-hidden />
       <div className="hero-inner hero-with-qualifier">
@@ -122,7 +122,7 @@ export function Hero() {
           </p>
         </div>
         <div ref={formRef} className="hero-form-stage">
-          <LeadQualifier variant="hero" id="devis" />
+          <LeadQualifier variant="hero" />
         </div>
       </div>
     </section>

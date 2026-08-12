@@ -45,6 +45,7 @@ type ContactDraft = {
 
 type LeadQualifierProps = {
   variant?: "hero" | "section";
+  /** Optional DOM id. Homepage `#devis` lives on the hero section, not on this card. */
   id?: string;
 };
 
@@ -125,7 +126,7 @@ function buildMonthCells(viewMonth: Date, availableDays: Set<string>) {
   return cells;
 }
 
-export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifierProps) {
+export function LeadQualifier({ variant = "section", id }: LeadQualifierProps) {
   const [step, setStep] = useState<Step>(0);
   const [need, setNeed] = useState<Need | "">("");
   const [companySize, setCompanySize] = useState<Size | "">("");
@@ -197,12 +198,12 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
   useEffect(() => {
     if (variant !== "hero") return;
     if (!isScheduleStep) return;
-    const node = document.getElementById(id);
+    const node = document.getElementById("devis");
     if (!node) return;
     window.requestAnimationFrame(() => {
-      node.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      node.scrollIntoView({ behavior: "smooth", block: "start" });
     });
-  }, [variant, isScheduleStep, selectedDay, id]);
+  }, [variant, isScheduleStep, selectedDay]);
 
   function updateContact<K extends keyof ContactDraft>(key: K, value: ContactDraft[K]) {
     setContact((prev) => ({ ...prev, [key]: value }));

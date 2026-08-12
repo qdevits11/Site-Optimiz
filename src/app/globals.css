@@ -2360,8 +2360,9 @@ body.nav-overlay-open {
   margin-inline: auto;
 }
 
+/* Ancre CTA : haut du hero (page d’accueil), pas le bas du formulaire */
 #devis {
-  scroll-margin-top: 6rem;
+  scroll-margin-top: 0;
 }
 
 /* —— Zones & réservation —— */
