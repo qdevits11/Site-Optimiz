@@ -2596,10 +2596,6 @@ body.nav-overlay-open {
   }
 }
 
-#reservation {
-  scroll-margin-top: var(--site-nav-clearance);
-}
-
 .lead-qualifier .booking-days,
 .lead-qualifier .booking-times {
   margin-top: 0.75rem;
