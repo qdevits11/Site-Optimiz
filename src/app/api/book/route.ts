@@ -1,8 +1,18 @@
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
-import { getMailConfig, isMailConfigured } from "@/config/mail";
-import { createVisitEvent, isGoogleCalendarConfigured } from "@/lib/google-calendar";
-import { siteConfig } from "@/lib/seo";
+import { isMailConfigured } from "@/config/mail";
+import { createBookingManageToken } from "@/lib/booking-token";
+import {
+  createVisitEvent,
+  findFutureVisitByEmail,
+  isGoogleCalendarConfigured,
+} from "@/lib/google-calendar";
+import {
+  escapeHtml,
+  formatVisitSlot,
+  sendClientMail,
+  sendInternalMail,
+} from "@/lib/mailer";
+import { absoluteUrl, siteConfig } from "@/lib/seo";
 import { buildClientVisitConfirmationEmail } from "@/lib/visit-confirmation-email";
 
 export const runtime = "nodejs";
@@ -17,25 +27,6 @@ type BookBody = {
   need?: string;
   companySize?: string;
 };
-
-function escapeHtml(value: string) {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;");
-}
-
-function formatSlot(start: string) {
-  return new Intl.DateTimeFormat("fr-BE", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: process.env.BOOKING_TIMEZONE?.trim() || "Europe/Brussels",
-  }).format(new Date(start));
-}
 
 export async function POST(request: Request) {
   try {
@@ -77,25 +68,51 @@ export async function POST(request: Request) {
       );
     }
 
+    const existing = await findFutureVisitByEmail(email);
+    if (existing) {
+      const manageToken = createBookingManageToken({
+        eventId: existing.id,
+        email: existing.email,
+      });
+      const manageUrl = absoluteUrl(`/visite/gerer?token=${encodeURIComponent(manageToken)}`);
+      return NextResponse.json(
+        {
+          error:
+            "Une visite Optmiz est déjà prévue pour cette adresse e-mail. Utilisez le lien reçu par e-mail pour la modifier ou l’annuler.",
+          code: "VISIT_ALREADY_SCHEDULED",
+          existingStart: existing.start,
+          existingSlotLabel: formatVisitSlot(existing.start),
+          manageUrl,
+        },
+        { status: 409 },
+      );
+    }
+
     const event = await createVisitEvent({
       start,
       name,
       email,
       address: fullAddress,
+      city,
       company,
       need,
       companySize,
     });
 
-    const mailConfig = getMailConfig();
-    const transporter = nodemailer.createTransport({
-      host: mailConfig.host,
-      port: mailConfig.port,
-      secure: mailConfig.secure,
-      auth: { user: mailConfig.user, pass: mailConfig.pass },
-    });
+    if (!event.id) {
+      return NextResponse.json(
+        { error: "La visite a été créée sans identifiant agenda. Contactez-nous." },
+        { status: 502 },
+      );
+    }
 
-    const slotLabel = formatSlot(start);
+    const manageToken = createBookingManageToken({
+      eventId: event.id,
+      email,
+    });
+    const manageUrl = absoluteUrl(`/visite/gerer?token=${encodeURIComponent(manageToken)}`);
+    const slotLabel = formatVisitSlot(start);
+
     const internalRows: [string, string][] = [
       ["Nom", name],
       ["Mail", email],
@@ -105,12 +122,10 @@ export async function POST(request: Request) {
       ["Créneau", slotLabel],
       ["Ville", city],
       ["Adresse de visite", address],
-      ["Événement agenda", event.id || "n/a"],
+      ["Événement agenda", event.id],
     ];
 
-    await transporter.sendMail({
-      from: mailConfig.from,
-      to: mailConfig.to,
+    await sendInternalMail({
       replyTo: email,
       subject: `Visite réservée (${company || name} · ${city} · ${slotLabel})`,
       text: [
@@ -162,12 +177,11 @@ export async function POST(request: Request) {
       companySize,
       slotLabel,
       startIso: start,
+      manageUrl,
     });
 
-    await transporter.sendMail({
-      from: mailConfig.from,
+    await sendClientMail({
       to: email,
-      replyTo: siteConfig.email,
       subject: clientMail.subject,
       html: clientMail.html,
       text: clientMail.text,
@@ -177,6 +191,7 @@ export async function POST(request: Request) {
       ok: true,
       eventId: event.id,
       start,
+      manageUrl,
     });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Réservation impossible pour le moment.";

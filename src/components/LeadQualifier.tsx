@@ -130,6 +130,10 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [bookedLabel, setBookedLabel] = useState<string | null>(null);
+  const [existingVisit, setExistingVisit] = useState<{
+    slotLabel: string;
+    manageUrl: string;
+  } | null>(null);
 
   const slotsByDay = useMemo(() => groupSlotsByDay(slots), [slots]);
   const availableDays = useMemo(() => new Set(slotsByDay.keys()), [slotsByDay]);
@@ -217,6 +221,7 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
     }
     setPending(true);
     setError(null);
+    setExistingVisit(null);
     try {
       const response = await fetch("/api/book", {
         method: "POST",
@@ -232,7 +237,26 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
           companySize: labelOf(SIZES, lead.companySize),
         }),
       });
-      const payload = (await response.json()) as { error?: string };
+      const payload = (await response.json()) as {
+        error?: string;
+        code?: string;
+        manageUrl?: string;
+        existingSlotLabel?: string;
+      };
+      if (
+        response.status === 409 &&
+        payload.code === "VISIT_ALREADY_SCHEDULED" &&
+        payload.manageUrl
+      ) {
+        setExistingVisit({
+          slotLabel: payload.existingSlotLabel || "déjà réservé",
+          manageUrl: payload.manageUrl,
+        });
+        throw new Error(
+          payload.error ||
+            "Une visite est déjà prévue pour cet e-mail. Modifiez-la via le lien reçu.",
+        );
+      }
       if (!response.ok) throw new Error(payload.error || "Réservation impossible.");
       const slot = slots.find((s) => s.start === selectedStart);
       setBookedLabel(slot?.label || selectedStart);
@@ -529,12 +553,22 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
                   </p>
                 ) : null}
 
+                {existingVisit ? (
+                  <p className="lead-qualifier-hint" style={{ marginTop: "0.5rem" }}>
+                    Créneau déjà prévu : <strong>{existingVisit.slotLabel}</strong>.{" "}
+                    <a className="text-link" href={existingVisit.manageUrl}>
+                      Modifier ou annuler
+                    </a>
+                  </p>
+                ) : null}
+
                 <div className="lead-contact-actions" style={{ marginTop: "0.75rem" }}>
                   <button
                     type="button"
                     className="btn-ghost lead-back"
                     onClick={() => {
                       setError(null);
+                      setExistingVisit(null);
                       setStep(2);
                     }}
                   >
@@ -543,7 +577,7 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
                   <button
                     type="button"
                     className="btn-primary-glow btn-cta contact-submit-btn"
-                    disabled={pending || !selectedStart || slotsLoading}
+                    disabled={pending || !selectedStart || slotsLoading || Boolean(existingVisit)}
                     onClick={onBook}
                   >
                     {pending ? "Réservation…" : "Confirmer la visite"}

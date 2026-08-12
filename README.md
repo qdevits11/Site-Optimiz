@@ -69,6 +69,7 @@ Config dans **Vercel → Project → Settings → Environment Variables** (Produ
 | `BOOKING_SLOT_TIMES` | `09:00,10:30,14:00,15:30` (optionnel) |
 | `BOOKING_HORIZON_DAYS` | `14` (optionnel) |
 | `BOOKING_BUFFER_MINUTES` | `15` (optionnel) |
+| `BOOKING_MANAGE_SECRET` | secret pour signer les liens annuler/modifier (optionnel) |
 
 Puis **Redeploy** le projet pour prendre en compte les variables.
 
@@ -96,7 +97,11 @@ Parcours site : **2–4 étapes** — priorité, taille, coordonnées + adresse,
 
 ### E-mail de confirmation (brand Optmiz)
 
-Après réservation, le site crée l’événement dans Google Agenda et envoie au prospect un e-mail **Optmiz** (SMTP OVH) uniquement.
+Après réservation, le site crée l’événement dans Google Agenda et envoie au prospect un e-mail **Optmiz** (SMTP OVH) uniquement. L’e-mail contient des liens signés pour **modifier** ou **annuler** le rendez-vous (`/visite/gerer?token=…`). Après annulation ou modification, une confirmation part au prospect (et une notification interne à Optmiz).
+
+Une adresse e-mail qui a déjà une visite **future** ne peut pas réserver une seconde visite : le formulaire renvoie vers le lien de gestion.
+
+Optionnel : `BOOKING_MANAGE_SECRET` pour signer les liens (sinon `GOOGLE_CLIENT_SECRET` ou `SMTP_PASS`).
 
 ## Démarrage
 

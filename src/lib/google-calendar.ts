@@ -227,18 +227,106 @@ export type CreateVisitEventInput = {
   name: string;
   email: string;
   address: string;
+  city?: string;
   company?: string;
   need?: string;
   companySize?: string;
 };
 
-export async function createVisitEvent(input: CreateVisitEventInput) {
+export type VisitEventDetails = {
+  id: string;
+  start: string;
+  end: string;
+  name: string;
+  email: string;
+  address: string;
+  city: string;
+  company: string;
+  need: string;
+  companySize: string;
+  status: string;
+  htmlLink: string | null;
+};
+
+const OPTMIZ_MARKER = "optmizVisit";
+
+function buildVisitPrivateProps(input: {
+  email: string;
+  name: string;
+  city?: string;
+  company?: string;
+  need?: string;
+  companySize?: string;
+}) {
+  return {
+    [OPTMIZ_MARKER]: "1",
+    optmizEmail: input.email.trim().toLowerCase(),
+    optmizName: input.name,
+    ...(input.city ? { optmizCity: input.city } : {}),
+    ...(input.company ? { optmizCompany: input.company } : {}),
+    ...(input.need ? { optmizNeed: input.need } : {}),
+    ...(input.companySize ? { optmizCompanySize: input.companySize } : {}),
+  };
+}
+
+function parseVisitFromEvent(event: {
+  id?: string | null;
+  status?: string | null;
+  summary?: string | null;
+  description?: string | null;
+  location?: string | null;
+  htmlLink?: string | null;
+  start?: { dateTime?: string | null; date?: string | null } | null;
+  end?: { dateTime?: string | null; date?: string | null } | null;
+  attendees?: Array<{ email?: string | null; displayName?: string | null }> | null;
+  extendedProperties?: { private?: Record<string, string> | null } | null;
+}): VisitEventDetails | null {
+  const id = event.id;
+  const start = event.start?.dateTime || event.start?.date;
+  if (!id || !start) return null;
+  if (event.status === "cancelled") return null;
+
+  const priv = event.extendedProperties?.private || {};
+  const attendee = event.attendees?.find((a) => a.email) || event.attendees?.[0];
+  const email =
+    (priv.optmizEmail || attendee?.email || "").trim().toLowerCase();
+  if (!email) return null;
+
+  const description = event.description || "";
+  const pickDesc = (label: string) => {
+    const match = description.match(new RegExp(`^${label}\\s*:\\s*(.+)$`, "im"));
+    return match?.[1]?.trim() || "";
+  };
+
+  const name =
+    priv.optmizName ||
+    attendee?.displayName ||
+    pickDesc("Contact").replace(/<[^>]+>/, "").trim() ||
+    "Prospect";
+
+  return {
+    id,
+    start: new Date(start).toISOString(),
+    end: new Date(
+      event.end?.dateTime ||
+        event.end?.date ||
+        new Date(start).getTime() + getBookingConfig().durationMinutes * 60 * 1000,
+    ).toISOString(),
+    name,
+    email,
+    address: event.location || pickDesc("Adresse") || "",
+    city: priv.optmizCity || "",
+    company: priv.optmizCompany || pickDesc("Société") || "",
+    need: priv.optmizNeed || pickDesc("Priorité") || "",
+    companySize: priv.optmizCompanySize || pickDesc("Taille") || "",
+    status: event.status || "confirmed",
+    htmlLink: event.htmlLink || null,
+  };
+}
+
+async function assertSlotFree(start: Date, end: Date, ignoreEventId?: string) {
   const config = getBookingConfig();
   const calendar = getCalendarClient();
-  const start = new Date(input.start);
-  const end = new Date(start.getTime() + config.durationMinutes * 60 * 1000);
-
-  // Re-check availability to avoid race conditions
   const freebusy = await calendar.freebusy.query({
     requestBody: {
       timeMin: new Date(start.getTime() - config.bufferMinutes * 60 * 1000).toISOString(),
@@ -248,13 +336,47 @@ export async function createVisitEvent(input: CreateVisitEventInput) {
     },
   });
   const busy = freebusy.data.calendars?.[config.calendarId]?.busy || [];
-  if (busy.length > 0) {
-    throw new Error("Ce créneau vient d’être pris. Choisissez un autre horaire.");
+  if (busy.length === 0) return;
+
+  if (ignoreEventId) {
+    // freebusy includes our own event when rescheduling; re-check with events.list
+    const listed = await calendar.events.list({
+      calendarId: config.calendarId,
+      timeMin: new Date(start.getTime() - config.bufferMinutes * 60 * 1000).toISOString(),
+      timeMax: new Date(end.getTime() + config.bufferMinutes * 60 * 1000).toISOString(),
+      singleEvents: true,
+      maxResults: 20,
+    });
+    const conflicting = (listed.data.items || []).filter((item) => {
+      if (!item.id || item.id === ignoreEventId || item.status === "cancelled") return false;
+      const otherStart = item.start?.dateTime || item.start?.date;
+      const otherEnd = item.end?.dateTime || item.end?.date;
+      if (!otherStart || !otherEnd) return false;
+      const bufferMs = config.bufferMinutes * 60 * 1000;
+      return overlaps(
+        start.getTime(),
+        end.getTime(),
+        new Date(otherStart).getTime() - bufferMs,
+        new Date(otherEnd).getTime() + bufferMs,
+      );
+    });
+    if (conflicting.length === 0) return;
   }
 
+  throw new Error("Ce créneau vient d’être pris. Choisissez un autre horaire.");
+}
+
+export async function createVisitEvent(input: CreateVisitEventInput) {
+  const config = getBookingConfig();
+  const calendar = getCalendarClient();
+  const start = new Date(input.start);
+  const end = new Date(start.getTime() + config.durationMinutes * 60 * 1000);
+
+  await assertSlotFree(start, end);
+
   const summary = input.company
-    ? `Visite Optmiz — ${input.name} (${input.company})`
-    : `Visite Optmiz — ${input.name}`;
+    ? `Visite Optmiz · ${input.name} (${input.company})`
+    : `Visite Optmiz · ${input.name}`;
 
   const description = [
     "Première visite Optmiz (réservée via le site).",
@@ -279,6 +401,9 @@ export async function createVisitEvent(input: CreateVisitEventInput) {
       end: { dateTime: end.toISOString(), timeZone: config.timeZone },
       // Keep attendee for your calendar UI, but sendUpdates:none prevents Google mail
       attendees: [{ email: input.email, displayName: input.name }],
+      extendedProperties: {
+        private: buildVisitPrivateProps(input),
+      },
       reminders: {
         useDefault: false,
         overrides: [
@@ -293,5 +418,132 @@ export async function createVisitEvent(input: CreateVisitEventInput) {
     id: event.data.id || null,
     htmlLink: event.data.htmlLink || null,
     start: start.toISOString(),
+  };
+}
+
+export async function getVisitEvent(eventId: string): Promise<VisitEventDetails | null> {
+  const config = getBookingConfig();
+  const calendar = getCalendarClient();
+  try {
+    const event = await calendar.events.get({
+      calendarId: config.calendarId,
+      eventId,
+    });
+    return parseVisitFromEvent(event.data);
+  } catch (err) {
+    const status = (err as { code?: number })?.code;
+    if (status === 404) return null;
+    throw err;
+  }
+}
+
+export async function findFutureVisitByEmail(
+  email: string,
+): Promise<VisitEventDetails | null> {
+  const config = getBookingConfig();
+  const calendar = getCalendarClient();
+  const normalized = email.trim().toLowerCase();
+  if (!normalized) return null;
+
+  const now = new Date();
+  const timeMax = new Date(
+    now.getTime() + Math.max(config.horizonDays, 90) * 24 * 60 * 60 * 1000,
+  );
+
+  const byProp = await calendar.events.list({
+    calendarId: config.calendarId,
+    timeMin: now.toISOString(),
+    timeMax: timeMax.toISOString(),
+    singleEvents: true,
+    orderBy: "startTime",
+    maxResults: 25,
+    privateExtendedProperty: [`optmizEmail=${normalized}`],
+  });
+
+  for (const item of byProp.data.items || []) {
+    const parsed = parseVisitFromEvent(item);
+    if (parsed && new Date(parsed.start).getTime() > now.getTime()) {
+      return parsed;
+    }
+  }
+
+  // Fallback for older events without extended properties
+  const listed = await calendar.events.list({
+    calendarId: config.calendarId,
+    timeMin: now.toISOString(),
+    timeMax: timeMax.toISOString(),
+    singleEvents: true,
+    orderBy: "startTime",
+    maxResults: 50,
+    q: "Visite Optmiz",
+  });
+
+  for (const item of listed.data.items || []) {
+    const parsed = parseVisitFromEvent(item);
+    if (
+      parsed &&
+      parsed.email === normalized &&
+      new Date(parsed.start).getTime() > now.getTime()
+    ) {
+      return parsed;
+    }
+  }
+
+  return null;
+}
+
+export async function cancelVisitEvent(eventId: string) {
+  const config = getBookingConfig();
+  const calendar = getCalendarClient();
+  const existing = await getVisitEvent(eventId);
+  if (!existing) {
+    throw new Error("Ce rendez-vous est introuvable ou déjà annulé.");
+  }
+  if (new Date(existing.start).getTime() <= Date.now()) {
+    throw new Error("Ce rendez-vous est déjà passé et ne peut plus être annulé en ligne.");
+  }
+
+  await calendar.events.delete({
+    calendarId: config.calendarId,
+    eventId,
+    sendUpdates: "none",
+  });
+
+  return existing;
+}
+
+export async function rescheduleVisitEvent(eventId: string, newStartIso: string) {
+  const config = getBookingConfig();
+  const calendar = getCalendarClient();
+  const existing = await getVisitEvent(eventId);
+  if (!existing) {
+    throw new Error("Ce rendez-vous est introuvable ou déjà annulé.");
+  }
+  if (new Date(existing.start).getTime() <= Date.now()) {
+    throw new Error("Ce rendez-vous est déjà passé et ne peut plus être modifié en ligne.");
+  }
+
+  const start = new Date(newStartIso);
+  if (Number.isNaN(start.getTime()) || start.getTime() <= Date.now()) {
+    throw new Error("Choisissez un créneau futur.");
+  }
+  const end = new Date(start.getTime() + config.durationMinutes * 60 * 1000);
+
+  await assertSlotFree(start, end, eventId);
+
+  const updated = await calendar.events.patch({
+    calendarId: config.calendarId,
+    eventId,
+    sendUpdates: "none",
+    requestBody: {
+      start: { dateTime: start.toISOString(), timeZone: config.timeZone },
+      end: { dateTime: end.toISOString(), timeZone: config.timeZone },
+    },
+  });
+
+  return parseVisitFromEvent(updated.data) || {
+    ...existing,
+    start: start.toISOString(),
+    end: end.toISOString(),
   };
 }
