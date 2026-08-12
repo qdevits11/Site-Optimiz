@@ -3,6 +3,7 @@ import nodemailer from "nodemailer";
 import { getMailConfig, isMailConfigured } from "@/config/mail";
 import { createCalBooking, isCalConfigured } from "@/lib/calcom";
 import { siteConfig } from "@/lib/seo";
+import { buildClientVisitConfirmationEmail } from "@/lib/visit-confirmation-email";
 
 export const runtime = "nodejs";
 
@@ -45,6 +46,16 @@ export async function POST(request: Request) {
       );
     }
 
+    if (!isMailConfigured()) {
+      return NextResponse.json(
+        {
+          error:
+            "Configuration mail incomplète. Impossible d’envoyer la confirmation Optmiz.",
+        },
+        { status: 500 },
+      );
+    }
+
     const body = (await request.json()) as BookBody;
     const start = body.start?.trim() ?? "";
     const name = body.name?.trim() ?? "";
@@ -76,64 +87,83 @@ export async function POST(request: Request) {
       companySize,
     });
 
-    if (isMailConfigured()) {
-      const mailConfig = getMailConfig();
-      const transporter = nodemailer.createTransport({
-        host: mailConfig.host,
-        port: mailConfig.port,
-        secure: mailConfig.secure,
-        auth: { user: mailConfig.user, pass: mailConfig.pass },
-      });
+    const mailConfig = getMailConfig();
+    const transporter = nodemailer.createTransport({
+      host: mailConfig.host,
+      port: mailConfig.port,
+      secure: mailConfig.secure,
+      auth: { user: mailConfig.user, pass: mailConfig.pass },
+    });
 
-      const slotLabel = formatSlot(start);
-      const rows: [string, string][] = [
-        ["Nom", name],
-        ["Mail", email],
-        ["Société", company || "non renseigné"],
-        ["Priorité", need],
-        ["Taille", companySize],
-        ["Créneau", slotLabel],
-        ["Ville", city],
-        ["Adresse de visite", address],
-        ["Réservation", booking?.uid || "n/a"],
-      ];
+    const slotLabel = formatSlot(start);
+    const internalRows: [string, string][] = [
+      ["Nom", name],
+      ["Mail", email],
+      ["Société", company || "non renseigné"],
+      ["Priorité", need],
+      ["Taille", companySize],
+      ["Créneau", slotLabel],
+      ["Ville", city],
+      ["Adresse de visite", address],
+      ["Réservation", booking?.uid || "n/a"],
+    ];
 
-      await transporter.sendMail({
-        from: mailConfig.from,
-        to: mailConfig.to,
-        replyTo: email,
-        subject: `Visite réservée (${company || name} · ${city} · ${slotLabel})`,
-        text: [
-          "Nouvelle visite réservée",
-          "",
-          ...rows.map(([label, value]) => `${label}: ${value}`),
-        ].join("\n"),
-        html: `
-          <div style="font-family: Arial, sans-serif; color: #142e26; line-height: 1.5;">
-            <h1 style="font-size: 20px;">Visite réservée</h1>
-            <p>Le prospect a choisi un créneau synchronisé avec votre agenda.</p>
-            <table style="border-collapse: collapse; width: 100%; max-width: 640px;">
-              ${rows
-                .map(
-                  ([label, value]) => `
-                <tr>
-                  <td style="padding: 10px 12px; border: 1px solid #d7dfdc; background: #f0f5f4; font-weight: 600; width: 180px;">
-                    ${escapeHtml(label)}
-                  </td>
-                  <td style="padding: 10px 12px; border: 1px solid #d7dfdc;">
-                    ${escapeHtml(value)}
-                  </td>
-                </tr>`,
-                )
-                .join("")}
-            </table>
-            <p style="margin-top: 16px; font-size: 13px; color: #5a6b66;">
-              ${escapeHtml(siteConfig.name)} · aussi visible dans votre agenda
-            </p>
-          </div>
-        `,
-      });
-    }
+    await transporter.sendMail({
+      from: mailConfig.from,
+      to: mailConfig.to,
+      replyTo: email,
+      subject: `Visite réservée (${company || name} · ${city} · ${slotLabel})`,
+      text: [
+        "Nouvelle visite réservée",
+        "",
+        ...internalRows.map(([label, value]) => `${label}: ${value}`),
+      ].join("\n"),
+      html: `
+        <div style="font-family: Arial, sans-serif; color: #142e26; line-height: 1.5;">
+          <h1 style="font-size: 20px;">Visite réservée</h1>
+          <p>Le prospect a choisi un créneau synchronisé avec votre agenda.</p>
+          <table style="border-collapse: collapse; width: 100%; max-width: 640px;">
+            ${internalRows
+              .map(
+                ([label, value]) => `
+              <tr>
+                <td style="padding: 10px 12px; border: 1px solid #d7dfdc; background: #f0f5f4; font-weight: 600; width: 180px;">
+                  ${escapeHtml(label)}
+                </td>
+                <td style="padding: 10px 12px; border: 1px solid #d7dfdc;">
+                  ${escapeHtml(value)}
+                </td>
+              </tr>`,
+              )
+              .join("")}
+          </table>
+          <p style="margin-top: 16px; font-size: 13px; color: #5a6b66;">
+            ${escapeHtml(siteConfig.name)} · aussi visible dans votre agenda
+          </p>
+        </div>
+      `,
+    });
+
+    const clientMail = buildClientVisitConfirmationEmail({
+      name,
+      email,
+      company,
+      city,
+      address,
+      need,
+      companySize,
+      slotLabel,
+      startIso: start,
+    });
+
+    await transporter.sendMail({
+      from: mailConfig.from,
+      to: email,
+      replyTo: siteConfig.email,
+      subject: clientMail.subject,
+      html: clientMail.html,
+      text: clientMail.text,
+    });
 
     return NextResponse.json({
       ok: true,

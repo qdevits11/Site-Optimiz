@@ -75,7 +75,14 @@ Puis **Redeploy** le projet pour prendre en compte les variables.
 3. Settings → Developer → API key → `CAL_API_KEY`.
 4. Renseigner `CAL_EVENT_TYPE_ID` (ou `CAL_USERNAME` + `CAL_EVENT_TYPE_SLUG`).
 
-Parcours site : **2 étapes** — coordonnées + adresse, puis créneaux libres (API Cal.com).
+Parcours site : **2–4 étapes** — priorité, taille, coordonnées + adresse, puis calendrier / horaires (API Cal.com).
+
+### E-mail de confirmation (brand Optmiz)
+
+Après réservation, le site envoie au prospect un e-mail **Optmiz** (SMTP OVH), pas le template Cal.com.
+
+Pour éviter un **double e-mail**, dans Cal.com → Event type → Advanced / Emails :
+désactivez les e-mails standards aux participants (« Disable emails to attendees »), si l’option est disponible sur votre plan.
 
 ## Démarrage
 
