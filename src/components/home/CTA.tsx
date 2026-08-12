@@ -13,16 +13,13 @@ export function CTA() {
               On vient <span className="text-accent">chez vous</span>
             </h2>
             <p className="section-lead">
-              Réservez un créneau pour une première visite gratuite sur votre lieu de travail — en
+              Réservez un créneau pour une première visite gratuite sur votre lieu de travail, en
               2 étapes, sans engagement.
             </p>
           </div>
           <div className="inline-actions" style={{ alignSelf: "center" }}>
             <Link href="/#devis" className="btn-primary-glow btn-cta section-cta">
               Réserver une visite
-            </Link>
-            <Link href="/#devis" className="btn-ghost section-cta">
-              Voir les créneaux
             </Link>
           </div>
         </div>
