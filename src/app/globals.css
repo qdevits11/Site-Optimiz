@@ -13,6 +13,14 @@
   --background: var(--night);
   --foreground: var(--text);
   --problem: #ff8fa3;
+  /* Espace libre sous le menu fixe (ne jamais mettre le contenu en dessous) */
+  --site-nav-clearance: 7.25rem;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --site-nav-clearance: 6.75rem;
+  }
 }
 
 @theme inline {
@@ -59,6 +67,10 @@ body {
   overflow-x: hidden;
 }
 
+html {
+  scroll-padding-top: var(--site-nav-clearance);
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -103,7 +115,7 @@ body::before {
   min-height: auto;
   display: flex;
   align-items: safe center;
-  padding: 5.75rem clamp(1.25rem, 4vw, 2.25rem) 2rem;
+  padding: var(--site-nav-clearance) clamp(1.25rem, 4vw, 2.25rem) 2rem;
   overflow-x: clip;
   overflow-y: visible;
 }
@@ -111,7 +123,7 @@ body::before {
 @media (min-width: 900px) {
   .hero {
     min-height: 100svh;
-    padding-top: 6.75rem;
+    padding-top: max(var(--site-nav-clearance), 6.75rem);
     padding-bottom: 2.75rem;
   }
 }
@@ -1616,7 +1628,7 @@ body.nav-overlay-open {
 
 /* Inner pages */
 .page-shell {
-  padding: 6rem 0 2.25rem;
+  padding: var(--site-nav-clearance) 0 2.25rem;
 }
 
 .page-shell h1 {
@@ -2173,7 +2185,7 @@ body.nav-overlay-open {
 @media (max-height: 760px) and (min-width: 900px) {
   .hero {
     min-height: 100svh;
-    padding-top: 5.5rem;
+    padding-top: var(--site-nav-clearance);
     padding-bottom: 1.25rem;
   }
 
@@ -2764,7 +2776,7 @@ body.nav-overlay-open {
 }
 
 .visit-manage-section {
-  padding-top: 4.5rem;
+  padding-top: var(--site-nav-clearance);
   padding-bottom: 4.5rem;
   min-height: 70vh;
   background:
@@ -2774,8 +2786,7 @@ body.nav-overlay-open {
 }
 
 .confirmation-section {
-  /* Sous le menu fixe (padding-top nav + shell ~5.5-6.5rem) */
-  padding-top: 7.5rem;
+  padding-top: var(--site-nav-clearance);
 }
 
 .visit-manage-card {
@@ -2832,12 +2843,8 @@ body.nav-overlay-open {
 
 @media (max-width: 640px) {
   .visit-manage-section {
-    padding-top: 3rem;
+    padding-top: var(--site-nav-clearance);
     padding-bottom: 3rem;
-  }
-
-  .visit-manage-section.confirmation-section {
-    padding-top: 6.75rem;
   }
 
   .visit-manage-card {

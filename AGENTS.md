@@ -38,3 +38,18 @@ copy (pages, components, emails, articles, SEO text, `llms*.txt`, etc.).
 Prefer a comma, period, colon, parentheses, or a normal hyphen `-` instead.
 En dashes in ranges like `1–10` are also avoided when writing new UI
 labels; use `1-10` or `1 à 10`.
+
+## Layout: clear the fixed nav on every page
+
+The site nav is `position: fixed`. Page content must never sit under it or
+be clipped by it.
+
+- Use the CSS variable `--site-nav-clearance` (defined in `globals.css`) for
+  top padding / scroll offset on first-screen sections (`.page-shell`,
+  `.visit-manage-section`, `.hero`, confirmation, etc.).
+- Do not reduce top padding below `--site-nav-clearance` on mobile.
+- New pages and sections that start below the nav must include at least
+  `padding-top: var(--site-nav-clearance)` (or equivalent via `.page-shell`).
+- For in-page anchors (except `/#devis` on the homepage hero), use
+  `scroll-margin-top: var(--site-nav-clearance)` or rely on
+  `html { scroll-padding-top: var(--site-nav-clearance) }`.
