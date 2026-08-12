@@ -45,14 +45,13 @@ export function Preloader({ onDone }: PreloaderProps) {
       },
     });
 
-    // Avoid heavy CSS blur on the wordmark — it read as a soft/low-res logo.
-    gsap.set(brand, { opacity: 0, y: 28, scale: 0.92 });
+    gsap.set(brand, { opacity: 0, y: 28, filter: "blur(14px)", scale: 0.92 });
     gsap.set(tag, { opacity: 0, y: 12 });
     gsap.set(line, { scaleX: 0 });
     gsap.set(root, { opacity: 1 });
     gsap.set(panel, { yPercent: 0 });
 
-    tl.to(brand, { opacity: 1, y: 0, scale: 1, duration: 0.9 })
+    tl.to(brand, { opacity: 1, y: 0, filter: "blur(0px)", scale: 1, duration: 0.9 })
       .to(line, { scaleX: 1, duration: 0.7 }, "-=0.25")
       .to(tag, { opacity: 1, y: 0, duration: 0.45 }, "-=0.35")
       .to({}, { duration: 0.4 })
