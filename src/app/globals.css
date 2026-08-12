@@ -2378,6 +2378,22 @@ body.nav-overlay-open {
   font-size: 1.45rem;
 }
 
+.lead-existing-visit {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.lead-existing-visit p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.lead-existing-visit strong {
+  color: var(--text);
+}
+
 @media (max-width: 640px) {
   .hero-title {
     max-width: none;

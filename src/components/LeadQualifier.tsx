@@ -158,7 +158,10 @@ export function LeadQualifier({ variant = "section", id }: LeadQualifierProps) {
   const isScheduleStep = step === 3;
 
   useEffect(() => {
-    if (step !== 3) return;
+    if (step !== 3 || existingVisit) {
+      setSlotsLoading(false);
+      return;
+    }
     let cancelled = false;
     setSlotsLoading(true);
     setSlotsError(null);
@@ -193,7 +196,7 @@ export function LeadQualifier({ variant = "section", id }: LeadQualifierProps) {
     return () => {
       cancelled = true;
     };
-  }, [step]);
+  }, [step, existingVisit]);
 
   useEffect(() => {
     if (variant !== "hero") return;
@@ -221,7 +224,7 @@ export function LeadQualifier({ variant = "section", id }: LeadQualifierProps) {
     window.setTimeout(() => setStep(2), 160);
   }
 
-  function onContactSubmit(event: FormEvent<HTMLFormElement>) {
+  async function onContactSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!need || !companySize) {
       setError("Revenez aux étapes précédentes pour compléter votre profil.");
@@ -258,7 +261,49 @@ export function LeadQualifier({ variant = "section", id }: LeadQualifierProps) {
       address,
       company: prev.company.trim(),
     }));
-    setStep(3);
+    setPending(true);
+    setExistingVisit(null);
+
+    try {
+      const response = await fetch("/api/visit/check", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const payload = (await response.json()) as {
+        error?: string;
+        existing?: boolean;
+        slotLabel?: string;
+        manageUrl?: string;
+      };
+      if (
+        response.ok &&
+        payload.existing &&
+        payload.manageUrl &&
+        payload.slotLabel
+      ) {
+        setExistingVisit({
+          slotLabel: payload.slotLabel,
+          manageUrl: payload.manageUrl,
+        });
+        setSlots([]);
+        setSelectedDay("");
+        setSelectedStart("");
+        setStep(3);
+        return;
+      }
+      if (!response.ok && response.status !== 503) {
+        // Soft-fail: still allow choosing a date if the check is unavailable
+        console.warn(payload.error || "Vérification visite impossible.");
+      }
+      setExistingVisit(null);
+      setStep(3);
+    } catch {
+      setExistingVisit(null);
+      setStep(3);
+    } finally {
+      setPending(false);
+    }
   }
 
   async function onBook() {
@@ -312,10 +357,12 @@ export function LeadQualifier({ variant = "section", id }: LeadQualifierProps) {
           slotLabel: payload.existingSlotLabel || "déjà réservé",
           manageUrl: payload.manageUrl,
         });
-        throw new Error(
-          payload.error ||
-            "Une visite est déjà prévue pour cet e-mail. Modifiez-la via le lien reçu.",
-        );
+        setSlots([]);
+        setSelectedDay("");
+        setSelectedStart("");
+        setError(null);
+        setPending(false);
+        return;
       }
       if (!response.ok) throw new Error(payload.error || "Réservation impossible.");
       const slot = slots.find((s) => s.start === selectedStart);
@@ -353,7 +400,9 @@ export function LeadQualifier({ variant = "section", id }: LeadQualifierProps) {
         ? "Combien de personnes dans la société ?"
         : step === 2
           ? "Où vous rencontrer ?"
-          : "Choisissez une date";
+          : existingVisit
+            ? "Visite déjà prévue"
+            : "Choisissez une date";
 
   const stepHint =
     step === 0
@@ -362,7 +411,9 @@ export function LeadQualifier({ variant = "section", id }: LeadQualifierProps) {
         ? "Taille de l’entreprise"
         : step === 2
           ? "Coordonnées et adresse de la visite"
-          : "Puis un horaire libre";
+          : existingVisit
+            ? "Gérez votre créneau existant"
+            : "Puis un horaire libre";
 
   return (
     <div
@@ -515,14 +566,43 @@ export function LeadQualifier({ variant = "section", id }: LeadQualifierProps) {
                 >
                   Retour
                 </button>
-                <button type="submit" className="btn-primary-glow btn-cta contact-submit-btn">
-                  Choisir une date
+                <button
+                  type="submit"
+                  className="btn-primary-glow btn-cta contact-submit-btn"
+                  disabled={pending}
+                >
+                  {pending ? "Vérification…" : "Choisir une date"}
                 </button>
               </div>
             </form>
           ) : null}
 
-          {step === 3 ? (
+          {step === 3 && existingVisit ? (
+            <div className="lead-existing-visit">
+              <p>Une visite Optmiz est déjà prévue avec vous.</p>
+              <p>
+                Créneau déjà prévu : <strong>{existingVisit.slotLabel}</strong>.
+              </p>
+              <div className="lead-contact-actions" style={{ marginTop: "0.85rem" }}>
+                <button
+                  type="button"
+                  className="btn-ghost lead-back"
+                  onClick={() => {
+                    setError(null);
+                    setExistingVisit(null);
+                    setStep(2);
+                  }}
+                >
+                  Retour
+                </button>
+                <a className="btn-primary-glow btn-cta" href={existingVisit.manageUrl}>
+                  Modifier ou annuler
+                </a>
+              </div>
+            </div>
+          ) : null}
+
+          {step === 3 && !existingVisit ? (
             <div className="lead-schedule">
               {slotsLoading ? (
                 <p className="lead-qualifier-hint">Chargement du calendrier…</p>
@@ -634,15 +714,6 @@ export function LeadQualifier({ variant = "section", id }: LeadQualifierProps) {
                 </p>
               ) : null}
 
-              {existingVisit ? (
-                <p className="lead-qualifier-hint" style={{ marginTop: "0.5rem" }}>
-                  Créneau déjà prévu : <strong>{existingVisit.slotLabel}</strong>.{" "}
-                  <a className="text-link" href={existingVisit.manageUrl}>
-                    Modifier ou annuler
-                  </a>
-                </p>
-              ) : null}
-
               <div className="lead-contact-actions" style={{ marginTop: "0.75rem" }}>
                 <button
                   type="button"
@@ -658,7 +729,7 @@ export function LeadQualifier({ variant = "section", id }: LeadQualifierProps) {
                 <button
                   type="button"
                   className="btn-primary-glow btn-cta contact-submit-btn"
-                  disabled={pending || !selectedStart || slotsLoading || Boolean(existingVisit)}
+                  disabled={pending || !selectedStart || slotsLoading}
                   onClick={onBook}
                 >
                   {pending ? "Réservation…" : "Confirmer la visite"}
