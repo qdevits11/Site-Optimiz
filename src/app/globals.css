@@ -343,7 +343,8 @@ body::before {
 .preloader-logo-img {
   position: relative;
   z-index: 1;
-  width: clamp(180px, 42vw, 320px) !important;
+  /* Keep near native asset width (278px) so the official lockup stays sharp */
+  width: clamp(160px, 36vw, 260px) !important;
   height: auto !important;
 }
 
