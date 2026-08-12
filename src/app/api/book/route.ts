@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { getMailConfig, isMailConfigured } from "@/config/mail";
-import { createCalBooking, isCalConfigured } from "@/lib/calcom";
+import { createVisitEvent, isGoogleCalendarConfigured } from "@/lib/google-calendar";
 import { siteConfig } from "@/lib/seo";
 import { buildClientVisitConfirmationEmail } from "@/lib/visit-confirmation-email";
 
@@ -33,13 +33,13 @@ function formatSlot(start: string) {
     month: "long",
     hour: "2-digit",
     minute: "2-digit",
-    timeZone: process.env.CAL_TIMEZONE?.trim() || "Europe/Brussels",
+    timeZone: process.env.BOOKING_TIMEZONE?.trim() || "Europe/Brussels",
   }).format(new Date(start));
 }
 
 export async function POST(request: Request) {
   try {
-    if (!isCalConfigured()) {
+    if (!isGoogleCalendarConfigured()) {
       return NextResponse.json(
         { error: "Réservation indisponible pour le moment. Réessayez plus tard ou contactez-nous." },
         { status: 503 },
@@ -77,7 +77,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const booking = await createCalBooking({
+    const event = await createVisitEvent({
       start,
       name,
       email,
@@ -105,7 +105,7 @@ export async function POST(request: Request) {
       ["Créneau", slotLabel],
       ["Ville", city],
       ["Adresse de visite", address],
-      ["Réservation", booking?.uid || "n/a"],
+      ["Événement agenda", event.id || "n/a"],
     ];
 
     await transporter.sendMail({
@@ -117,11 +117,14 @@ export async function POST(request: Request) {
         "Nouvelle visite réservée",
         "",
         ...internalRows.map(([label, value]) => `${label}: ${value}`),
-      ].join("\n"),
+        event.htmlLink ? `Lien agenda: ${event.htmlLink}` : "",
+      ]
+        .filter(Boolean)
+        .join("\n"),
       html: `
         <div style="font-family: Arial, sans-serif; color: #142e26; line-height: 1.5;">
           <h1 style="font-size: 20px;">Visite réservée</h1>
-          <p>Le prospect a choisi un créneau synchronisé avec votre agenda.</p>
+          <p>Le prospect a choisi un créneau synchronisé avec votre Google Agenda.</p>
           <table style="border-collapse: collapse; width: 100%; max-width: 640px;">
             ${internalRows
               .map(
@@ -137,8 +140,13 @@ export async function POST(request: Request) {
               )
               .join("")}
           </table>
+          ${
+            event.htmlLink
+              ? `<p style="margin-top:16px;"><a href="${escapeHtml(event.htmlLink)}">Ouvrir dans Google Agenda</a></p>`
+              : ""
+          }
           <p style="margin-top: 16px; font-size: 13px; color: #5a6b66;">
-            ${escapeHtml(siteConfig.name)} · aussi visible dans votre agenda
+            ${escapeHtml(siteConfig.name)}
           </p>
         </div>
       `,
@@ -167,7 +175,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       ok: true,
-      bookingUid: booking?.uid ?? null,
+      eventId: event.id,
       start,
     });
   } catch (err) {

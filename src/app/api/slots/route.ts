@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
-import { fetchCalSlots, isCalConfigured } from "@/lib/calcom";
+import { fetchAvailableSlots, isGoogleCalendarConfigured } from "@/lib/google-calendar";
 
 export const runtime = "nodejs";
 
 export async function GET() {
   try {
-    if (!isCalConfigured()) {
+    if (!isGoogleCalendarConfigured()) {
       return NextResponse.json(
         {
           error:
@@ -16,7 +16,7 @@ export async function GET() {
       );
     }
 
-    const slots = await fetchCalSlots();
+    const slots = await fetchAvailableSlots();
     return NextResponse.json({ ok: true, configured: true, slots });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Impossible de charger les créneaux.";

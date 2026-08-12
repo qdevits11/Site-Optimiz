@@ -60,29 +60,43 @@ Config dans **Vercel → Project → Settings → Environment Variables** (Produ
 | `SMTP_PASS` | mot de passe de la boîte |
 | `SMTP_FROM` | `Optmiz <contact@optmiz.be>` |
 | `CONTACT_TO_EMAIL` | `q.devits.optmiz@gmail.com` |
-| `CAL_API_KEY` | clé API Cal.com (`cal_...`) |
-| `CAL_EVENT_TYPE_ID` | id numérique de l’événement « visite » |
-| `CAL_USERNAME` | (alt.) username Cal.com |
-| `CAL_EVENT_TYPE_SLUG` | (alt.) slug de l’événement |
-| `CAL_TIMEZONE` | `Europe/Brussels` (optionnel) |
+| `GOOGLE_CLIENT_ID` | OAuth 2.0 Client ID (Google Cloud) |
+| `GOOGLE_CLIENT_SECRET` | OAuth 2.0 Client Secret |
+| `GOOGLE_REFRESH_TOKEN` | refresh token (scope Calendar) |
+| `GOOGLE_CALENDAR_ID` | `primary` (ou id d’agenda) |
+| `BOOKING_TIMEZONE` | `Europe/Brussels` (optionnel) |
+| `BOOKING_DURATION_MINUTES` | `45` (optionnel) |
+| `BOOKING_SLOT_TIMES` | `09:00,10:30,14:00,15:30` (optionnel) |
+| `BOOKING_HORIZON_DAYS` | `14` (optionnel) |
+| `BOOKING_BUFFER_MINUTES` | `15` (optionnel) |
 
 Puis **Redeploy** le projet pour prendre en compte les variables.
 
-### Cal.com (visite chez le client)
+Les anciennes variables `CAL_*` (Cal.com) ne sont plus utilisées : vous pouvez les supprimer.
 
-1. Compte gratuit [cal.com](https://cal.com) + Google Calendar / Outlook connecté.
-2. Event type « Première visite Optmiz » (~45 min), lieu = adresse du client.
-3. Settings → Developer → API key → `CAL_API_KEY`.
-4. Renseigner `CAL_EVENT_TYPE_ID` (ou `CAL_USERNAME` + `CAL_EVENT_TYPE_SLUG`).
+### Google Calendar (visite chez le client)
 
-Parcours site : **2–4 étapes** — priorité, taille, coordonnées + adresse, puis calendrier / horaires (API Cal.com).
+Les créneaux et la réservation passent par **Google Calendar** (API gratuite). Aucun e-mail Google n’est envoyé au prospect (`sendUpdates: none`) : seule la confirmation **Optmiz** part en SMTP.
+
+1. [Google Cloud Console](https://console.cloud.google.com/) → créer un projet (ou en choisir un).
+2. Activer **Google Calendar API**.
+3. APIs & Services → Credentials → **Create OAuth client ID** (type *Desktop app* ou *Web*).
+4. Copier `GOOGLE_CLIENT_ID` et `GOOGLE_CLIENT_SECRET`.
+5. Obtenir un refresh token avec le script local :
+
+```bash
+node scripts/google-calendar-oauth.mjs
+```
+
+   (ouvre l’URL d’auth, coller le code, récupérer `GOOGLE_REFRESH_TOKEN`).
+6. Scope requis : `https://www.googleapis.com/auth/calendar`.
+7. Optionnel : `GOOGLE_CALENDAR_ID` si ce n’est pas l’agenda principal.
+
+Parcours site : **2–4 étapes** — priorité, taille, coordonnées + adresse, puis calendrier / horaires (API Google).
 
 ### E-mail de confirmation (brand Optmiz)
 
-Après réservation, le site envoie au prospect un e-mail **Optmiz** (SMTP OVH), pas le template Cal.com.
-
-Pour éviter un **double e-mail**, dans Cal.com → Event type → Advanced / Emails :
-désactivez les e-mails standards aux participants (« Disable emails to attendees »), si l’option est disponible sur votre plan.
+Après réservation, le site crée l’événement dans Google Agenda et envoie au prospect un e-mail **Optmiz** (SMTP OVH) uniquement.
 
 ## Démarrage
 
