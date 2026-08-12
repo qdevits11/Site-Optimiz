@@ -5,6 +5,8 @@ type LogoProps = {
   /** Visual height in px (width follows aspect ratio). */
   height?: number;
   priority?: boolean;
+  /** Override next/image `sizes` when CSS scales the logo beyond `height`. */
+  sizes?: string;
   /**
    * `onDark` = mint O + light silver ptmiz (nav, preloader, dark UI).
    * `brand` = official lockup with navy ptmiz (for light surfaces only).
@@ -23,6 +25,7 @@ export function Logo({
   className = "",
   height = 28,
   priority = false,
+  sizes,
   variant = "onDark",
 }: LogoProps) {
   const width = Math.round(height * ASPECT);
@@ -35,7 +38,8 @@ export function Logo({
       height={height}
       className={`optmiz-logo ${className}`.trim()}
       priority={priority}
-      sizes={`${width}px`}
+      sizes={sizes ?? `${width}px`}
+      quality={95}
     />
   );
 }
