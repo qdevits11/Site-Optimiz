@@ -31,6 +31,11 @@ export async function sendClientMail(opts: {
   subject: string;
   html: string;
   text: string;
+  icalEvent?: {
+    filename: string;
+    method: "REQUEST" | "CANCEL" | "PUBLISH";
+    content: string;
+  };
 }) {
   const { mailConfig, transporter } = createMailTransporter();
   await transporter.sendMail({
@@ -40,6 +45,15 @@ export async function sendClientMail(opts: {
     subject: opts.subject,
     html: opts.html,
     text: opts.text,
+    ...(opts.icalEvent
+      ? {
+          icalEvent: {
+            filename: opts.icalEvent.filename,
+            method: opts.icalEvent.method,
+            content: opts.icalEvent.content,
+          },
+        }
+      : {}),
   });
 }
 

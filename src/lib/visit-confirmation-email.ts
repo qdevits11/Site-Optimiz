@@ -140,6 +140,10 @@ export function buildClientVisitConfirmationEmail(details: VisitMailDetails) {
       · Taille : <span style="color:${brand.text};">${escapeHtml(details.companySize)}</span>
     </p>
     <p style="margin:18px 0 0;">
+      Un fichier agenda (.ics) est joint à cet e-mail : ouvrez-le pour ajouter
+      le rendez-vous dans Apple Agenda ou Google Agenda (Android).
+    </p>
+    <p style="margin:18px 0 0;">
       Besoin de changer de créneau ou d’annuler ? Utilisez les liens ci-dessous.
       Vous pouvez aussi répondre à cet e-mail ou écrire à
       <a href="mailto:${escapeHtml(siteConfig.email)}" style="color:${brand.accent};text-decoration:none;">${escapeHtml(siteConfig.email)}</a>
@@ -169,6 +173,8 @@ export function buildClientVisitConfirmationEmail(details: VisitMailDetails) {
     `Où : ${location}`,
     `Priorité : ${details.need}`,
     `Taille : ${details.companySize}`,
+    "",
+    "Fichier agenda joint (.ics) : ouvrez-le pour l’ajouter à Apple Agenda ou Google Agenda.",
     "",
     manageUrl
       ? `Modifier le rendez-vous : ${manageUrl}&action=reschedule`
@@ -200,6 +206,10 @@ export function buildClientVisitCancelledEmail(details: VisitMailDetails) {
     </p>
     ${location ? whereCard(location) : ""}
     <p style="margin:18px 0 0;">
+      Un fichier agenda (.ics) est joint : ouvrez-le pour retirer le rendez-vous
+      de Apple Agenda ou Google Agenda.
+    </p>
+    <p style="margin:18px 0 0;">
       Si vous souhaitez reprendre contact plus tard, écrivez-nous à
       <a href="mailto:${escapeHtml(siteConfig.email)}" style="color:${brand.accent};text-decoration:none;">${escapeHtml(siteConfig.email)}</a>
       ou appelez le
@@ -219,6 +229,8 @@ export function buildClientVisitCancelledEmail(details: VisitMailDetails) {
     "",
     `Votre visite prévue le ${details.slotLabel} a bien été annulée.`,
     location ? `Lieu prévu : ${location}` : "",
+    "",
+    "Fichier agenda joint (.ics) : ouvrez-le pour retirer le rendez-vous de votre agenda.",
     "",
     `Pour reprendre contact : ${siteConfig.email} · ${siteConfig.phoneDisplay}`,
     "",
@@ -251,6 +263,10 @@ export function buildClientVisitRescheduledEmail(details: VisitMailDetails) {
     ${slotCard(details.slotLabel, "Nouveau créneau")}
     ${whereCard(location)}
     <p style="margin:18px 0 0;">
+      Un fichier agenda (.ics) est joint : ouvrez-le pour mettre à jour
+      le rendez-vous dans Apple Agenda ou Google Agenda.
+    </p>
+    <p style="margin:18px 0 0;">
       Besoin d’annuler ou de changer encore ? Utilisez les liens ci-dessous, ou contactez
       <a href="mailto:${escapeHtml(siteConfig.email)}" style="color:${brand.accent};text-decoration:none;">${escapeHtml(siteConfig.email)}</a>
       · <a href="${escapeHtml(siteConfig.phoneHref)}" style="color:${brand.accent};text-decoration:none;">${escapeHtml(siteConfig.phoneDisplay)}</a>.
@@ -277,6 +293,8 @@ export function buildClientVisitRescheduledEmail(details: VisitMailDetails) {
     details.previousSlotLabel ? `Ancien créneau : ${details.previousSlotLabel}` : "",
     `Nouveau créneau : ${details.slotLabel}`,
     `Où : ${location}`,
+    "",
+    "Fichier agenda joint (.ics) : ouvrez-le pour mettre à jour votre agenda.",
     "",
     manageUrl
       ? `Modifier à nouveau : ${manageUrl}&action=reschedule`

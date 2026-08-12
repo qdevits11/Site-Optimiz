@@ -14,6 +14,7 @@ import {
 } from "@/lib/mailer";
 import { siteConfig } from "@/lib/seo";
 import { buildClientVisitCancelledEmail } from "@/lib/visit-confirmation-email";
+import { buildCancelVisitIcs } from "@/lib/visit-ics-mail";
 
 export const runtime = "nodejs";
 
@@ -77,11 +78,25 @@ export async function POST(request: Request) {
       startIso: cancelled.start,
     });
 
+    const icalEvent = buildCancelVisitIcs({
+      eventId: cancelled.id,
+      name: cancelled.name,
+      email: cancelled.email,
+      address,
+      city,
+      company: cancelled.company,
+      startIso: cancelled.start,
+      endIso: cancelled.end,
+      icsSequence: cancelled.icsSequence,
+      slotLabel,
+    });
+
     await sendClientMail({
       to: cancelled.email,
       subject: clientMail.subject,
       html: clientMail.html,
       text: clientMail.text,
+      icalEvent,
     });
 
     await sendInternalMail({

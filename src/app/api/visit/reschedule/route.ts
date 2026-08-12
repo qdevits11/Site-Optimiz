@@ -17,6 +17,7 @@ import {
 } from "@/lib/mailer";
 import { absoluteUrl, siteConfig } from "@/lib/seo";
 import { buildClientVisitRescheduledEmail } from "@/lib/visit-confirmation-email";
+import { buildRescheduleVisitIcs } from "@/lib/visit-ics-mail";
 
 export const runtime = "nodejs";
 
@@ -98,11 +99,26 @@ export async function POST(request: Request) {
       manageUrl,
     });
 
+    const icalEvent = buildRescheduleVisitIcs({
+      eventId: updated.id,
+      name: updated.name,
+      email: updated.email,
+      address,
+      city,
+      company: updated.company,
+      startIso: updated.start,
+      endIso: updated.end,
+      icsSequence: updated.icsSequence,
+      manageUrl,
+      slotLabel,
+    });
+
     await sendClientMail({
       to: updated.email,
       subject: clientMail.subject,
       html: clientMail.html,
       text: clientMail.text,
+      icalEvent,
     });
 
     await sendInternalMail({

@@ -14,6 +14,7 @@ import {
 } from "@/lib/mailer";
 import { absoluteUrl, siteConfig } from "@/lib/seo";
 import { buildClientVisitConfirmationEmail } from "@/lib/visit-confirmation-email";
+import { buildConfirmVisitIcs } from "@/lib/visit-ics-mail";
 
 export const runtime = "nodejs";
 
@@ -180,11 +181,26 @@ export async function POST(request: Request) {
       manageUrl,
     });
 
+    const icalEvent = buildConfirmVisitIcs({
+      eventId: event.id,
+      name,
+      email,
+      address,
+      city,
+      company,
+      startIso: start,
+      endIso: event.end,
+      icsSequence: event.icsSequence,
+      manageUrl,
+      slotLabel,
+    });
+
     await sendClientMail({
       to: email,
       subject: clientMail.subject,
       html: clientMail.html,
       text: clientMail.text,
+      icalEvent,
     });
 
     return NextResponse.json({

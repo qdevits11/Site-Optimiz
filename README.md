@@ -97,7 +97,7 @@ Parcours site : **2–4 étapes** — priorité, taille, coordonnées + adresse,
 
 ### E-mail de confirmation (brand Optmiz)
 
-Après réservation, le site crée l’événement dans Google Agenda et envoie au prospect un e-mail **Optmiz** (SMTP OVH) uniquement. L’e-mail contient des liens signés pour **modifier** ou **annuler** le rendez-vous (`/visite/gerer?token=…`). Après annulation ou modification, une confirmation part au prospect (et une notification interne à Optmiz).
+Après réservation, le site crée l’événement dans Google Agenda et envoie au prospect un e-mail **Optmiz** (SMTP OVH) uniquement. L’e-mail contient des liens signés pour **modifier** ou **annuler** le rendez-vous (`/visite/gerer?token=…`), plus un fichier **`.ics`** (Apple Agenda / Google Agenda) pour ajouter, mettre à jour ou retirer le créneau. Après annulation ou modification, une confirmation part au prospect (et une notification interne à Optmiz).
 
 Une adresse e-mail qui a déjà une visite **future** ne peut pas réserver une seconde visite : le formulaire renvoie vers le lien de gestion.
 

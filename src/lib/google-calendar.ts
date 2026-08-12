@@ -246,6 +246,7 @@ export type VisitEventDetails = {
   companySize: string;
   status: string;
   htmlLink: string | null;
+  icsSequence: number;
 };
 
 const OPTMIZ_MARKER = "optmizVisit";
@@ -257,11 +258,15 @@ function buildVisitPrivateProps(input: {
   company?: string;
   need?: string;
   companySize?: string;
+  icsSequence?: number;
 }) {
   return {
     [OPTMIZ_MARKER]: "1",
     optmizEmail: input.email.trim().toLowerCase(),
     optmizName: input.name,
+    optmizIcsSequence: String(
+      Number.isFinite(input.icsSequence) ? Math.max(0, Math.floor(input.icsSequence!)) : 0,
+    ),
     ...(input.city ? { optmizCity: input.city } : {}),
     ...(input.company ? { optmizCompany: input.company } : {}),
     ...(input.need ? { optmizNeed: input.need } : {}),
@@ -321,6 +326,7 @@ function parseVisitFromEvent(event: {
     companySize: priv.optmizCompanySize || pickDesc("Taille") || "",
     status: event.status || "confirmed",
     htmlLink: event.htmlLink || null,
+    icsSequence: Number.parseInt(priv.optmizIcsSequence || "0", 10) || 0,
   };
 }
 
@@ -402,7 +408,7 @@ export async function createVisitEvent(input: CreateVisitEventInput) {
       // Keep attendee for your calendar UI, but sendUpdates:none prevents Google mail
       attendees: [{ email: input.email, displayName: input.name }],
       extendedProperties: {
-        private: buildVisitPrivateProps(input),
+        private: buildVisitPrivateProps({ ...input, icsSequence: 0 }),
       },
       reminders: {
         useDefault: false,
@@ -418,6 +424,8 @@ export async function createVisitEvent(input: CreateVisitEventInput) {
     id: event.data.id || null,
     htmlLink: event.data.htmlLink || null,
     start: start.toISOString(),
+    end: end.toISOString(),
+    icsSequence: 0,
   };
 }
 
@@ -503,13 +511,18 @@ export async function cancelVisitEvent(eventId: string) {
     throw new Error("Ce rendez-vous est déjà passé et ne peut plus être annulé en ligne.");
   }
 
+  const icsSequence = existing.icsSequence + 1;
+
   await calendar.events.delete({
     calendarId: config.calendarId,
     eventId,
     sendUpdates: "none",
   });
 
-  return existing;
+  return {
+    ...existing,
+    icsSequence,
+  };
 }
 
 export async function rescheduleVisitEvent(eventId: string, newStartIso: string) {
@@ -528,6 +541,7 @@ export async function rescheduleVisitEvent(eventId: string, newStartIso: string)
     throw new Error("Choisissez un créneau futur.");
   }
   const end = new Date(start.getTime() + config.durationMinutes * 60 * 1000);
+  const icsSequence = existing.icsSequence + 1;
 
   await assertSlotFree(start, end, eventId);
 
@@ -538,12 +552,26 @@ export async function rescheduleVisitEvent(eventId: string, newStartIso: string)
     requestBody: {
       start: { dateTime: start.toISOString(), timeZone: config.timeZone },
       end: { dateTime: end.toISOString(), timeZone: config.timeZone },
+      extendedProperties: {
+        private: buildVisitPrivateProps({
+          email: existing.email,
+          name: existing.name,
+          city: existing.city || undefined,
+          company: existing.company || undefined,
+          need: existing.need || undefined,
+          companySize: existing.companySize || undefined,
+          icsSequence,
+        }),
+      },
     },
   });
 
-  return parseVisitFromEvent(updated.data) || {
-    ...existing,
-    start: start.toISOString(),
-    end: end.toISOString(),
-  };
+  return (
+    parseVisitFromEvent(updated.data) || {
+      ...existing,
+      start: start.toISOString(),
+      end: end.toISOString(),
+      icsSequence,
+    }
+  );
 }
