@@ -2,6 +2,10 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import {
+  BOOKING_CONFIRMATION_STORAGE_KEY,
+  type BookingConfirmationDetails,
+} from "@/lib/booking-confirmation";
 
 const NEEDS = [
   { value: "automatiser", label: "Automatiser un process répétitif" },
@@ -129,7 +133,6 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
   const [selectedStart, setSelectedStart] = useState("");
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [bookedLabel, setBookedLabel] = useState<string | null>(null);
   const [existingVisit, setExistingVisit] = useState<{
     slotLabel: string;
     manageUrl: string;
@@ -242,6 +245,8 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
         code?: string;
         manageUrl?: string;
         existingSlotLabel?: string;
+        slotLabel?: string;
+        ok?: boolean;
       };
       if (
         response.status === 409 &&
@@ -259,10 +264,29 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
       }
       if (!response.ok) throw new Error(payload.error || "Réservation impossible.");
       const slot = slots.find((s) => s.start === selectedStart);
-      setBookedLabel(slot?.label || selectedStart);
+      const confirmation: BookingConfirmationDetails = {
+        name: lead.name,
+        email: lead.email,
+        company: lead.company,
+        city: lead.city,
+        address: lead.address,
+        need: labelOf(NEEDS, lead.need),
+        companySize: labelOf(SIZES, lead.companySize),
+        slotLabel: payload.slotLabel || slot?.label || selectedStart,
+        manageUrl: payload.manageUrl,
+      };
+      try {
+        window.sessionStorage.setItem(
+          BOOKING_CONFIRMATION_STORAGE_KEY,
+          JSON.stringify(confirmation),
+        );
+      } catch {
+        // redirect even if storage is unavailable
+      }
+      window.location.assign("/confirmation");
+      return;
     } catch (err) {
       setError(err instanceof Error ? err.message : "Réservation impossible.");
-    } finally {
       setPending(false);
     }
   }
@@ -292,50 +316,26 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
       data-cursor="card"
     >
       <div className="lead-qualifier-head">
-        <p className="lead-qualifier-kicker font-mono">
-          {bookedLabel ? "Confirmé" : "Visite gratuite"}
-        </p>
-        <p className="lead-qualifier-reassure">
-          {bookedLabel ? "Dans votre agenda et le nôtre" : "Chez vous · Sans engagement"}
-        </p>
+        <p className="lead-qualifier-kicker font-mono">Visite gratuite</p>
+        <p className="lead-qualifier-reassure">Chez vous · Sans engagement</p>
       </div>
 
-      {!bookedLabel ? (
-        <>
-          <div className="lead-qualifier-progress" aria-hidden>
-            <div
-              className="lead-qualifier-progress-bar"
-              style={{ width: `${((step + 1) / 4) * 100}%` }}
-            />
-          </div>
-          <p className="lead-qualifier-step font-mono">Étape {step + 1} / 4</p>
-        </>
-      ) : null}
+      <div className="lead-qualifier-progress" aria-hidden>
+        <div
+          className="lead-qualifier-progress-bar"
+          style={{ width: `${((step + 1) / 4) * 100}%` }}
+        />
+      </div>
+      <p className="lead-qualifier-step font-mono">Étape {step + 1} / 4</p>
 
       <AnimatePresence mode="wait">
-        {bookedLabel ? (
-          <motion.div
-            key="done"
-            className="lead-qualifier-success"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35 }}
-          >
-            <p className="font-display lead-qualifier-success-title">C’est réservé</p>
-            <p>
-              Visite confirmée : <strong>{bookedLabel}</strong>
-              {lead?.city ? ` · ${lead.city}` : ""}.
-            </p>
-            <p>Une confirmation Optmiz vous est envoyée par e-mail.</p>
-          </motion.div>
-        ) : (
-          <motion.div
-            key={step}
-            initial={{ opacity: 0, x: 16 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -12 }}
-            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-          >
+        <motion.div
+          key={step}
+          initial={{ opacity: 0, x: 16 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -12 }}
+          transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+        >
             <h2 className="lead-qualifier-title font-display">{stepTitle}</h2>
             <p className="lead-qualifier-hint">{stepHint}</p>
 
@@ -598,8 +598,7 @@ export function LeadQualifier({ variant = "section", id = "devis" }: LeadQualifi
                 ← Retour
               </button>
             ) : null}
-          </motion.div>
-        )}
+        </motion.div>
       </AnimatePresence>
     </div>
   );

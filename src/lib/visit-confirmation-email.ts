@@ -144,6 +144,11 @@ export function buildClientVisitConfirmationEmail(details: VisitMailDetails) {
       le rendez-vous dans Apple Agenda ou Google Agenda (Android).
     </p>
     <p style="margin:18px 0 0;">
+      La suite : on se rencontre chez vous. Quentin écoute votre situation, vos
+      besoins et votre manière de fonctionner, puis vous parle des opportunités
+      concrètes — gratuitement et sans engagement.
+    </p>
+    <p style="margin:18px 0 0;">
       Besoin de changer de créneau ou d’annuler ? Utilisez les liens ci-dessous.
       Vous pouvez aussi répondre à cet e-mail ou écrire à
       <a href="mailto:${escapeHtml(siteConfig.email)}" style="color:${brand.accent};text-decoration:none;">${escapeHtml(siteConfig.email)}</a>
@@ -175,6 +180,8 @@ export function buildClientVisitConfirmationEmail(details: VisitMailDetails) {
     `Taille : ${details.companySize}`,
     "",
     "Fichier agenda joint (.ics) : ouvrez-le pour l’ajouter à Apple Agenda ou Google Agenda.",
+    "",
+    "La suite : on se rencontre chez vous. Quentin écoute votre situation, vos besoins et votre manière de fonctionner, puis vous parle des opportunités concrètes — gratuitement et sans engagement.",
     "",
     manageUrl
       ? `Modifier le rendez-vous : ${manageUrl}&action=reschedule`

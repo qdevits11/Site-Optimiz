@@ -2739,6 +2739,23 @@ body.nav-overlay-open {
   align-items: center;
 }
 
+.confirmation-next {
+  margin-top: 0.35rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid color-mix(in srgb, var(--accent, #20c894) 22%, transparent);
+}
+
+.confirmation-next-title {
+  margin: 0.35rem 0 0.65rem;
+  font-size: clamp(1.15rem, 2.4vw, 1.35rem);
+  line-height: 1.25;
+}
+
+.confirmation-next p {
+  margin: 0;
+  color: color-mix(in srgb, var(--text, #e8f5f0) 88%, transparent);
+}
+
 @media (max-width: 640px) {
   .visit-manage-section {
     padding-top: 3rem;

@@ -207,6 +207,7 @@ export async function POST(request: Request) {
       ok: true,
       eventId: event.id,
       start,
+      slotLabel,
       manageUrl,
     });
   } catch (err) {
