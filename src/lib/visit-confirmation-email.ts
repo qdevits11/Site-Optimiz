@@ -146,7 +146,7 @@ export function buildClientVisitConfirmationEmail(details: VisitMailDetails) {
     <p style="margin:18px 0 0;">
       La suite : on se rencontre chez vous. Quentin écoute votre situation, vos
       besoins et votre manière de fonctionner, puis vous parle des opportunités
-      concrètes — gratuitement et sans engagement.
+      concrètes, gratuitement et sans engagement.
     </p>
     <p style="margin:18px 0 0;">
       Besoin de changer de créneau ou d’annuler ? Utilisez les liens ci-dessous.
@@ -181,7 +181,7 @@ export function buildClientVisitConfirmationEmail(details: VisitMailDetails) {
     "",
     "Fichier agenda joint (.ics) : ouvrez-le pour l’ajouter à Apple Agenda ou Google Agenda.",
     "",
-    "La suite : on se rencontre chez vous. Quentin écoute votre situation, vos besoins et votre manière de fonctionner, puis vous parle des opportunités concrètes — gratuitement et sans engagement.",
+    "La suite : on se rencontre chez vous. Quentin écoute votre situation, vos besoins et votre manière de fonctionner, puis vous parle des opportunités concrètes, gratuitement et sans engagement.",
     "",
     manageUrl
       ? `Modifier le rendez-vous : ${manageUrl}&action=reschedule`

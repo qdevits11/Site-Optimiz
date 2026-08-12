@@ -30,3 +30,11 @@ Google still need Search Console (property already verified for
 
 Do this automatically, without waiting to be asked, any time you ship
 content changes for this site.
+
+## Copy: no em dashes
+
+Never use the em dash character (`—`, U+2014) anywhere in site-facing
+copy (pages, components, emails, articles, SEO text, `llms*.txt`, etc.).
+Prefer a comma, period, colon, parentheses, or a normal hyphen `-` instead.
+En dashes in ranges like `1–10` are also avoided when writing new UI
+labels; use `1-10` or `1 à 10`.

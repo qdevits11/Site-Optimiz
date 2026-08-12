@@ -556,6 +556,39 @@ button.btn-primary-glow:disabled {
   transform: none;
 }
 
+.btn-danger-glow {
+  background: #e25555;
+  color: #1a0606;
+  box-shadow: 0 0 28px rgba(226, 85, 85, 0.35);
+}
+
+a.btn-danger-glow,
+button.btn-danger-glow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.95rem 1.4rem;
+  border-radius: 999px;
+  border: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  font-family: inherit;
+  line-height: 1.2;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+a.btn-danger-glow:hover,
+button.btn-danger-glow:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 0 34px rgba(226, 85, 85, 0.5);
+}
+
 .btn-ghost {
   border: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.03);
@@ -2724,6 +2757,17 @@ body.nav-overlay-open {
     var(--bg, #071612);
 }
 
+.confirmation-section {
+  /* Sous le menu fixe (padding-top nav + shell ~5.5–6.5rem) */
+  padding-top: 7.5rem;
+}
+
+@media (max-width: 640px) {
+  .confirmation-section {
+    padding-top: 6.75rem;
+  }
+}
+
 .visit-manage-card {
   padding: 1.75rem 1.5rem 1.85rem;
   border: 1px solid color-mix(in srgb, var(--accent, #20c894) 28%, transparent);
@@ -2780,6 +2824,10 @@ body.nav-overlay-open {
   .visit-manage-section {
     padding-top: 3rem;
     padding-bottom: 3rem;
+  }
+
+  .visit-manage-section.confirmation-section {
+    padding-top: 6.75rem;
   }
 
   .visit-manage-card {

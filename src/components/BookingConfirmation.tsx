@@ -5,7 +5,6 @@ import {
   BOOKING_CONFIRMATION_STORAGE_KEY,
   type BookingConfirmationDetails,
 } from "@/lib/booking-confirmation";
-import { siteConfig } from "@/lib/seo";
 
 function readConfirmation(): BookingConfirmationDetails | null {
   if (typeof window === "undefined") return null;
@@ -60,9 +59,6 @@ export function BookingConfirmation() {
           <a className="btn-primary-glow btn-cta" href="/#devis">
             Réserver une visite
           </a>
-          <a className="btn-ghost" href={`mailto:${siteConfig.email}`}>
-            Écrire à Optmiz
-          </a>
         </div>
       </div>
     );
@@ -105,7 +101,7 @@ export function BookingConfirmation() {
         <p>
           On se rencontre chez vous. Quentin écoute votre situation, vos besoins et votre
           manière de fonctionner au quotidien, puis vous parle des opportunités concrètes
-          pour gagner du temps — sans engagement.
+          pour gagner du temps, sans engagement.
         </p>
       </div>
 
@@ -115,14 +111,11 @@ export function BookingConfirmation() {
             <a className="btn-primary-glow btn-cta" href={`${manageUrl}&action=reschedule`}>
               Modifier le créneau
             </a>
-            <a className="btn-ghost" href={`${manageUrl}&action=cancel`}>
+            <a className="btn-danger-glow btn-cta" href={`${manageUrl}&action=cancel`}>
               Annuler
             </a>
           </>
         ) : null}
-        <a className="btn-ghost" href={`mailto:${siteConfig.email}`}>
-          {siteConfig.email}
-        </a>
       </div>
     </div>
   );
