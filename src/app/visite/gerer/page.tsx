@@ -25,7 +25,7 @@ export default async function ManageVisitPage({ searchParams }: PageProps) {
 
   return (
     <section className="page-section visit-manage-section">
-      <div className="container-site" style={{ maxWidth: 720 }}>
+      <div className="container-site visit-manage-wrap">
         {token ? (
           <VisitManager token={token} initialAction={action} />
         ) : (

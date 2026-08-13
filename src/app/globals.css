@@ -2784,19 +2784,23 @@ body.nav-overlay-open {
   }
 }
 
-.lead-qualifier-hero .lead-calendar {
+.lead-qualifier-hero .lead-calendar,
+.visit-manage-card .lead-calendar {
   padding: 0.55rem 0.6rem 0.65rem;
 }
 
-.lead-qualifier-hero .lead-calendar-month {
+.lead-qualifier-hero .lead-calendar-month,
+.visit-manage-card .lead-calendar-month {
   font-size: 0.85rem;
 }
 
-.lead-qualifier-hero .lead-calendar-day {
+.lead-qualifier-hero .lead-calendar-day,
+.visit-manage-card .lead-calendar-day {
   font-size: 0.76rem;
 }
 
-.lead-qualifier-hero .lead-times-list {
+.lead-qualifier-hero .lead-times-list,
+.visit-manage-card .lead-times-list {
   max-height: 9.5rem;
 }
 
@@ -2815,6 +2819,10 @@ body.nav-overlay-open {
   .hero:has(.lead-qualifier-hero.is-schedule-step) .hero-with-qualifier {
     align-items: start;
   }
+}
+
+.visit-manage-wrap {
+  max-width: 400px;
 }
 
 .visit-manage-section {
@@ -2859,11 +2867,14 @@ body.nav-overlay-open {
 }
 
 .visit-manage-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
+  display: grid;
+  gap: 0.55rem;
+  width: 100%;
   margin-top: 1.25rem;
-  align-items: center;
+}
+
+.visit-manage-actions > * {
+  width: 100%;
 }
 
 .confirmation-next {
@@ -2891,11 +2902,6 @@ body.nav-overlay-open {
 
   .visit-manage-card {
     padding: 1.35rem 1.1rem 1.45rem;
-  }
-
-  .visit-manage-actions {
-    flex-direction: column;
-    align-items: stretch;
   }
 }
 
