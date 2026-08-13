@@ -2784,19 +2784,29 @@ body.nav-overlay-open {
   }
 }
 
-.lead-qualifier-hero .lead-calendar {
+.lead-qualifier-hero .lead-calendar,
+.visit-manage-card .lead-calendar {
   padding: 0.55rem 0.6rem 0.65rem;
 }
 
-.lead-qualifier-hero .lead-calendar-month {
+.visit-manage-card .lead-calendar,
+.visit-manage-card .lead-times {
+  /* Same footprint as the hero qualifier column (~400px card). */
+  max-width: 23.25rem;
+}
+
+.lead-qualifier-hero .lead-calendar-month,
+.visit-manage-card .lead-calendar-month {
   font-size: 0.85rem;
 }
 
-.lead-qualifier-hero .lead-calendar-day {
+.lead-qualifier-hero .lead-calendar-day,
+.visit-manage-card .lead-calendar-day {
   font-size: 0.76rem;
 }
 
-.lead-qualifier-hero .lead-times-list {
+.lead-qualifier-hero .lead-times-list,
+.visit-manage-card .lead-times-list {
   max-height: 9.5rem;
 }
 
