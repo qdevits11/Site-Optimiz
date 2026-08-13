@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { gsap, registerGsap } from "@/lib/gsap";
 
@@ -10,6 +10,24 @@ const NATIVE_CURSOR =
   "input, textarea, select, [contenteditable='true']";
 const CTA_CURSOR =
   "[data-cursor='cta'], .btn-primary-glow, .btn-danger-glow";
+
+function subscribePointerPrefs(onStoreChange: () => void) {
+  const coarse = window.matchMedia("(pointer: coarse)");
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+  coarse.addEventListener("change", onStoreChange);
+  reduced.addEventListener("change", onStoreChange);
+  return () => {
+    coarse.removeEventListener("change", onStoreChange);
+    reduced.removeEventListener("change", onStoreChange);
+  };
+}
+
+function getPointerPrefsSnapshot() {
+  return (
+    !window.matchMedia("(pointer: coarse)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
 
 function applyMode(
   mode: CursorMode,
@@ -35,32 +53,18 @@ function applyMode(
 }
 
 export function CustomCursor() {
+  const enabled = useSyncExternalStore(
+    subscribePointerPrefs,
+    getPointerPrefsSnapshot,
+    () => false,
+  );
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const modeRef = useRef<CursorMode>("default");
-  const [enabled, setEnabled] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const [mode, setMode] = useState<CursorMode>("default");
 
-  useEffect(() => setMounted(true), []);
-
-  useEffect(() => {
-    const coarse = window.matchMedia("(pointer: coarse)");
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-    const sync = () => setEnabled(!coarse.matches && !reduced.matches);
-    sync();
-
-    coarse.addEventListener("change", sync);
-    reduced.addEventListener("change", sync);
-    return () => {
-      coarse.removeEventListener("change", sync);
-      reduced.removeEventListener("change", sync);
-    };
-  }, []);
-
   useLayoutEffect(() => {
-    if (!enabled || !mounted) return;
+    if (!enabled) return;
 
     const dot = dotRef.current;
     const ring = ringRef.current;
@@ -125,9 +129,9 @@ export function CustomCursor() {
       document.removeEventListener("mouseout", onOut);
       document.documentElement.removeEventListener("mouseleave", onLeaveWindow);
     };
-  }, [enabled, mounted]);
+  }, [enabled]);
 
-  if (!enabled || !mounted) return null;
+  if (!enabled) return null;
 
   return createPortal(
     <>
