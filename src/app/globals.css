@@ -645,10 +645,24 @@ button.btn-ghost:hover:not(:disabled) {
   border-color: rgba(180, 192, 217, 0.42);
 }
 
-/* Cursor */
+/* Cursor: branded pointer, native cursor restored on form fields */
 .cursor-none,
 .cursor-none * {
   cursor: none !important;
+}
+
+.cursor-none :is(input, textarea, select, [contenteditable="true"]),
+.cursor-none :is(input, textarea, select, [contenteditable="true"]) * {
+  cursor: auto !important;
+}
+
+.cursor-none
+  :is(
+    input:not([type="button"], [type="submit"], [type="reset"], [type="checkbox"], [type="radio"]),
+    textarea,
+    [contenteditable="true"]
+  ) {
+  cursor: text !important;
 }
 
 .cursor-dot,
@@ -664,27 +678,23 @@ button.btn-ghost:hover:not(:disabled) {
 }
 
 .cursor-dot {
-  width: 16px;
-  height: 16px;
+  width: 8px;
+  height: 8px;
   background: var(--accent);
-  box-shadow:
-    0 0 0 3px rgba(32, 200, 148, 0.22),
-    0 0 14px rgba(32, 200, 148, 0.55);
+  box-shadow: 0 0 0 1px rgba(8, 11, 20, 0.35);
+}
+
+.cursor-dot[data-mode="cta"],
+.cursor-dot[data-mode="link"] {
+  background: #f5f7ff;
+  box-shadow: 0 0 0 1px rgba(8, 11, 20, 0.45);
 }
 
 .cursor-ring {
-  width: 48px;
-  height: 48px;
-  border: 1.5px solid rgba(32, 200, 148, 0.9);
-  background: rgba(32, 200, 148, 0.06);
-  display: grid;
-  place-items: center;
-}
-
-.cursor-label {
-  font-size: 0.65rem;
-  color: var(--accent);
-  white-space: nowrap;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(32, 200, 148, 0.55);
+  background: transparent;
 }
 
 /* Orbs */
