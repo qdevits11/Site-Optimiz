@@ -8,13 +8,88 @@ export const defaultProblem = {
     "Des tâches répétitives qui consomment du temps chaque jour",
     "Des erreurs ou doublons dans vos encodages manuels",
     "Des outils qui ne communiquent pas entre eux",
-    "Des processus métiers tournant sur Excel",
+    "Des processus qui reposent sur une seule personne",
     "Des équipes qui compensent avec des solutions manuelles",
     "Une complexité qui augmente à mesure que l’entreprise grandit",
   ],
   closing:
     "Le coût réel est invisible : perte de temps, fatigue des équipes, décisions ralenties, croissance freinée.",
 };
+
+/** Parcours client unique, à utiliser partout (homepage, méthode, tarifs). */
+export const commercialSteps = [
+  {
+    n: "01",
+    title: "Visite diagnostic",
+    badge: "Gratuit",
+    badgeClass: "step-badge-free",
+    homeText: "Premier échange gratuit pour observer la situation et voir si Optmiz peut aider.",
+    text: "Premier échange gratuit pour observer la situation, comprendre le problème et déterminer si Optmiz peut apporter suffisamment de valeur.",
+  },
+  {
+    n: "02",
+    title: "Analyse terrain",
+    badge: "Payant",
+    badgeClass: "step-badge-paid",
+    homeText: "Audit détaillé des processus et des outils. Cette mission est payante.",
+    text: "Audit détaillé des processus, outils, informations et habitudes de travail. Identification et priorisation des améliorations. Cette mission est payante.",
+    include:
+      "Inclut : sessions terrain, analyse des outils, écarts théorie/réalité, cartographie livrée.",
+  },
+  {
+    n: "03",
+    title: "Mise en œuvre",
+    homeText: "Simplification, puis réalisation. Devis fixe avant le démarrage.",
+    text: "Simplification du processus, puis réalisation des améliorations retenues. Projet cadré et devis fixe avant le démarrage. Vous savez ce qui sera réalisé et combien cela coûtera.",
+  },
+  {
+    n: "04",
+    title: "Suivi Zen",
+    badge: "Optionnel",
+    badgeClass: "step-badge-paid",
+    homeText: "Maintenance et amélioration continue, seulement si vous le souhaitez.",
+    text: "Maintenance, ajustements et amélioration continue lorsque vous souhaitez être accompagné dans la durée. Ce forfait n’est jamais obligatoire.",
+  },
+] as const;
+
+export const solutionOfferings = [
+  {
+    title: "Automatisation",
+    text: "Relances, calculs, génération de documents, notifications, traitements répétitifs.",
+    href: "/cas-concrets",
+    linkLabel: "Voir les cas concrets →",
+  },
+  {
+    title: "Connexion d’outils et de données",
+    text: "Excel, mails, ERP, CRM, SaaS et outils métier qui doivent fonctionner ensemble, sans double encodage.",
+    href: "/services/systemes-de-gestion",
+    linkLabel: "En savoir plus →",
+  },
+  {
+    title: "Formulaires et saisie terrain",
+    text: "Remplacer le papier, simplifier les encodages et rendre les informations immédiatement disponibles.",
+    href: "/cas-concrets",
+    linkLabel: "Voir les cas concrets →",
+  },
+  {
+    title: "Portails et configurateurs",
+    text: "Structurer les échanges clients, fournisseurs ou collaborateurs et alimenter directement les outils internes.",
+    href: "/services/creation-site-web",
+    linkLabel: "En savoir plus →",
+  },
+  {
+    title: "Outils de pilotage",
+    text: "Centraliser l’information utile pour comprendre ce qui se passe et prendre des décisions.",
+    href: "/services/systemes-de-gestion",
+    linkLabel: "En savoir plus →",
+  },
+  {
+    title: "Applications sur mesure",
+    text: "Uniquement lorsqu’aucun outil existant ne répond correctement au besoin.",
+    href: "/services/systemes-de-gestion",
+    linkLabel: "En savoir plus →",
+  },
+] as const;
 
 export const caseStudies: AccordionItem[] = [
   {
@@ -80,7 +155,7 @@ export const caseStudies: AccordionItem[] = [
 export const generalFaqs = [
   {
     q: "Optmiz intervient-il partout en Belgique ?",
-    a: "Optmiz est basé à Soignies et intervient principalement auprès de PME en Wallonie (Hainaut, Brabant wallon, Namur, Bruxelles), notamment à Mons, Charleroi, Namur, Braine-le-Comte, La Louvière, ainsi qu'à distance pour les échanges qui ne nécessitent pas de présence terrain. La liste des villes est sur la page Zones.",
+    a: "Optmiz est basé à Soignies et intervient auprès de PME en Wallonie et à Bruxelles (Hainaut, Brabant wallon, Namur, Bruxelles-Capitale), notamment à Mons, Charleroi, Namur, Braine-le-Comte, La Louvière, ainsi qu'à distance pour les échanges qui ne nécessitent pas de présence terrain. La liste des villes est sur la page Zones.",
   },
   {
     q: "Puis-je réserver une visite sur mon lieu de travail ?",
@@ -88,22 +163,22 @@ export const generalFaqs = [
   },
   {
     q: "Qu'est-ce que l'automatisation de processus, concrètement ?",
-    a: "C'est faire en sorte qu'une tâche répétitive (relance, calcul, export, notification) s'exécute automatiquement, sans qu'une personne doive la refaire manuellement à chaque fois.",
+    a: "C'est faire en sorte qu'une tâche répétitive (relance, calcul, export, notification) s'exécute automatiquement, sans qu'une personne doive la refaire manuellement à chaque fois. Chez Optmiz, on ne l'aborde qu'après avoir simplifié le processus.",
   },
   {
     q: "Quelle est la différence entre automatisation et digitalisation ?",
-    a: "Digitaliser, c'est transformer une information papier ou manuelle en version numérique exploitable. Automatiser, c'est supprimer l'intervention humaine répétitive sur un processus déjà digitalisé.",
+    a: "Digitaliser, c'est transformer une information papier ou manuelle en version numérique exploitable. Automatiser, c'est supprimer l'intervention humaine répétitive sur un processus déjà clarifié. L'ordre compte : simplifier d'abord, puis connecter, puis automatiser.",
   },
   {
-    q: "Combien de temps dure un projet d'automatisation ?",
-    a: "Cela dépend du périmètre défini lors de l'audit. Un projet ciblé (une relance, un calcul) se met en place en quelques semaines ; un projet plus large (CRM, configurateur) prend plus de temps, toujours cadré par un devis fixe.",
+    q: "Combien de temps dure un projet ?",
+    a: "Cela dépend du périmètre défini lors de l'analyse terrain. Un projet ciblé (une relance, un calcul) se met en place en quelques semaines ; un projet plus large (configurateur, portail, outil de suivi) prend plus de temps, toujours cadré par un devis fixe.",
   },
   {
     q: "Dois-je changer tous mes outils actuels ?",
-    a: "Non. La priorité est de connecter et fiabiliser ce qui existe déjà (Excel, ERP, CRM, mails) avant d'envisager un remplacement d'outil.",
+    a: "Non. Vos outils actuels d'abord. Si un outil existant répond au besoin, nous l'utilisons. Le sur-mesure vient seulement lorsqu'il apporte une vraie valeur.",
   },
   {
-    q: "Mes équipes doivent-elles être techniques pour utiliser les solutions livrées ?",
+    q: "Mes équipes doivent-elles être techniques pour utiliser ce qui est livré ?",
     a: "Non. L'objectif est l'adoption réelle : un système utile est un système que vos équipes utilisent sans formation technique lourde.",
   },
 ] as const;
@@ -111,19 +186,19 @@ export const generalFaqs = [
 export const pricingFaqs = [
   {
     q: "Le diagnostic est-il vraiment gratuit ?",
-    a: "Oui. Premier échange gratuit et sans engagement. L’audit terrain complet, lui, est payant.",
+    a: "Oui. La visite diagnostic est gratuite et sans engagement. L’analyse terrain complète, elle, est payante.",
   },
   {
     q: "Quelle est la différence entre diagnostic et audit ?",
-    a: "Le diagnostic = premier échange pour cadrer. L’audit = mission terrain avec cartographie complète, base du devis fixe.",
+    a: "La visite diagnostic = premier échange gratuit pour observer la situation. L’analyse terrain = mission payante avec cartographie complète, base du devis fixe.",
   },
   {
-    q: "Pourquoi l’audit est-il payant ?",
-    a: "Il mobilise du temps terrain réel (équipes, outils, flux, rédaction). Même sans suite, vous gardez une vision claire de vos process.",
+    q: "Pourquoi l’analyse terrain est-elle payante ?",
+    a: "Elle mobilise du temps terrain réel (équipes, outils, flux, rédaction). Même sans suite, vous gardez une vision claire de vos process.",
   },
   {
     q: "Comment est calculé le prix d’un projet ?",
-    a: "Sur base de l’audit : périmètre précis × jours nécessaires, à taux journalier fixe. Tout est dans le devis avant démarrage.",
+    a: "Sur base de l’analyse terrain : périmètre précis × jours nécessaires, à taux journalier fixe. Tout est dans le devis avant le démarrage de la mise en œuvre.",
   },
   {
     q: "Et si je veux ajouter quelque chose en cours de projet ?",
@@ -143,7 +218,7 @@ export const methodSteps = [
   {
     letter: "O",
     title: "Observer",
-    text: "Nous observons votre fonctionnement réel.",
+    text: "Nous observons votre fonctionnement réel, pas la version théorique.",
   },
   {
     letter: "P",
@@ -153,7 +228,7 @@ export const methodSteps = [
   {
     letter: "T",
     title: "Transformer",
-    text: "Nous mettons en œuvre les solutions à votre rythme.",
+    text: "Nous simplifions d’abord, puis nous mettons en œuvre à votre rythme.",
   },
   {
     letter: "M",
@@ -168,6 +243,6 @@ export const methodSteps = [
   {
     letter: "Z",
     title: "Zenifier",
-    text: "Vous retrouvez la sérénité. Pour rester dans cet état dans la durée, découvrez nos forfaits Zen.",
+    text: "Vous retrouvez la sérénité. Le suivi Zen reste optionnel, pour durer dans le temps.",
   },
 ];

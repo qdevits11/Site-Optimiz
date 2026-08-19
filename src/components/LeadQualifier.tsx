@@ -9,16 +9,20 @@ import {
 import { addressHasStreetNumber, isValidBookingEmail } from "@/lib/booking-validation";
 
 const NEEDS = [
-  { value: "automatiser", label: "Automatiser un process répétitif" },
-  { value: "site-web", label: "Créer / refaire un site web" },
-  { value: "erp-crm", label: "Mettre en place un système de gestion" },
-  { value: "accompagne", label: "Être accompagné" },
+  { value: "taches-repetitives", label: "Trop de tâches répétitives" },
+  { value: "doubles-encodages", label: "Trop de doubles encodages" },
+  { value: "outils-isoles", label: "Mes outils ne communiquent pas" },
+  { value: "personne-cle", label: "Un processus dépend trop d’une personne" },
+  { value: "visibilite", label: "Je manque de visibilité sur mon activité" },
+  { value: "croissance-admin", label: "Notre croissance crée trop d’administratif" },
+  { value: "autre", label: "J’ai un autre problème" },
+  { value: "ne-sais-pas", label: "Je ne sais pas encore par où commencer" },
 ] as const;
 
 const SIZES = [
-  { value: "1-10", label: "1–10" },
-  { value: "11-50", label: "11–50" },
-  { value: "51-200", label: "51–200" },
+  { value: "1-10", label: "1-10" },
+  { value: "11-50", label: "11-50" },
+  { value: "51-200", label: "51-200" },
   { value: "200+", label: "200+" },
 ] as const;
 
@@ -395,7 +399,7 @@ export function LeadQualifier({ variant = "section", id }: LeadQualifierProps) {
 
   const stepTitle =
     step === 0
-      ? "Quelle est votre priorité aujourd’hui ?"
+      ? "Qu’est-ce qui vous fait perdre du temps aujourd’hui ?"
       : step === 1
         ? "Combien de personnes dans la société ?"
         : step === 2
@@ -406,7 +410,7 @@ export function LeadQualifier({ variant = "section", id }: LeadQualifierProps) {
 
   const stepHint =
     step === 0
-      ? "Sélectionnez votre besoin"
+      ? "Choisissez la situation la plus proche"
       : step === 1
         ? "Taille de l’entreprise"
         : step === 2
@@ -424,7 +428,7 @@ export function LeadQualifier({ variant = "section", id }: LeadQualifierProps) {
       data-cursor="card"
     >
       <div className="lead-qualifier-head">
-        <p className="lead-qualifier-kicker font-mono">Visite gratuite</p>
+        <p className="lead-qualifier-kicker font-mono">Visite diagnostic gratuite</p>
         <p className="lead-qualifier-reassure">Chez vous · Sans engagement</p>
       </div>
 
@@ -448,7 +452,7 @@ export function LeadQualifier({ variant = "section", id }: LeadQualifierProps) {
           <p className="lead-qualifier-hint">{stepHint}</p>
 
           {step === 0 ? (
-            <div className="lead-options" role="listbox" aria-label="Priorité">
+            <div className="lead-options" role="listbox" aria-label="Situation">
               {NEEDS.map((option) => (
                 <button
                   key={option.value}

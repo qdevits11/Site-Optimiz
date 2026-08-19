@@ -3,37 +3,38 @@
 import Link from "next/link";
 import { useRef } from "react";
 import { useReveal } from "@/hooks/useReveal";
+import { PRIMARY_CTA } from "@/lib/cta";
 
 const pains = [
   {
     title: "Tâches répétitives",
     note: "Temps perdu chaque semaine",
-    text: "Relances, encodages, exports… qui mangent des heures sans créer de valeur.",
+    text: "Encoder, copier-coller, vérifier, relancer… encore et encore.",
   },
   {
-    title: "Erreurs & doublons",
+    title: "Outils qui ne se parlent pas",
+    note: "Doubles encodages",
+    text: "Excel, mails, papier, ERP et SaaS créent des doubles encodages.",
+  },
+  {
+    title: "Dépendance aux personnes clés",
+    note: "Processus fragiles",
+    text: "Certaines procédures reposent sur une seule personne.",
+  },
+  {
+    title: "Croissance = plus de complexité",
+    note: "Plafond invisible",
+    text: "Plus d’activité crée plus d’administratif et de dépendances.",
+  },
+  {
+    title: "Erreurs et doublons",
     note: "Risque opérationnel",
-    text: "Copier-coller entre outils : fautes, oublis, corrections interminables.",
-  },
-  {
-    title: "Outils isolés",
-    note: "Flux cassés",
-    text: "Excel, mails, ERP, CRM… rien ne se parle, tout repose sur quelqu’un.",
-  },
-  {
-    title: "Process fragiles",
-    note: "Dépendance critique",
-    text: "Si une personne part, l’organisation ralentit ou s’arrête.",
+    text: "Les ressaisies manuelles multiplient les fautes, les oublis et les corrections.",
   },
   {
     title: "Manque de visibilité",
     note: "Décisions freinées",
     text: "Difficile de savoir où ça coince, donc impossible d’agir vite.",
-  },
-  {
-    title: "Croissance freinée",
-    note: "Plafond invisible",
-    text: "Plus d’activité = plus de chaos manuel, pas plus de capacité.",
   },
 ];
 
@@ -46,14 +47,15 @@ export function PainPoints() {
       <div className="container-site">
         <div data-reveal data-reveal-type="fade" className="section-heading section-heading-row">
           <div>
-            <p className="eyebrow eyebrow-alert font-mono">Points bloquants</p>
+            <p className="eyebrow eyebrow-alert font-mono">Vous vous reconnaissez ?</p>
             <h2 className="font-display">Ce n’est pas un manque d’outils.</h2>
             <p className="section-lead">
               Ce sont des frictions qui coûtent du temps, de l’énergie, et du chiffre d’affaires.
             </p>
           </div>
           <p className="section-aside section-aside-alert">
-            Si 2 points ci-dessous vous parlent, agissez : un diagnostic Optmiz dure 30 minutes.
+            Si 2 points ci-dessous vous parlent, la prochaine étape est une visite diagnostic de
+            30 minutes, gratuite.
           </p>
         </div>
         <div className="pain-grid" data-reveal data-reveal-type="stagger">
@@ -78,8 +80,8 @@ export function PainPoints() {
             <strong>Ces points ne se résolvent pas tout seuls.</strong> Plus vous attendez, plus ils
             coûtent cher à votre équipe.
           </p>
-          <Link href="/#devis" className="btn-primary-glow section-cta">
-            Je veux lever ces freins
+          <Link href={PRIMARY_CTA.href} className="btn-primary-glow section-cta">
+            {PRIMARY_CTA.label}
           </Link>
         </div>
       </div>

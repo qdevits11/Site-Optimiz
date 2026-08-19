@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { PRIMARY_CTA } from "@/lib/cta";
 
 type CtaButtonProps = {
   href?: string;
@@ -8,15 +9,12 @@ type CtaButtonProps = {
 };
 
 export function CtaButton({
-  href = "/#devis",
+  href = PRIMARY_CTA.href,
   variant = "primary",
-  children = "Obtenir mon devis gratuit ›",
+  children = PRIMARY_CTA.label,
   className = "",
 }: CtaButtonProps) {
-  const base =
-    variant === "primary"
-      ? "btn-primary-glow"
-      : "btn-ghost";
+  const base = variant === "primary" ? "btn-primary-glow" : "btn-ghost";
 
   return (
     <Link

@@ -35,7 +35,7 @@ export function ProblemSection({
         {showCta ? (
           <div style={{ marginTop: "1.25rem" }}>
             <Link href="/#devis" className="btn-primary-glow section-cta" style={{ display: "inline-flex" }}>
-              Je veux lever ces freins
+              Réserver une visite diagnostic gratuite
             </Link>
           </div>
         ) : null}

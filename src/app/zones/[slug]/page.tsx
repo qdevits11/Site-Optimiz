@@ -28,8 +28,8 @@ export async function generateMetadata({ params }: CityPageProps): Promise<Metad
 
   return pageMetadata({
     path: `/zones/${city.slug}`,
-    title: `Automatisation & digitalisation PME à ${city.name}`,
-    description: `Optmiz accompagne les PME à ${city.name} (${city.province}) : automatisation des process, digitalisation, sites utiles. Premier rendez-vous gratuit sur place.`,
+    title: `Simplification des processus PME à ${city.name}`,
+    description: `Optmiz accompagne les PME à ${city.name} (${city.province}) : simplification des processus, connexion des outils, automatisation des tâches répétitives. Visite diagnostic gratuite sur place.`,
   });
 }
 
@@ -44,37 +44,37 @@ export default async function CityPage({ params }: CityPageProps) {
   const faqs = [
     {
       q: `Vous déplacez-vous à ${city.name} ?`,
-      a: `Oui. Optmiz est basé à Soignies et se déplace à ${city.name} et dans la région pour un premier rendez-vous gratuit sur votre lieu de travail. Réservez en 2 étapes sur la page d’accueil : coordonnées + créneau synchronisé.`,
+      a: `Oui. Optmiz est basé à Soignies et se déplace à ${city.name} et dans la région pour une visite diagnostic gratuite sur votre lieu de travail. Réservez sur la page d’accueil : coordonnées + créneau synchronisé.`,
     },
     {
-      q: `Que peut-on automatiser dans une PME à ${city.name} ?`,
-      a: "Relances clients, pointages RH, calculs récurrents, transferts entre Excel et ERP, notifications, demandes de devis… Tout process répétitif et règles métier claires peut être automatisé après un audit terrain.",
+      q: `Que peut-on simplifier dans une PME à ${city.name} ?`,
+      a: "Relances clients, pointages RH, calculs récurrents, doubles encodages entre Excel et d’autres outils, notifications, demandes de prix. On observe d’abord le fonctionnement réel, on simplifie, puis on connecte ou on automatise si cela apporte vraiment de la valeur.",
     },
     {
       q: "Le premier rendez-vous est-il payant ?",
-      a: "Non. Le diagnostic initial est gratuit et sans engagement. L’audit terrain approfondi, lui, est payant et sert de base au devis fixe.",
+      a: "Non. La visite diagnostic est gratuite et sans engagement. L’analyse terrain approfondie, elle, est payante et sert de base au devis fixe.",
     },
     {
       q: `Intervenez-vous aussi autour de ${city.name} ?`,
-      a: `Oui. Au-delà de ${city.name}, nous accompagnons les PME de ${city.province} et plus largement en Wallonie${nearby.length ? `, notamment vers ${nearby.map((c) => c.name).join(", ")}` : ""}.`,
+      a: `Oui. Au-delà de ${city.name}, nous accompagnons les PME de ${city.province} et plus largement en Wallonie et à Bruxelles${nearby.length ? `, notamment vers ${nearby.map((c) => c.name).join(", ")}` : ""}.`,
     },
   ];
 
   const offerings = [
     {
-      title: "Automatisation de processus",
-      text: `Les tâches répétitives de votre équipe à ${city.name} tournent seules : relances, calculs, notifications, exports.`,
+      title: "Simplifier et automatiser",
+      text: `Les tâches répétitives de votre équipe à ${city.name} quittent le quotidien : relances, calculs, notifications, exports.`,
       href: "/cas-concrets",
     },
     {
-      title: "Site internet utile",
-      text: "Un site qui structure vos demandes et se connecte à vos outils, pas une vitrine isolée.",
-      href: "/services/creation-site-web",
+      title: "Connecter vos outils",
+      text: "Excel, mails, ERP, CRM : l’information circule sans double encodage.",
+      href: "/services/systemes-de-gestion",
     },
     {
-      title: "Systèmes de gestion",
-      text: "ERP, CRM, facturation : l’outil qui correspond à votre réalité, Odoo ou sur mesure.",
-      href: "/services/systemes-de-gestion",
+      title: "Portails et formulaires",
+      text: "Un configurateur, un formulaire ou un portail seulement s’il simplifie un processus métier.",
+      href: "/services/creation-site-web",
     },
   ];
 
@@ -93,8 +93,8 @@ export default async function CityPage({ params }: CityPageProps) {
           "@context": "https://schema.org",
           "@type": "Service",
           "@id": `${absoluteUrl(path)}#service`,
-          name: `Automatisation et digitalisation PME à ${city.name}`,
-          serviceType: "Automatisation et digitalisation de processus",
+          name: `Simplification des processus PME à ${city.name}`,
+          serviceType: "Simplification et automatisation de processus",
           description: city.intro,
           url: absoluteUrl(path),
           provider: { "@id": `${siteConfig.url}/#organization` },
@@ -121,13 +121,13 @@ export default async function CityPage({ params }: CityPageProps) {
         eyebrow={`Optmiz · ${city.name}`}
         title={
           <>
-            Automatisation & digitalisation PME à{" "}
+            Simplification des processus PME à{" "}
             <span className="text-accent">{city.name}</span>
           </>
         }
         subtitle={city.intro}
         ctaHref="/#devis"
-        ctaLabel="Réserver une visite sur place"
+        ctaLabel="Réserver une visite diagnostic gratuite"
         note={`${city.province} · ${city.postalCode} · ${city.populationLabel} habitants`}
       />
 
@@ -172,7 +172,7 @@ export default async function CityPage({ params }: CityPageProps) {
               className="btn-primary-glow section-cta"
               style={{ display: "inline-flex", marginTop: "1rem" }}
             >
-              Réserver un créneau à {city.name}
+              Réserver une visite diagnostic à {city.name}
             </Link>
           </aside>
         </div>
@@ -194,8 +194,8 @@ export default async function CityPage({ params }: CityPageProps) {
 
       <section className="page-section">
         <div className="container-site">
-          <p className="page-kicker font-mono">Services à {city.name}</p>
-          <h2 className="page-title">Ce que l’on met en place pour vous</h2>
+          <p className="page-kicker font-mono">Solutions à {city.name}</p>
+          <h2 className="page-title">Ce que l’on peut mettre en œuvre pour vous</h2>
           <div className="page-grid-3">
             {offerings.map((offer) => (
               <article key={offer.title} className="page-card">
@@ -252,12 +252,12 @@ export default async function CityPage({ params }: CityPageProps) {
           <p className="page-kicker font-mono">Prochaine étape</p>
           <h2 className="page-title">On vient chez vous à {city.name} ?</h2>
           <p className="page-lead">
-            Réservez un créneau pour une première visite gratuite sur votre lieu de travail. Ou
+            Réservez une visite diagnostic gratuite sur votre lieu de travail. Ou
             écrivez-nous si vous préférez commencer par un message.
           </p>
           <div className="inline-actions" style={{ marginTop: "1.25rem" }}>
             <Link href="/#devis" className="btn-primary-glow section-cta">
-              Réserver un créneau
+              Réserver une visite diagnostic gratuite
             </Link>
             <Link href="/contact" className="btn-ghost section-cta">
               Contacter Optmiz

@@ -7,16 +7,34 @@ import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { ProblemSection } from "@/components/ProblemSection";
 import { caseStudies } from "@/lib/content";
+import { PROOF_DISCLAIMER } from "@/lib/cta";
 import { buildBreadcrumbJsonLd, pageMetadata, sitePages } from "@/lib/seo";
 
 const page = sitePages.find((entry) => entry.path === "/cas-concrets")!;
 
 export const metadata: Metadata = pageMetadata(page);
 
-const stats = [
-  { value: "10h+", label: "récupérées / mois / collaborateur" },
-  { value: "70%", label: "de temps en moins sur tâches auto" },
-  { value: "ROI", label: "dès la première optimisation" },
+const highlighted = [
+  {
+    title: "Relances clients",
+    result: "Plusieurs heures → 5 min",
+  },
+  {
+    title: "1 874 notifications",
+    result: "2 semaines → ½ journée",
+  },
+  {
+    title: "Feuilles de temps",
+    result: "Papier → temps réel",
+  },
+  {
+    title: "Pointages RH",
+    result: "0 tâche manuelle",
+  },
+  {
+    title: "Demandes de prix",
+    result: "Configurateur connecté au CRM",
+  },
 ];
 
 export default function CasesPage() {
@@ -33,7 +51,7 @@ export default function CasesPage() {
             Des résultats concrets, <span className="text-accent">pas des promesses.</span>
           </>
         }
-        subtitle="Ce que des PME belges ont réellement gagné : temps, sérénité, efficacité."
+        subtitle="Ce que des PME en Wallonie et à Bruxelles ont réellement gagné : temps récupéré, erreurs évitées, processus simplifié."
       />
 
       <ProblemSection
@@ -50,43 +68,40 @@ export default function CasesPage() {
 
       <section className="page-section">
         <div className="container-site">
+          <p className="page-kicker font-mono">Résultats observés</p>
+          <h2 className="page-title">Les chiffres qui comptent, parce qu’ils sont réels</h2>
+          <div className="page-grid-3" style={{ marginTop: "1.15rem" }}>
+            {highlighted.map((item) => (
+              <article key={item.title} className="page-card">
+                <h3 className="font-display" style={{ margin: 0, fontSize: "1.05rem" }}>
+                  {item.title}
+                </h3>
+                <p className="text-accent" style={{ margin: "0.45rem 0 0", fontWeight: 700 }}>
+                  {item.result}
+                </p>
+              </article>
+            ))}
+          </div>
+          <p className="proof-disclaimer">{PROOF_DISCLAIMER}</p>
+        </div>
+      </section>
+
+      <section className="page-section page-section-alt">
+        <div className="container-site">
           <p className="page-kicker font-mono">Transformations</p>
           <h2 className="page-title">5 cas réels, 5 résultats clairs</h2>
           <p className="page-lead">Cliquez pour lire le problème, la solution et le résultat.</p>
           <div style={{ marginTop: "1.15rem", maxWidth: 760 }}>
             <Accordion items={caseStudies} />
           </div>
-        </div>
-      </section>
-
-      <section className="page-section page-section-alt">
-        <div className="container-site">
-          <p className="page-kicker font-mono">En moyenne</p>
-          <h2 className="page-title">Ce que ça représente concrètement</h2>
-          <div className="page-grid-3">
-            {stats.map((stat) => (
-              <div key={stat.label} className="page-card stat-chip">
-                <strong>{stat.value}</strong>
-                <span>{stat.label}</span>
-              </div>
-            ))}
-          </div>
-          <p
-            className="page-lead"
-            style={{ marginTop: "1.25rem", color: "var(--text)", fontWeight: 600 }}
-          >
-            Je ne vends pas des heures de conseil. Je construis des systèmes qui fonctionnent.
-          </p>
-          <div className="inline-actions" style={{ marginTop: "1rem" }}>
-            <CtaButton>Je veux les mêmes résultats ›</CtaButton>
+          <p className="proof-disclaimer">{PROOF_DISCLAIMER}</p>
+          <div className="inline-actions" style={{ marginTop: "1.25rem" }}>
+            <CtaButton />
             <Link href="/notre-methodologie" className="text-link">
               Voir la méthode →
             </Link>
             <Link href="/tarifs" className="text-link">
               Voir les tarifs →
-            </Link>
-            <Link href="/ressources/automatisation-vs-digitalisation" className="text-link">
-              Automatisation vs digitalisation →
             </Link>
           </div>
         </div>

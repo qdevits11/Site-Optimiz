@@ -2,11 +2,11 @@
 
 const items = [
   "Relances · 5 min",
-  "Feuilles de temps · zéro papier",
-  "CRM · pipeline clair",
-  "Outils connectés · un seul flux",
-  "Prix fixe · zéro surprise",
-  "Diagnostic · gratuit",
+  "1 874 notifications · ½ journée",
+  "Feuilles de temps · temps réel",
+  "Pointages RH · 0 tâche manuelle",
+  "Demandes de prix · CRM connecté",
+  "Visite diagnostic · gratuite",
 ];
 
 export function Marquee() {

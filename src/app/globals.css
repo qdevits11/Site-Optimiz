@@ -161,6 +161,7 @@ body::before {
   max-width: 420px;
   /* Téléphone : formulaire centré sous le texte */
   margin-inline: auto;
+  scroll-margin-top: var(--site-nav-clearance);
 }
 
 @media (min-width: 900px) {
@@ -176,6 +177,7 @@ body::before {
 .hero:not(.is-hero-ready) .hero-eyebrow,
 .hero:not(.is-hero-ready) .hero-title,
 .hero:not(.is-hero-ready) .hero-subtitle,
+.hero:not(.is-hero-ready) .hero-extra,
 .hero:not(.is-hero-ready) .hero-form-stage {
   opacity: 0;
 }
@@ -184,6 +186,7 @@ body::before {
   .hero:not(.is-hero-ready) .hero-eyebrow,
   .hero:not(.is-hero-ready) .hero-title,
   .hero:not(.is-hero-ready) .hero-subtitle,
+  .hero:not(.is-hero-ready) .hero-extra,
   .hero:not(.is-hero-ready) .hero-form-stage {
     opacity: 1;
   }
@@ -196,7 +199,113 @@ body::before {
 }
 
 .hero-secondary-cta {
-  margin-top: 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-top: 1.15rem;
+}
+
+.hero-extra {
+  margin-top: 0.15rem;
+}
+
+.hero-reassure {
+  margin: 0.85rem 0 0;
+  color: var(--text);
+  font-size: 0.98rem;
+  font-weight: 600;
+}
+
+.page-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin-top: 1.35rem;
+}
+
+.hero-note {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+
+.proof-disclaimer {
+  margin: 1.15rem 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.principle-section {
+  position: relative;
+  z-index: 1;
+  background:
+    radial-gradient(ellipse at 50% 20%, rgba(32, 200, 148, 0.1), transparent 50%),
+    transparent;
+}
+
+.principle-flow {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .principle-flow {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+}
+
+.principle-flow-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  background: var(--card);
+  border: 1px solid rgba(32, 200, 148, 0.35);
+  border-radius: 1.1rem;
+  padding: 1.15rem 1.2rem;
+}
+
+.principle-flow-n {
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+}
+
+.principle-flow-label {
+  font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.principle-closing {
+  margin: 1.35rem 0 0;
+  max-width: 46rem;
+  color: var(--muted);
+  font-size: 1.02rem;
+}
+
+.principle-tagline {
+  margin: 1rem 0 0;
+  max-width: 40rem;
+  font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+}
+
+.method-card .step-badge {
+  display: inline-flex;
+  margin: 0.35rem 0 0.15rem;
+}
+
+.hero-secondary-cta .hero-note,
+.page-hero-actions .hero-note {
+  flex-basis: 100%;
 }
 
 .hero-canvas {
@@ -1121,9 +1230,15 @@ body.nav-overlay-open {
   }
   .proof-cases {
     margin-top: 2rem;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
   .pricing-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1100px) {
+  .proof-cases {
     grid-template-columns: repeat(3, 1fr);
   }
 }
@@ -2205,9 +2320,9 @@ body.nav-overlay-open {
 }
 
 .lead-qualifier-hero .lead-option {
-  padding: 0.65rem 0.8rem;
-  font-size: 0.86rem;
-  border-radius: 0.7rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.82rem;
+  border-radius: 0.65rem;
 }
 
 .lead-qualifier-hero .lead-contact-form {

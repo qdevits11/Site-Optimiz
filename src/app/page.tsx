@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Capabilities } from "@/components/home/Capabilities";
+import { Benefits } from "@/components/home/Benefits";
 import { CTA } from "@/components/home/CTA";
 import { Hero } from "@/components/home/Hero";
 import { Marquee } from "@/components/home/Marquee";
 import { Method } from "@/components/home/Method";
 import { PainPoints } from "@/components/home/PainPoints";
 import { Pricing } from "@/components/home/Pricing";
+import { Principle } from "@/components/home/Principle";
 import { Proof } from "@/components/home/Proof";
 import { SeoIntro } from "@/components/home/SeoIntro";
-import { Transformation } from "@/components/home/Transformation";
 import { TrustBar } from "@/components/home/TrustBar";
 import { WhyUs } from "@/components/home/WhyUs";
 import { pageMetadata, sitePages } from "@/lib/seo";
@@ -22,12 +22,12 @@ export default function HomePage() {
     <>
       <Hero />
       <Marquee />
-      <TrustBar />
       <PainPoints />
-      <Transformation />
-      <Capabilities />
-      <Method />
+      <Benefits />
+      <Principle />
+      <TrustBar />
       <Proof />
+      <Method />
       <WhyUs />
       <Pricing />
       <SeoIntro />

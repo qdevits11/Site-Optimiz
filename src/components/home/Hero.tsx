@@ -1,8 +1,10 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { LeadQualifier } from "@/components/LeadQualifier";
+import { PRIMARY_CTA, SECONDARY_CTA } from "@/lib/cta";
 import { gsap, registerGsap, SplitText } from "@/lib/gsap";
 import { whenIntroReady } from "@/lib/intro";
 
@@ -15,6 +17,7 @@ export function Hero() {
   const eyebrowRef = useRef<HTMLParagraphElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const extraRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -38,6 +41,7 @@ export function Hero() {
       gsap.set(split.chars, { yPercent: 110, opacity: 0, rotateX: 28 });
       gsap.set(eyebrowRef.current, { opacity: 0, y: 12 });
       gsap.set(subtitleRef.current, { opacity: 0, y: 16, filter: "blur(8px)" });
+      gsap.set(extraRef.current, { opacity: 0, y: 16 });
       gsap.set(formRef.current, { opacity: 0, y: 24, scale: 0.985 });
 
       let tl: gsap.core.Timeline | null = null;
@@ -86,11 +90,17 @@ export function Hero() {
           subtitleRef.current,
           { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.6, ease: "power2.out" },
           "-=0.35",
-        ).to(
-          formRef.current,
-          { opacity: 1, y: 0, scale: 1, duration: 0.65, ease: "power3.out" },
-          "-=0.4",
-        );
+        )
+          .to(
+            extraRef.current,
+            { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" },
+            "-=0.4",
+          )
+          .to(
+            formRef.current,
+            { opacity: 1, y: 0, scale: 1, duration: 0.65, ease: "power3.out" },
+            "-=0.45",
+          );
       });
 
       return () => {
@@ -110,18 +120,33 @@ export function Hero() {
       <div className="hero-inner hero-with-qualifier">
         <div className="hero-copy">
           <p ref={eyebrowRef} className="hero-eyebrow font-mono">
-            Automatisation pour PME · Wallonie
+            PME · Wallonie & Bruxelles
           </p>
           <h1 ref={titleRef} className="hero-title font-display">
             Moins de tâches manuelles.{" "}
             <span className="accent-word text-accent">Plus de temps utile.</span>
           </h1>
           <p ref={subtitleRef} className="hero-subtitle">
-            Optmiz repère ce qui vous ralentit, puis le transforme en process simples, fiables et
-            mesurables, sans jargon, sans surprise.
+            Optmiz analyse votre fonctionnement, simplifie les processus inutiles, connecte vos
+            outils et automatise les tâches qui vous font perdre du temps. Quand un nouvel outil
+            est nécessaire, nous construisons uniquement ce qui apporte réellement de la valeur.
           </p>
+          <div ref={extraRef} className="hero-extra">
+            <p className="hero-reassure">
+              Vos outils actuels d’abord. Du sur-mesure seulement si nécessaire.
+            </p>
+            <div className="hero-secondary-cta">
+              <a href="#lead-form" className="btn-primary-glow section-cta">
+                {PRIMARY_CTA.label}
+              </a>
+              <Link href={SECONDARY_CTA.href} className="btn-ghost section-cta">
+                {SECONDARY_CTA.label}
+              </Link>
+              <p className="hero-note font-mono">Première visite gratuite · Sans engagement</p>
+            </div>
+          </div>
         </div>
-        <div ref={formRef} className="hero-form-stage">
+        <div ref={formRef} id="lead-form" className="hero-form-stage">
           <LeadQualifier variant="hero" />
         </div>
       </div>

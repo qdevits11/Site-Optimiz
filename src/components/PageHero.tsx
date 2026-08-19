@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Breadcrumbs, type Crumb } from "@/components/Breadcrumbs";
+import { PRIMARY_CTA, SECONDARY_CTA } from "@/lib/cta";
 
 type PageHeroProps = {
   title: React.ReactNode;
@@ -9,16 +10,22 @@ type PageHeroProps = {
   breadcrumbs?: Crumb[];
   ctaHref?: string;
   ctaLabel?: string;
+  secondaryHref?: string;
+  secondaryLabel?: string;
+  showSecondary?: boolean;
 };
 
 export function PageHero({
   title,
   subtitle,
-  note = "Sans engagement · Réponse sous 24h",
+  note = "Première visite gratuite · Sans engagement",
   eyebrow,
   breadcrumbs,
-  ctaHref = "/#devis",
-  ctaLabel = "Réserver une visite",
+  ctaHref = PRIMARY_CTA.href,
+  ctaLabel = PRIMARY_CTA.label,
+  secondaryHref = SECONDARY_CTA.href,
+  secondaryLabel = SECONDARY_CTA.label,
+  showSecondary = false,
 }: PageHeroProps) {
   return (
     <section className="page-shell">
@@ -27,14 +34,15 @@ export function PageHero({
         {eyebrow ? <p className="page-kicker font-mono">{eyebrow}</p> : null}
         <h1 className="font-display">{title}</h1>
         <p className="section-lead">{subtitle}</p>
-        <div style={{ marginTop: "1.35rem" }}>
-          <Link
-            href={ctaHref}
-            className="btn-primary-glow section-cta"
-            style={{ display: "inline-flex" }}
-          >
+        <div className="page-hero-actions">
+          <Link href={ctaHref} className="btn-primary-glow section-cta">
             {ctaLabel}
           </Link>
+          {showSecondary ? (
+            <Link href={secondaryHref} className="btn-ghost section-cta">
+              {secondaryLabel}
+            </Link>
+          ) : null}
           <p className="hero-note font-mono">{note}</p>
         </div>
       </div>

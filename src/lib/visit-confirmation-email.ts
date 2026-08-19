@@ -136,7 +136,7 @@ export function buildClientVisitConfirmationEmail(details: VisitMailDetails) {
     ${slotCard(details.slotLabel)}
     ${whereCard(location)}
     <p style="margin:16px 0 0;color:${brand.muted};font-size:14px;">
-      Priorité notée : <span style="color:${brand.text};">${escapeHtml(details.need)}</span>
+      Situation notée : <span style="color:${brand.text};">${escapeHtml(details.need)}</span>
       · Taille : <span style="color:${brand.text};">${escapeHtml(details.companySize)}</span>
     </p>
     <p style="margin:18px 0 0;">
@@ -176,7 +176,7 @@ export function buildClientVisitConfirmationEmail(details: VisitMailDetails) {
     "",
     `Quand : ${details.slotLabel}`,
     `Où : ${location}`,
-    `Priorité : ${details.need}`,
+    `Situation : ${details.need}`,
     `Taille : ${details.companySize}`,
     "",
     "Fichier agenda joint (.ics) : ouvrez-le pour l’ajouter à Apple Agenda ou Google Agenda.",

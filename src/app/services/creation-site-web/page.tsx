@@ -6,6 +6,7 @@ import { FaqList } from "@/components/FaqList";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { ProblemSection } from "@/components/ProblemSection";
+import { SECONDARY_CTA } from "@/lib/cta";
 import {
   buildBreadcrumbJsonLd,
   buildFaqJsonLd,
@@ -20,43 +21,43 @@ export const metadata: Metadata = pageMetadata(page);
 
 const capabilities = [
   {
-    title: "Configurateur & structuration commerciale",
-    text: "Un configurateur de produit qui standardise vos demandes de prix et les centralise dans votre CRM.",
+    title: "Configurateur",
+    text: "Standardiser une demande de prix et l’envoyer directement dans le suivi commercial.",
   },
   {
-    title: "Formulaires connectés",
-    text: "Les demandes ne finissent plus dans une boîte mail : elles alimentent directement vos outils de suivi.",
+    title: "Formulaire connecté",
+    text: "Les demandes n’atterrissent plus dans une boîte mail : elles alimentent vos outils internes.",
   },
   {
-    title: "Calendrier de prise de rendez-vous",
-    text: "Le prospect réserve lui-même un créneau disponible, sans allers-retours par mail.",
+    title: "Portail client, fournisseur ou collaborateur",
+    text: "Structurer les échanges et rendre l’information disponible, sans relance manuelle.",
   },
   {
-    title: "Boutique en ligne",
-    text: "Vente directe, paiement sécurisé et stock synchronisé, quand votre activité s’y prête.",
+    title: "Demande de prix",
+    text: "Un parcours clair qui qualifie le besoin et alimente le processus commercial.",
   },
   {
-    title: "Vitrine claire, pensée pour convertir",
-    text: "Un site qui explique ce que vous faites et pousse vers l’action, sans jargon ni surcharge.",
+    title: "Prise de rendez-vous connectée",
+    text: "Le prospect choisit un créneau disponible, sans allers-retours par mail.",
   },
   {
-    title: "Multi-pays / multi-langues si nécessaire",
-    text: "Structuré pour grandir à l’international quand votre activité le demande.",
+    title: "Intégration au suivi commercial",
+    text: "Le site ou le portail n’est utile que s’il simplifie un processus métier existant.",
   },
 ];
 
 const faqs = [
   {
-    q: "Travaillez-vous avec un CMS ou une techno en particulier ?",
-    a: "Non. Le choix se fait après l’audit, selon ce qui correspond à votre besoin réel : pas d’attachement à une techno par défaut.",
+    q: "Construisez-vous des sites vitrine ?",
+    a: "Uniquement si cela simplifie un processus (prise de contact, demande de prix, rendez-vous). Nous ne vendons pas de sites internet génériques.",
   },
   {
     q: "Le site est-il connecté à mes autres outils ?",
-    a: "C’est souvent tout l’intérêt : un site qui alimente automatiquement votre CRM ou votre suivi commercial, plutôt qu’un site isolé.",
+    a: "C’est souvent tout l’intérêt : un formulaire, un configurateur ou un portail qui alimente automatiquement votre suivi, plutôt qu’un site isolé.",
   },
   {
-    q: "Le référencement (SEO) est-il pris en compte ?",
-    a: "Oui, dès la conception : structure, performance et contenu sont pensés pour être trouvés, pas ajoutés après coup.",
+    q: "Travaillez-vous avec une techno en particulier ?",
+    a: "Non. Le choix se fait après l’analyse terrain, selon ce qui correspond à votre besoin réel.",
   },
 ];
 
@@ -65,33 +66,35 @@ export default function CreationSiteWebPage() {
     <>
       <JsonLd
         data={buildServiceOfferingJsonLd({
-          name: "Création de site internet sur mesure",
+          name: "Site, portail ou configurateur métier",
           description:
-            "Site internet, configurateur ou plateforme connectée à vos outils, construit quand il sert un vrai besoin métier.",
+            "Un site ou portail uniquement lorsqu’il simplifie un processus métier : configurateur, formulaire connecté, portail, demande de prix, prise de rendez-vous.",
           path: "/services/creation-site-web",
         })}
       />
       <JsonLd
         data={buildBreadcrumbJsonLd([
           { name: "Accueil", path: "/" },
-          { name: "Services", path: "/services" },
-          { name: "Création de site internet", path: "/services/creation-site-web" },
+          { name: "Solutions", path: "/services" },
+          { name: "Portails et configurateurs", path: "/services/creation-site-web" },
         ])}
       />
       <JsonLd data={buildFaqJsonLd(faqs)} />
       <PageHero
         breadcrumbs={[
           { label: "Accueil", href: "/" },
-          { label: "Services", href: "/services" },
-          { label: "Création de site internet" },
+          { label: "Solutions", href: "/services" },
+          { label: "Portails et configurateurs" },
         ]}
-        eyebrow="Services"
+        eyebrow="Solutions"
         title={
           <>
-            Un site internet, quand il sert <span className="text-accent">un vrai besoin métier</span>
+            Un site ou portail uniquement lorsqu’il simplifie{" "}
+            <span className="text-accent">un processus métier</span>
           </>
         }
-        subtitle="Pas un site vitrine générique : un outil qui structure votre activité (devis, configurateur, prise de contact)."
+        subtitle="Pas une offre de création de sites. Un moyen, parmi d’autres, pour structurer les échanges et alimenter vos outils internes."
+        showSecondary
       />
 
       <ProblemSection
@@ -103,13 +106,13 @@ export default function CreationSiteWebPage() {
           "Une maintenance qui traîne, plus personne pour y toucher",
           "Le référencement oublié après la mise en ligne",
         ]}
-        closing="Chez Optmiz, un site n’est construit que s’il répond à un besoin identifié pendant l’audit."
+        closing="Chez Optmiz, un site, un portail ou un configurateur n’est construit que s’il répond à un besoin identifié pendant l’analyse terrain."
       />
 
       <section className="page-section">
         <div className="container-site">
-          <p className="page-kicker font-mono">Ce qu’un site peut faire pour vous</p>
-          <h2 className="page-title">Des exemples concrets, pas une liste de fonctionnalités</h2>
+          <p className="page-kicker font-mono">Quand cela a du sens</p>
+          <h2 className="page-title">Des usages métier, pas une vitrine générique</h2>
           <div className="page-grid-2">
             {capabilities.map((item) => (
               <article key={item.title} className="page-card">
@@ -124,20 +127,20 @@ export default function CreationSiteWebPage() {
           </div>
           <p className="page-lead" style={{ marginTop: "1.25rem" }}>
             C’est exactement ce qui a été livré dans l’un de nos{" "}
-            <Link href="/cas-concrets" className="text-link">
+            <Link href={SECONDARY_CTA.href} className="text-link">
               cas concrets
             </Link>{" "}
             : un configurateur de produit multi-pays, connecté au CRM, qui a remplacé des dizaines
             de mails et d’appels dispersés.
           </p>
           <p className="page-lead">
-            Pour aller plus loin sur les outils qui rendent un site vraiment utile :{" "}
+            Pour aller plus loin :{" "}
             <Link href="/ressources/outils-integres-site-internet-pme" className="text-link">
-              formulaires, calendrier, boutique en ligne →
+              formulaires, calendrier, outils intégrés →
             </Link>
           </p>
           <div style={{ marginTop: "1rem" }}>
-            <CtaButton>Parler de mon projet ›</CtaButton>
+            <CtaButton />
           </div>
         </div>
       </section>
@@ -145,10 +148,11 @@ export default function CreationSiteWebPage() {
       <section className="page-section page-section-alt">
         <div className="container-site" style={{ maxWidth: 760 }}>
           <p className="page-kicker font-mono">Notre approche</p>
-          <h2 className="page-title">Le même process que pour toute automatisation</h2>
+          <h2 className="page-title">Le même parcours que pour toute simplification</h2>
           <p className="page-lead">
-            Diagnostic gratuit, audit terrain, devis fixe avant démarrage. Un site internet n’échappe
-            pas à cette règle : pas de surprise de budget, pas de fonctionnalité imposée.
+            Visite diagnostic gratuite, analyse terrain payante, devis fixe avant mise en œuvre. Un
+            portail n’échappe pas à cette règle : pas de surprise de budget, pas de fonctionnalité
+            imposée.
           </p>
           <p className="page-lead" style={{ marginTop: "0.65rem" }}>
             <Link href="/notre-methodologie" className="text-link">

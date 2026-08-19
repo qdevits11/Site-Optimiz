@@ -48,24 +48,20 @@ export const siteConfig = {
   ],
   sameAs: ["https://www.linkedin.com/company/optmiz/"] as string[],
   title: {
-    default: "Optmiz, Automatisation & Digitalisation des Processus en Wallonie",
+    default: "Simplification & automatisation des processus pour PME | Optmiz",
     template: "%s | Optmiz",
   },
   description:
-    "Optmiz aide les PME belges à automatiser leurs tâches répétitives et digitaliser leurs processus. Diagnostic gratuit. Prix fixe. Résultats visibles rapidement.",
+    "Optmiz aide les PME en Wallonie et à Bruxelles à simplifier leurs processus, connecter leurs outils et automatiser les tâches répétitives. Première visite gratuite.",
   keywords: [
+    "simplification processus PME",
     "automatisation PME",
-    "digitalisation processus",
-    "automatisation Wallonie",
     "optimisation processus Belgique",
-    "consultant digitalisation PME",
+    "automatisation Wallonie",
+    "automatisation Bruxelles",
     "automatisation tâches répétitives",
-    "digitalisation PME Hainaut",
-    "création site internet PME Wallonie",
-    "site web sur mesure PME Belgique",
-    "ERP sur mesure PME Belgique",
-    "système de gestion PME",
-    "digitalisation facturation PME",
+    "connexion outils métier",
+    "PME Wallonie Bruxelles",
     "Optmiz",
     "Soignies",
   ],
@@ -89,81 +85,81 @@ export const sitePages: SitePage[] = [
   },
   {
     path: "/notre-methodologie",
-    title: "Méthode Optmiz · transformer vos processus sans chaos",
+    title: "Méthode Optmiz · visite diagnostic, analyse, mise en œuvre",
     description:
-      "6 étapes concrètes pour automatiser et digitaliser vos processus PME en Wallonie, sans tout bouleverser d'un coup.",
+      "Quatre étapes claires : visite diagnostic gratuite, analyse terrain, mise en œuvre à prix fixe, suivi Zen optionnel. Pour PME en Wallonie et à Bruxelles.",
     changeFrequency: "monthly",
     priority: 0.9,
   },
   {
     path: "/cas-concrets",
-    title: "Cas concrets Optmiz · automatisation en PME belges",
+    title: "Cas concrets Optmiz · résultats réels en PME",
     description:
-      "Relances clients, pointages RH, notifications de loyers, feuilles de temps : résultats réels obtenus avec Optmiz.",
+      "Relances clients, pointages RH, notifications de loyers, feuilles de temps, demandes de prix : résultats observés sur des missions réelles.",
     changeFrequency: "monthly",
     priority: 0.9,
   },
   {
     path: "/pourquoi-nous",
-    title: "Pourquoi Optmiz · 15 ans d'expérience terrain",
+    title: "Pourquoi Optmiz · Quentin Devits, 15 ans d’expérience terrain",
     description:
-      "Quentin Devits accompagne les PME wallonnes : méthode claire, présence humaine, prix fixe et résultats rapides.",
+      "Quentin Devits accompagne les PME en Wallonie et à Bruxelles : présence terrain, approche pragmatique, indépendance vis-à-vis des technologies.",
     changeFrequency: "monthly",
     priority: 0.8,
   },
   {
     path: "/tarifs",
-    title: "Tarifs Optmiz · prix fixe, audit et forfaits Zen",
+    title: "Tarifs Optmiz · visite gratuite, analyse payante, prix fixe",
     description:
-      "Diagnostic gratuit, audit terrain payant, devis fixe avant démarrage. Forfaits Zen pour maintenance et amélioration continue.",
+      "Visite diagnostic gratuite, analyse terrain payante, devis fixe avant mise en œuvre. Suivi Zen optionnel. Vous savez ce que vous payez avant de démarrer.",
     changeFrequency: "monthly",
     priority: 0.85,
   },
   {
     path: "/services",
-    title: "Services Optmiz · automatisation, sites web, systèmes de gestion",
+    title: "Solutions Optmiz · le bon outil dépend du problème",
     description:
-      "Automatisation de processus, création de site internet, systèmes de gestion (ERP/CRM) sur mesure : toujours choisis selon votre réalité.",
+      "Automatisation, connexion d’outils, formulaires, portails, outils de pilotage ou sur-mesure : Optmiz choisit le moyen après avoir compris votre façon de travailler.",
     changeFrequency: "monthly",
     priority: 0.85,
   },
   {
     path: "/services/creation-site-web",
-    title: "Création de site internet sur mesure pour PME en Wallonie",
+    title: "Site, portail ou configurateur pour simplifier un processus",
     description:
-      "Un site web utile à votre activité : configurateur, structuration commerciale ou vitrine claire, connecté à vos autres outils.",
+      "Un site ou portail uniquement lorsqu’il simplifie un processus métier : configurateur, formulaire connecté, portail client, demande de prix, prise de rendez-vous.",
     changeFrequency: "monthly",
     priority: 0.8,
   },
   {
     path: "/services/systemes-de-gestion",
-    title: "Systèmes de gestion sur mesure (ERP, CRM, facturation) pour PME",
+    title: "Outils de pilotage et connexion de données pour PME",
     description:
-      "Données, factures et suivi client structurés avec l'outil qui convient à votre réalité : Odoo si ça a du sens, sur mesure sinon.",
+      "Centraliser l’information, connecter Excel, mails, ERP ou CRM, et construire un outil seulement si aucun existant ne répond correctement au besoin.",
     changeFrequency: "monthly",
     priority: 0.8,
   },
   {
     path: "/ressources",
-    title: "Ressources, guides sur l'automatisation et la digitalisation PME",
+    title: "Ressources Optmiz · simplifier et automatiser les processus PME",
     description:
-      "Guides pratiques pour comprendre, prioriser et lancer vos projets d'automatisation et de digitalisation en PME.",
+      "Guides pratiques pour comprendre, prioriser et lancer un projet de simplification et d’automatisation des processus en PME.",
     changeFrequency: "weekly",
     priority: 0.75,
   },
   {
     path: "/faq",
-    title: "FAQ, vos questions sur l'automatisation et Optmiz",
+    title: "FAQ Optmiz · visite diagnostic, analyse, tarifs",
     description:
-      "Diagnostic, audit, prix fixe, délais, outils : les réponses aux questions les plus fréquentes sur Optmiz.",
+      "Visite diagnostic, analyse terrain, prix fixe, outils existants : les réponses aux questions les plus fréquentes sur Optmiz.",
     changeFrequency: "monthly",
     priority: 0.7,
   },
   {
     path: "/contact",
-    title: "Contact Optmiz, Soignies · Wallonie",
+    title: "Contact Optmiz · Soignies, Wallonie & Bruxelles",
     description:
-      "Contactez Optmiz pour un diagnostic gratuit : automatisation et digitalisation des processus pour PME en Wallonie.",
+      "Contactez Optmiz pour une visite diagnostic gratuite : simplification et automatisation des processus pour PME en Wallonie et à Bruxelles.",
     changeFrequency: "yearly",
     priority: 0.7,
   },
@@ -171,7 +167,7 @@ export const sitePages: SitePage[] = [
     path: "/zones",
     title: "Zones d’intervention Optmiz · Wallonie & Bruxelles",
     description:
-      "Optmiz intervient auprès des PME à Soignies, Mons, Charleroi, Namur, Braine-le-Comte et dans toute la Wallonie. Réservez une visite sur place.",
+      "Optmiz intervient auprès des PME à Soignies, Mons, Charleroi, Namur, Bruxelles et dans toute la Wallonie. Réservez une visite diagnostic sur place.",
     changeFrequency: "monthly",
     priority: 0.8,
   },
@@ -275,6 +271,10 @@ export function buildOrganizationJsonLd() {
         name: "Wallonie",
       },
       {
+        "@type": "AdministrativeArea",
+        name: "Bruxelles",
+      },
+      {
         "@type": "Country",
         name: "Belgique",
       },
@@ -286,12 +286,12 @@ export function buildOrganizationJsonLd() {
       url: siteConfig.founder.url,
     },
     knowsAbout: [
+      "Simplification des processus",
       "Automatisation des processus",
-      "Digitalisation PME",
       "Optimisation opérationnelle",
-      "Intégration d'outils métier",
-      "Création de sites web sur mesure",
-      "Systèmes de gestion (ERP/CRM)",
+      "Connexion d'outils métier",
+      "Formulaires et saisie terrain",
+      "Portails et configurateurs",
     ],
     priceRange: "€€",
     sameAs: siteConfig.sameAs,
@@ -305,7 +305,7 @@ export function buildWebsiteJsonLd() {
     "@id": `${siteConfig.url}/#website`,
     url: siteConfig.url,
     name: siteConfig.name,
-    alternateName: ["OPTMIZ", "Optmiz Wallonie"],
+    alternateName: ["OPTMIZ", "Optmiz Wallonie", "Optmiz Bruxelles"],
     description: siteConfig.description,
     inLanguage: "fr-BE",
     publisher: {
@@ -371,10 +371,10 @@ export function buildPersonJsonLd() {
       addressCountry: siteConfig.location.country,
     },
     knowsAbout: [
-      "Digitalisation PME",
+      "Simplification des processus",
       "Automatisation",
-      "Systèmes d'information",
-      "Optimisation de processus",
+      "Optimisation opérationnelle",
+      "Accompagnement PME",
     ],
   };
 }
@@ -429,7 +429,7 @@ export function buildArticleListJsonLd(
     url: absoluteUrl("/ressources"),
     name: "Ressources Optmiz",
     description:
-      "Guides pratiques pour comprendre, prioriser et lancer vos projets d'automatisation et de digitalisation en PME.",
+      "Guides pratiques pour comprendre, prioriser et lancer un projet de simplification et d’automatisation des processus en PME.",
     hasPart: articles.map((article) => ({
       "@type": "Article",
       headline: article.title,
@@ -444,7 +444,7 @@ export function buildServiceJsonLd() {
   return {
     "@context": "https://schema.org",
     "@type": "Service",
-    serviceType: "Automatisation et digitalisation de processus pour PME",
+    serviceType: "Simplification et automatisation de processus pour PME",
     provider: {
       "@id": `${siteConfig.url}/#organization`,
     },
@@ -461,15 +461,15 @@ export function buildServiceJsonLd() {
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: "Diagnostic",
-            description: "Premier échange gratuit et sans engagement pour cadrer votre besoin.",
+            name: "Visite diagnostic",
+            description: "Premier échange gratuit et sans engagement pour observer la situation et voir si Optmiz peut apporter de la valeur.",
           },
         },
         {
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: "Audit terrain & cartographie",
+            name: "Analyse terrain",
             description:
               "Mission terrain payante : observation des flux réels, cartographie complète, base du devis fixe.",
           },
@@ -478,15 +478,16 @@ export function buildServiceJsonLd() {
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: "Réalisation à prix fixe",
-            description: "Mise en œuvre au prix convenu avant démarrage, sans facturation à l'heure.",
+            name: "Mise en œuvre à prix fixe",
+            description:
+              "Simplification du processus puis réalisation au prix convenu avant démarrage, sans facturation à l'heure.",
           },
         },
         {
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: "Forfaits Zen",
+            name: "Suivi Zen",
             description:
               "Maintenance et amélioration continue optionnelles après livraison (Basique, Standard, Premium).",
           },

@@ -27,9 +27,9 @@ export default function ZonesPage() {
             Optmiz près de <span className="text-accent">chez vous</span>
           </>
         }
-        subtitle="Basés à Soignies, nous nous déplaçons chez les PME wallonnes pour un premier diagnostic gratuit, sur votre lieu de travail."
+        subtitle="Basés à Soignies, nous nous déplaçons chez les PME en Wallonie et à Bruxelles pour une visite diagnostic gratuite, sur votre lieu de travail."
         ctaHref="/#devis"
-        ctaLabel="Réserver une visite"
+        ctaLabel="Réserver une visite diagnostic gratuite"
         note="Soignies · Hainaut · Brabant wallon · Namur · Bruxelles"
       />
 
@@ -38,9 +38,9 @@ export default function ZonesPage() {
           <p className="page-kicker font-mono">Villes & communes</p>
           <h2 className="page-title">Choisissez votre ville</h2>
           <p className="page-lead" style={{ maxWidth: 680, marginBottom: "1.5rem" }}>
-            Chaque page détaille comment Optmiz intervient localement : automatisation,
-            digitalisation, site utile et systèmes de gestion, avec un rendez-vous possible sur
-            place.
+            Chaque page détaille comment Optmiz intervient localement : simplification des
+            processus, connexion des outils et automatisation des tâches répétitives, avec une
+            visite possible sur place.
           </p>
           <div className="zones-grid">
             {cities.map((city) => (
@@ -52,7 +52,7 @@ export default function ZonesPage() {
                   {city.name}
                 </h3>
                 <p style={{ margin: "0.55rem 0 0", color: "var(--muted)", fontSize: "0.92rem" }}>
-                  Automatisation & digitalisation PME · {city.populationLabel} habitants
+                  Simplification des processus PME · {city.populationLabel} habitants
                 </p>
                 <span className="text-link" style={{ display: "inline-block", marginTop: "0.85rem" }}>
                   Voir la page {city.name} →
@@ -74,7 +74,7 @@ export default function ZonesPage() {
           </p>
           <div style={{ marginTop: "1.25rem" }}>
             <Link href="/#devis" className="btn-primary-glow section-cta" style={{ display: "inline-flex" }}>
-              Réserver un créneau
+              Réserver une visite diagnostic gratuite
             </Link>
           </div>
         </div>

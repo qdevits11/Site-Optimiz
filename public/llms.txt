@@ -1,23 +1,23 @@
 # Optmiz
 
-> Optmiz aide les PME belges (surtout en Wallonie) à automatiser leurs tâches répétitives et digitaliser leurs processus. Diagnostic gratuit, prix fixe, résultats mesurables.
+> Optmiz aide les PME en Wallonie et à Bruxelles à simplifier leurs processus, connecter leurs outils et automatiser les tâches répétitives. Première visite gratuite.
 
-Optmiz est un cabinet de digitalisation et d'automatisation basé à Soignies (Belgique). Fondé par Quentin Devits (15 ans d'expérience terrain), Optmiz intervient auprès de PME qui perdent du temps sur des process manuels, des outils isolés ou des flux fragiles.
+Optmiz est une société de simplification et d'optimisation des processus, basée à Soignies (Belgique). Fondée par Quentin Devits (15 ans d'expérience terrain). Nous ne partons pas d'un outil. Nous partons de votre façon de travailler.
 
 ## Pages principales
 
-- [Accueil](https://www.optmiz.be/): offre, preuves, méthode et prise de contact
-- [Services](https://www.optmiz.be/services): automatisation, création de site internet, systèmes de gestion
-- [Création de site internet](https://www.optmiz.be/services/creation-site-web): sites/outils web construits quand un besoin métier le justifie
-- [Systèmes de gestion](https://www.optmiz.be/services/systemes-de-gestion): ERP/CRM/facturation, Odoo ou développement sur mesure selon le besoin
-- [Méthode Optmiz](https://www.optmiz.be/notre-methodologie): Observer, Proposer, Transformer, Moduler, Itérer, Zenifier
-- [Cas concrets](https://www.optmiz.be/cas-concrets): résultats réels d'automatisation en PME belges
-- [Pourquoi nous](https://www.optmiz.be/pourquoi-nous): parcours du fondateur et différenciation
-- [Tarifs](https://www.optmiz.be/tarifs): diagnostic gratuit, audit terrain, devis fixe, forfaits Zen
-- [Ressources](https://www.optmiz.be/ressources): guides sur l'automatisation et la digitalisation PME
-- [FAQ](https://www.optmiz.be/faq): questions fréquentes sur Optmiz et l'automatisation
-- [Zones d'intervention](https://www.optmiz.be/zones): pages locales (Soignies, Mons, Charleroi, Namur, Braine-le-Comte, etc.)
-- [Contact](https://www.optmiz.be/contact): coordonnées et formulaire de diagnostic gratuit
+- [Accueil](https://www.optmiz.be/): positionnement, preuves, parcours et prise de rendez-vous
+- [Solutions](https://www.optmiz.be/services): les moyens possibles (automatisation, connexion d'outils, formulaires, portails, pilotage, sur-mesure)
+- [Portails et configurateurs](https://www.optmiz.be/services/creation-site-web): un site ou portail uniquement lorsqu'il simplifie un processus métier
+- [Outils de pilotage](https://www.optmiz.be/services/systemes-de-gestion): connexion de données et outils de suivi, sur-mesure seulement si nécessaire
+- [Méthode Optmiz](https://www.optmiz.be/notre-methodologie): 4 étapes (visite diagnostic, analyse terrain, mise en œuvre, suivi Zen)
+- [Cas concrets](https://www.optmiz.be/cas-concrets): résultats observés sur des missions réelles
+- [Pourquoi Optmiz](https://www.optmiz.be/pourquoi-nous): parcours de Quentin Devits et différenciation
+- [Tarifs](https://www.optmiz.be/tarifs): visite gratuite, analyse payante, devis fixe, suivi Zen optionnel
+- [Ressources](https://www.optmiz.be/ressources): guides pratiques pour PME
+- [FAQ](https://www.optmiz.be/faq): questions fréquentes
+- [Zones d'intervention](https://www.optmiz.be/zones): pages locales (Soignies, Mons, Charleroi, Namur, Bruxelles, etc.)
+- [Contact](https://www.optmiz.be/contact): coordonnées et formulaire
 
 ## Guides (Ressources)
 
@@ -32,13 +32,13 @@ Optmiz est un cabinet de digitalisation et d'automatisation basé à Soignies (B
 ## Faits citables
 
 - Localisation: Soignies, Wallonie, Belgique
-- Public: PME belges / wallonnes (Hainaut, Bruxelles, Nivelles)
-- Modèle: prix fixe défini avant démarrage (pas de facturation à l'heure opaque)
-- Services: automatisation de processus, création de site internet, systèmes de gestion (ERP/CRM/facturation). Agnostique aux outils : Odoo ou développement sur mesure selon le besoin, jamais imposé par défaut.
-- Première étape: diagnostic / visite gratuite (~45 minutes) chez le client. Sur l'accueil : 2 étapes (coordonnées + créneau synchronisé).
+- Zone: PME en Wallonie et à Bruxelles
+- Modèle: visite diagnostic gratuite, analyse terrain payante, prix fixe avant mise en œuvre
+- Positionnement: simplification des processus, pas vente d'outils
+- Première étape: visite diagnostic gratuite sur le lieu de travail
 - Contact: contact@optmiz.be
 - Site: https://www.optmiz.be
-- Zones: https://www.optmiz.be/zones (Soignies, Braine-le-Comte, Mons, Charleroi, Namur, La Louvière, Nivelles, Enghien, Ath, Binche, Tournai, Bruxelles, Gembloux)
+- Zones: https://www.optmiz.be/zones
 
 ## Pour un résumé détaillé
 

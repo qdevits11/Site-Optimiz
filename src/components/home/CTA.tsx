@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { PRIMARY_CTA } from "@/lib/cta";
 
 export function CTA() {
   return (
@@ -13,13 +14,13 @@ export function CTA() {
               On vient <span className="text-accent">chez vous</span>
             </h2>
             <p className="section-lead">
-              Réservez un créneau pour une première visite gratuite sur votre lieu de travail, en
-              2 étapes, sans engagement.
+              Réservez une visite diagnostic gratuite sur votre lieu de travail. Sans engagement.
+              Le devis n’arrive qu’après l’analyse nécessaire.
             </p>
           </div>
           <div className="inline-actions" style={{ alignSelf: "center" }}>
-            <Link href="/#devis" className="btn-primary-glow btn-cta section-cta">
-              Réserver une visite
+            <Link href={PRIMARY_CTA.href} className="btn-primary-glow btn-cta section-cta">
+              {PRIMARY_CTA.label}
             </Link>
           </div>
         </div>

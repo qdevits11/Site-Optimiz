@@ -22,10 +22,10 @@ export default function RessourcesPage() {
         eyebrow="Ressources"
         title={
           <>
-            Comprendre, prioriser, lancer <span className="text-accent">votre automatisation</span>
+            Comprendre, prioriser, lancer <span className="text-accent">sans partir d’un outil</span>
           </>
         }
-        subtitle="Guides pratiques, sans jargon, pour les PME belges qui veulent automatiser et digitaliser leurs processus."
+        subtitle="Guides pratiques, sans jargon, pour les PME en Wallonie et à Bruxelles qui veulent simplifier leurs processus et récupérer du temps."
       />
 
       <section className="page-section">

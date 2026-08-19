@@ -60,14 +60,14 @@ export function ContactForm() {
         <p className="section-lead">
           Pour un échange simple ou une précision. Pour une visite sur place,{" "}
           <Link href="/#devis" className="text-link">
-            réservez un créneau
+            réservez une visite diagnostic
           </Link>
           .
         </p>
         <ul className="contact-reassure">
           <li>Réponse sous 24h</li>
           <li>Sans engagement</li>
-          <li>Basé à Soignies · Wallonie</li>
+          <li>Basé à Soignies · Wallonie & Bruxelles</li>
         </ul>
       </div>
 
@@ -184,7 +184,7 @@ export function ContactForm() {
                 <p className="form-note font-mono">
                   Sans engagement · Réponse sous 24h ·{" "}
                   <Link href="/#devis" className="text-link">
-                    Réserver une visite ?
+                    Réserver une visite diagnostic ?
                   </Link>
                 </p>
               </div>

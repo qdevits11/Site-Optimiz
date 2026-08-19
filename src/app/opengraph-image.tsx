@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Optmiz, automatisation et digitalisation des processus pour PME en Wallonie";
+export const alt = "Optmiz, simplification et automatisation des processus pour PME en Wallonie et à Bruxelles";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -53,7 +53,7 @@ export default function OpenGraphImage() {
             Moins de tâches manuelles. Plus de temps utile.
           </div>
           <div style={{ fontSize: 28, color: "#b4c0d9", lineHeight: 1.35, maxWidth: 820 }}>
-            Automatisation et digitalisation des processus pour PME en Wallonie.
+            Simplification et automatisation des processus pour PME en Wallonie et à Bruxelles.
           </div>
         </div>
 
@@ -66,7 +66,7 @@ export default function OpenGraphImage() {
             fontSize: 22,
           }}
         >
-          <span>Diagnostic gratuit · Prix fixe · Soignies, Belgique</span>
+          <span>Visite diagnostic gratuite · Prix fixe · Soignies, Belgique</span>
           <span style={{ color: "#20c894", fontWeight: 600 }}>optmiz.be</span>
         </div>
       </div>

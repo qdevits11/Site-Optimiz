@@ -87,7 +87,7 @@ export function Preloader({ onDone }: PreloaderProps) {
           />
         </div>
         <div className="preloader-line" />
-        <p className="preloader-tag font-mono">Automatiser. Clarifier. Zenifier.</p>
+        <p className="preloader-tag font-mono">Observer. Simplifier. Automatiser.</p>
       </div>
     </div>
   );

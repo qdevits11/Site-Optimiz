@@ -31,9 +31,9 @@ export default function ContactPage() {
             Parlons de <span className="text-accent">votre situation</span>
           </>
         }
-        subtitle="Un premier échange de 30 à 45 minutes, gratuit et sans engagement, sur place chez vous ou à distance."
+        subtitle="Un premier échange de 30 à 45 minutes, gratuit et sans engagement, sur place chez vous ou à distance. Le devis n’arrive qu’après l’analyse nécessaire."
         ctaHref="/#devis"
-        ctaLabel="Réserver une visite"
+        ctaLabel="Réserver une visite diagnostic gratuite"
         note="Gratuit · Sans engagement · Créneau synchronisé"
       />
 
@@ -65,7 +65,7 @@ export default function ContactPage() {
           <p className="page-lead" style={{ marginTop: "1.1rem" }}>
             Pour une visite sur votre lieu de travail,{" "}
             <Link href="/#devis" className="text-link">
-              réservez un créneau
+              réservez une visite diagnostic
             </Link>{" "}
             en 2 étapes sur l’accueil. Une question avant ? Consultez la{" "}
             <Link href="/faq" className="text-link">

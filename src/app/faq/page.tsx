@@ -23,28 +23,28 @@ export default function FaqPage() {
         eyebrow="FAQ"
         title={
           <>
-            Vos questions sur l’automatisation <span className="text-accent">et sur Optmiz</span>
+            Vos questions sur Optmiz <span className="text-accent">et votre fonctionnement</span>
           </>
         }
-        subtitle="Diagnostic, audit, prix fixe, délais, outils : les réponses aux questions les plus fréquentes."
+        subtitle="Visite diagnostic, analyse terrain, prix fixe, outils existants : les réponses aux questions les plus fréquentes."
       />
 
       <section className="page-section">
         <div className="container-site" style={{ maxWidth: 800 }}>
           <div className="faq-group">
-            <h2 className="faq-group-title font-display">Automatisation & digitalisation</h2>
+            <h2 className="faq-group-title font-display">Simplification & automatisation</h2>
             <FaqList faqs={[...generalFaqs]} />
           </div>
 
           <div className="faq-group">
-            <h2 className="faq-group-title font-display">Diagnostic, audit & tarifs</h2>
+            <h2 className="faq-group-title font-display">Visite diagnostic, analyse & tarifs</h2>
             <FaqList faqs={[...pricingFaqs]} />
             <p className="page-lead" style={{ marginTop: "1rem" }}>
               Le détail des forfaits est sur la page{" "}
               <Link href="/tarifs" className="text-link">
                 Tarifs
               </Link>
-              . Pour comprendre la méthode de bout en bout, voir{" "}
+              . Pour comprendre le parcours de bout en bout, voir{" "}
               <Link href="/notre-methodologie" className="text-link">
                 notre méthodologie
               </Link>

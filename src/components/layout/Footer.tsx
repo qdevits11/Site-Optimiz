@@ -11,7 +11,7 @@ export function Footer() {
       <div className="container-site footer-meta">
         <div className="footer-brand">
           <Logo variant="onDark" height={22} className="footer-logo-img" />
-          <p>© Optmiz, Soignies, Wallonie, Belgique</p>
+          <p>© Optmiz, Soignies · Wallonie & Bruxelles, Belgique</p>
           <p>
             <a href="mailto:contact@optmiz.be">contact@optmiz.be</a>
           </p>

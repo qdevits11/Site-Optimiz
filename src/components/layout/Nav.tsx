@@ -81,7 +81,6 @@ export function Nav() {
           {[
             { href: "/", label: "Accueil" },
             ...links,
-            { href: "/pourquoi-nous", label: "Pourquoi nous" },
             { href: "/#devis", label: "Réserver une visite" },
           ].map((link, index) => (
             <Link
@@ -101,8 +100,8 @@ export function Nav() {
           ))}
         </nav>
         <div className="nav-overlay-meta">
-          <p className="font-mono">Soignies · Wallonie</p>
-          <p>Réponse sous 24h · Sans engagement</p>
+          <p className="font-mono">PME · Wallonie & Bruxelles</p>
+          <p>Première visite gratuite · Sans engagement</p>
         </div>
       </div>
     </div>

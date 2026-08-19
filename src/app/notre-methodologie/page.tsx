@@ -5,7 +5,8 @@ import { CtaButton } from "@/components/CtaButton";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { ProblemSection } from "@/components/ProblemSection";
-import { methodSteps } from "@/lib/content";
+import { commercialSteps, methodSteps } from "@/lib/content";
+import { SECONDARY_CTA } from "@/lib/cta";
 import { buildBreadcrumbJsonLd, pageMetadata, sitePages } from "@/lib/seo";
 
 const page = sitePages.find((entry) => entry.path === "/notre-methodologie")!;
@@ -13,12 +14,12 @@ const page = sitePages.find((entry) => entry.path === "/notre-methodologie")!;
 export const metadata: Metadata = pageMetadata(page);
 
 const gains = [
-  "Des heures récupérées chaque mois",
-  "Moins de charge mentale pour vos équipes",
-  "Des économies mesurables sur l’année",
-  "Focus retrouvé sur le cœur de métier",
-  "Processus clairs et documentés",
-  "Prêt à grandir sans complexifier",
+  "Du temps récupéré sur les tâches sans valeur ajoutée",
+  "Moins d’erreurs et de doubles encodages",
+  "Des processus plus simples, vraiment utilisés",
+  "Des informations disponibles au bon moment",
+  "Moins de dépendance aux personnes clés",
+  "Une croissance plus fluide",
 ];
 
 export default function MethodPage() {
@@ -35,10 +36,11 @@ export default function MethodPage() {
         eyebrow="Méthode"
         title={
           <>
-            Méthode <span className="text-accent">Optmiz</span>
+            Une seule méthode. <span className="text-accent">Quatre étapes.</span>
           </>
         }
-        subtitle="6 étapes simples pour transformer votre organisation, sans tout bouleverser d’un coup."
+        subtitle="Nous ne partons pas d’un outil. Nous partons de votre façon de travailler. Visite diagnostic gratuite, analyse terrain payante, mise en œuvre à prix fixe, suivi optionnel."
+        showSecondary
       />
 
       <ProblemSection
@@ -55,10 +57,49 @@ export default function MethodPage() {
 
       <section className="page-section">
         <div className="container-site">
-          <p className="page-kicker font-mono">Comment on travaille</p>
-          <h2 className="page-title">Observer → Transformer → Zenifier</h2>
+          <p className="page-kicker font-mono">Parcours client</p>
+          <h2 className="page-title">Visite diagnostic → Analyse → Mise en œuvre → Suivi Zen</h2>
           <p className="page-lead">
-            On part de votre fonctionnement réel, on simplifie, on automatise, puis on stabilise.
+            C’est le seul déroulé commercial. Vous savez ce qui est gratuit, ce qui est payant, et
+            ce que coûtera la suite avant de démarrer.
+          </p>
+          <div className="page-grid-2" style={{ marginTop: "1.15rem" }}>
+            {commercialSteps.map((step) => (
+              <article key={step.title} className="page-card">
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="font-mono text-accent" style={{ fontSize: "0.85rem" }}>
+                    {step.n}
+                  </span>
+                  <h3 className="font-display" style={{ margin: 0, fontSize: "1.1rem" }}>
+                    {step.title}
+                  </h3>
+                  {"badge" in step && step.badge ? (
+                    <span className={`step-badge ${step.badgeClass}`}>{step.badge}</span>
+                  ) : null}
+                </div>
+                <p style={{ margin: "0.65rem 0 0", color: "var(--muted)", fontSize: "0.95rem" }}>
+                  {step.text}
+                </p>
+                {"include" in step && step.include ? (
+                  <p className="include-box">{step.include}</p>
+                ) : null}
+              </article>
+            ))}
+          </div>
+          <p className="page-lead" style={{ marginTop: "1.25rem", fontWeight: 600, color: "var(--text)" }}>
+            Vous savez ce qui sera réalisé et combien cela coûtera avant le démarrage de la mise
+            en œuvre.
+          </p>
+        </div>
+      </section>
+
+      <section className="page-section page-section-alt">
+        <div className="container-site">
+          <p className="page-kicker font-mono">Principes de travail</p>
+          <h2 className="page-title">OPTMIZ, une philosophie. Pas un second parcours.</h2>
+          <p className="page-lead">
+            Les six lettres d’Optmiz décrivent notre manière de penser. Elles ne remplacent pas
+            les quatre étapes du projet.
           </p>
           <div className="page-grid-3">
             {methodSteps.map((step) => (
@@ -91,7 +132,7 @@ export default function MethodPage() {
         </div>
       </section>
 
-      <section className="page-section page-section-alt">
+      <section className="page-section">
         <div className="container-site">
           <p className="page-kicker font-mono">Ce que vous gagnez</p>
           <h2 className="page-title">Des bénéfices lisibles immédiatement</h2>
@@ -105,9 +146,9 @@ export default function MethodPage() {
             ))}
           </div>
           <div className="inline-actions" style={{ marginTop: "1.35rem" }}>
-            <CtaButton>Je veux ce type de résultat ›</CtaButton>
-            <Link href="/cas-concrets" className="text-link">
-              Voir les cas concrets →
+            <CtaButton />
+            <Link href={SECONDARY_CTA.href} className="text-link">
+              {SECONDARY_CTA.label} →
             </Link>
           </div>
         </div>

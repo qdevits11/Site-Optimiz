@@ -6,7 +6,8 @@ import { FaqList } from "@/components/FaqList";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { ProblemSection } from "@/components/ProblemSection";
-import { pricingFaqs } from "@/lib/content";
+import { commercialSteps, pricingFaqs } from "@/lib/content";
+import { SECONDARY_CTA } from "@/lib/cta";
 import {
   buildBreadcrumbJsonLd,
   buildFaqJsonLd,
@@ -18,31 +19,6 @@ import {
 const page = sitePages.find((entry) => entry.path === "/tarifs")!;
 
 export const metadata: Metadata = pageMetadata(page);
-
-const pricingSteps = [
-  {
-    title: "Diagnostic rapide",
-    badge: "Gratuit",
-    badgeClass: "step-badge-free",
-    text: "Premier échange pour comprendre votre contexte et valider qu’Optmiz peut vous apporter de la valeur. Sans engagement.",
-  },
-  {
-    title: "Audit terrain & cartographie",
-    badge: "Payant",
-    badgeClass: "step-badge-paid",
-    text: "On observe le réel avec vos équipes : flux, frictions, habitudes. Vous repartez avec une cartographie claire, même si vous n’allez pas plus loin.",
-    include:
-      "Inclut : sessions terrain, analyse des outils, écarts théorie/réalité, cartographie livrée.",
-  },
-  {
-    title: "Devis fixe sur base de l’audit",
-    text: "Projet cadré et chiffré avant démarrage. Pas de facturation à l’heure. Pas de surprise en fin de mois.",
-  },
-  {
-    title: "Réalisation & livraison",
-    text: "On livre exactement ce qui a été convenu. Toute évolution passe par une réévaluation validée par vous.",
-  },
-];
 
 const zenPlans = [
   {
@@ -93,7 +69,8 @@ export default function PricingPage() {
             <span className="text-accent">Zéro mauvaise surprise.</span>
           </>
         }
-        subtitle="Projet cadré à l’avance. Forfaits transparents. Vous savez exactement ce que vous payez et ce que vous obtenez."
+        subtitle="Visite diagnostic gratuite. Analyse terrain payante. Devis fixe avant mise en œuvre. Suivi Zen optionnel."
+        showSecondary
       />
 
       <ProblemSection
@@ -105,24 +82,24 @@ export default function PricingPage() {
           "Livrable éloigné de ce qui avait été discuté",
           "Budget impossible à suivre en temps réel",
         ]}
-        closing="Chez Optmiz, le prix est fixé avant la première ligne de code."
+        closing="Chez Optmiz, le prix de la mise en œuvre est fixé après l’analyse terrain, avant la première ligne de code."
       />
 
       <section className="page-section">
         <div className="container-site" style={{ maxWidth: 800 }}>
           <p className="page-kicker font-mono">Comment ça se chiffre</p>
-          <h2 className="page-title">4 étapes. Dans l’ordre. Sans raccourci.</h2>
+          <h2 className="page-title">Quatre étapes. Dans l’ordre. Sans raccourci.</h2>
           <div style={{ marginTop: "1.15rem", display: "grid", gap: "0.75rem" }}>
-            {pricingSteps.map((step, index) => (
+            {commercialSteps.map((step) => (
               <article key={step.title} className="page-card">
                 <div className="flex flex-wrap items-center gap-3">
                   <span className="font-mono text-accent" style={{ fontSize: "0.85rem" }}>
-                    {String(index + 1).padStart(2, "0")}
+                    {step.n}
                   </span>
                   <h3 className="font-display" style={{ margin: 0, fontSize: "1.1rem" }}>
                     {step.title}
                   </h3>
-                  {step.badge ? (
+                  {"badge" in step && step.badge ? (
                     <span className={`step-badge ${step.badgeClass}`}>{step.badge}</span>
                   ) : null}
                 </div>
@@ -136,10 +113,11 @@ export default function PricingPage() {
             ))}
           </div>
           <p className="page-lead" style={{ marginTop: "1rem", color: "var(--text)", fontWeight: 600 }}>
-            Pas d’heures cachées. Pas de dépassement. Pas de mauvaise surprise.
+            Vous savez ce qui sera réalisé et combien cela coûtera avant le démarrage de la mise
+            en œuvre.
           </p>
           <div style={{ marginTop: "1rem" }}>
-            <CtaButton>Discuter de mon projet ›</CtaButton>
+            <CtaButton />
           </div>
         </div>
       </section>
@@ -150,7 +128,7 @@ export default function PricingPage() {
           <h2 className="page-title">Forfaits Zen (optionnels)</h2>
           <p className="page-lead">
             Pour maintenir et faire évoluer vos systèmes dans la durée. Tarif défini ensemble
-            selon vos projets actifs.
+            selon vos projets actifs. Jamais obligatoire.
           </p>
           <div className="page-grid-3">
             {zenPlans.map((plan) => (
@@ -187,8 +165,8 @@ export default function PricingPage() {
           </div>
           <p className="page-lead" style={{ marginTop: "1.25rem" }}>
             D’abord voir des résultats ?{" "}
-            <Link href="/cas-concrets" className="text-link">
-              Cas concrets →
+            <Link href={SECONDARY_CTA.href} className="text-link">
+              {SECONDARY_CTA.label} →
             </Link>{" "}
             ·{" "}
             <Link href="/pourquoi-nous" className="text-link">

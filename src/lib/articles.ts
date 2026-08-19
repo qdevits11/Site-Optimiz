@@ -49,13 +49,13 @@ export const articles: Article[] = [
       {
         heading: "Pourquoi l'ordre compte",
         paragraphs: [
-          "Automatiser un processus mal digitalisé revient à accélérer le chaos : les erreurs se propagent plus vite, pas moins. C'est pour cette raison qu'Optmiz commence toujours par observer le fonctionnement réel (étape « Observer » de la méthode) avant de proposer une solution technique, qu'elle soit une simple digitalisation ou une automatisation complète.",
+          "Automatiser un processus mal clarifié revient à accélérer le chaos : les erreurs se propagent plus vite, pas moins. C'est pour cette raison qu'Optmiz commence toujours par observer et simplifier le fonctionnement réel, avant de connecter les outils ou d'automatiser.",
         ],
       },
       {
         heading: "Dans la pratique, les deux se combinent",
         paragraphs: [
-          "La plupart des projets menés chez des PME wallonnes combinent les deux : digitaliser une saisie terrain, puis automatiser le calcul et la génération des documents qui en découlent. C'est exactement ce qui a permis de faire passer le calcul de 1 874 notifications de loyers de deux semaines à une demi-journée : structuration des données (digitalisation), puis calcul et génération automatiques (automatisation).",
+          "La plupart des projets menés chez des PME en Wallonie et à Bruxelles combinent les deux : structurer une saisie terrain, puis automatiser le calcul et la génération des documents qui en découlent. C'est exactement ce qui a permis de faire passer le calcul de 1 874 notifications de loyers de deux semaines à une demi-journée.",
         ],
       },
     ],
@@ -107,14 +107,14 @@ export const articles: Article[] = [
       {
         heading: "Comment Optmiz calcule un prix fixe",
         paragraphs: [
-          "Chez Optmiz, le prix n'est jamais donné « à la louche » avant d'avoir vu le terrain. Le parcours est simple : un diagnostic gratuit de 30 minutes permet de valider que le sujet a du sens. Si c'est le cas, un audit terrain payant cartographie précisément le processus. Le prix fixe est ensuite calculé sur cette base : périmètre précis × jours nécessaires, à taux journalier fixe. Vous connaissez le montant avant la première ligne de code.",
+          "Chez Optmiz, le prix n'est jamais donné « à la louche » avant d'avoir vu le terrain. Le parcours est simple : une visite diagnostic gratuite permet de valider que le sujet a du sens. Si c'est le cas, une analyse terrain payante cartographie précisément le processus. Le prix fixe est ensuite calculé sur cette base : périmètre précis × jours nécessaires, à taux journalier fixe. Vous connaissez le montant avant le démarrage de la mise en œuvre.",
         ],
       },
     ],
     relatedLinks: [
       { href: "/tarifs", label: "Voir le détail des tarifs et forfaits Zen" },
       { href: "/ressources/audit-processus-pme-guide", label: "Ce que contient un audit terrain" },
-      { href: "/#devis", label: "Obtenir mon devis gratuit" },
+      { href: "/#devis", label: "Réserver une visite diagnostic gratuite" },
     ],
   },
   {
@@ -172,7 +172,7 @@ export const articles: Article[] = [
     relatedLinks: [
       { href: "/cas-concrets", label: "Voir des cas concrets résolus" },
       { href: "/ressources/par-ou-commencer-automatisation", label: "Par où commencer ?" },
-      { href: "/#devis", label: "Obtenir mon devis gratuit" },
+      { href: "/#devis", label: "Réserver une visite diagnostic gratuite" },
     ],
   },
   {
@@ -217,14 +217,14 @@ export const articles: Article[] = [
       {
         heading: "C'est exactement la logique de la méthode Optmiz",
         paragraphs: [
-          "Observer le fonctionnement réel, proposer une solution adaptée, transformer à votre rythme, moduler selon vos priorités, itérer, puis stabiliser dans la durée : les 6 étapes de la méthode OPTMIZ suivent précisément cette logique, avec un diagnostic gratuit comme point de départ.",
+          "Observer le fonctionnement réel, simplifier, puis seulement ensuite choisir l'outil : c'est la logique Optmiz. Le parcours commercial, lui, tient en quatre étapes : visite diagnostic gratuite, analyse terrain payante, mise en œuvre à prix fixe, suivi optionnel.",
         ],
       },
     ],
     relatedLinks: [
       { href: "/notre-methodologie", label: "La méthode Optmiz en détail" },
       { href: "/ressources/5-signes-pme-automatiser-processus", label: "Vérifier les signaux chez vous" },
-      { href: "/#devis", label: "Obtenir mon devis gratuit" },
+      { href: "/#devis", label: "Réserver une visite diagnostic gratuite" },
     ],
   },
   {
@@ -263,7 +263,7 @@ export const articles: Article[] = [
       {
         heading: "Diagnostic gratuit vs audit payant : la différence",
         paragraphs: [
-          "Chez Optmiz, le diagnostic (gratuit, environ 30 minutes) sert uniquement à valider que le sujet a du sens et qu'il existe un potentiel de gain réel. L'audit terrain, lui, est payant : il mobilise du temps réel sur site, avec vos équipes, pour produire la cartographie complète qui sert de base au devis fixe.",
+          "Chez Optmiz, la visite diagnostic (gratuite, environ 30 minutes) sert uniquement à valider que le sujet a du sens et qu'il existe un potentiel de gain réel. L'analyse terrain, elle, est payante : elle mobilise du temps réel sur site, avec vos équipes, pour produire la cartographie complète qui sert de base au devis fixe.",
         ],
       },
       {
@@ -276,7 +276,7 @@ export const articles: Article[] = [
     relatedLinks: [
       { href: "/tarifs", label: "Voir le parcours diagnostic → audit → devis fixe" },
       { href: "/ressources/combien-coute-automatisation-pme-belgique", label: "Comprendre le calcul du prix" },
-      { href: "/#devis", label: "Obtenir mon devis gratuit" },
+      { href: "/#devis", label: "Réserver une visite diagnostic gratuite" },
     ],
   },
   {
@@ -394,7 +394,7 @@ export const articles: Article[] = [
     relatedLinks: [
       { href: "/services/creation-site-web", label: "Notre approche de la création de site internet" },
       { href: "/ressources/outils-integres-site-internet-pme", label: "Les outils qui rendent un site internet vraiment utile" },
-      { href: "/contact", label: "Obtenir mon devis gratuit" },
+      { href: "/contact", label: "Réserver une visite diagnostic gratuite" },
     ],
   },
 ];

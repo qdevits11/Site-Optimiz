@@ -6,6 +6,7 @@ import { CtaButton } from "@/components/CtaButton";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
 import { ProblemSection } from "@/components/ProblemSection";
+import { SECONDARY_CTA } from "@/lib/cta";
 import { buildBreadcrumbJsonLd, buildPersonJsonLd, pageMetadata, sitePages } from "@/lib/seo";
 
 const page = sitePages.find((entry) => entry.path === "/pourquoi-nous")!;
@@ -26,12 +27,12 @@ const milestones = [
   {
     title: "Produit",
     role: "Digital Manager (sur mesure)",
-    text: "Du web à l’atelier : configurateur, CRM, facturation, production pilotée tablettes.",
+    text: "Du web à l’atelier : configurateur, suivi commercial, facturation, production pilotée tablettes.",
   },
   {
     title: "Aujourd’hui",
     role: "Fondateur d’Optmiz",
-    text: "Accompagner les PME wallonnes : méthode claire, présence humaine, résultats rapides.",
+    text: "Accompagner les PME en Wallonie et à Bruxelles : méthode claire, présence humaine, résultats concrets.",
   },
 ];
 
@@ -40,13 +41,17 @@ export default function WhyUsPage() {
     <>
       <JsonLd data={buildPersonJsonLd()} />
       <JsonLd
-        data={buildBreadcrumbJsonLd([{ name: "Accueil", path: "/" }, { name: "Pourquoi nous", path: "/pourquoi-nous" }])}
+        data={buildBreadcrumbJsonLd([
+          { name: "Accueil", path: "/" },
+          { name: "Pourquoi Optmiz", path: "/pourquoi-nous" },
+        ])}
       />
       <PageHero
-        breadcrumbs={[{ label: "Accueil", href: "/" }, { label: "Pourquoi nous" }]}
+        breadcrumbs={[{ label: "Accueil", href: "/" }, { label: "Pourquoi Optmiz" }]}
         eyebrow="Pourquoi Optmiz"
         title="Vous méritez mieux qu’un consultant de passage."
-        subtitle="15 ans terrain. Des résultats concrets. Une méthode qui tient dans le temps."
+        subtitle="15 ans d’expérience terrain. Une présence humaine. Une approche pragmatique, indépendante des technologies."
+        showSecondary
       />
 
       <ProblemSection
@@ -75,7 +80,8 @@ export default function WhyUsPage() {
             <h2 className="page-title">Quentin Devits</h2>
             <p className="page-lead">
               15 ans à construire et optimiser des systèmes : logement social, industrie
-              internationale, production sur mesure.
+              internationale, production sur mesure. J’ai appris à travailler avec des équipes
+              non techniques, sur le terrain, pas depuis un rapport.
             </p>
             <p className="page-lead">
               Ce que j’ai appris : chaque organisation a des leviers invisibles. Les trouver
@@ -147,20 +153,25 @@ export default function WhyUsPage() {
                 <li>Présence terrain dès le départ</li>
                 <li>Solutions adaptées à vos équipes</li>
                 <li>Suivi et itération dans le temps</li>
-                <li>Résultats visibles rapidement</li>
+                <li>Indépendance vis-à-vis des technologies</li>
               </ul>
             </article>
           </div>
           <p className="page-lead" style={{ marginTop: "1.25rem", color: "var(--text)", fontWeight: 600 }}>
-            Je ne vends pas des heures de conseil. Je construis des systèmes qui fonctionnent.
+            Je ne viens pas ajouter un outil de plus. Je cherche d’abord à rendre votre façon de
+            travailler plus simple.
           </p>
           <p className="page-lead">
-            <Link href="/cas-concrets" className="text-link">
-              Voir les cas concrets →
+            Ensuite seulement, on construit ce qui est vraiment utile, et on le livre pour que vos
+            équipes l’utilisent.
+          </p>
+          <p className="page-lead">
+            <Link href={SECONDARY_CTA.href} className="text-link">
+              {SECONDARY_CTA.label} →
             </Link>{" "}
             ·{" "}
             <Link href="/ressources/5-signes-pme-automatiser-processus" className="text-link">
-              5 signes qu’il faut automatiser →
+              5 signes qu’il faut agir →
             </Link>
           </p>
         </div>

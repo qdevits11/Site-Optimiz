@@ -64,7 +64,7 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           error:
-            "Nom, e-mail, adresse, ville, priorité, taille d’entreprise et créneau sont obligatoires.",
+            "Nom, e-mail, adresse, ville, situation, taille d’entreprise et créneau sont obligatoires.",
         },
         { status: 400 },
       );
@@ -133,7 +133,7 @@ export async function POST(request: Request) {
       ["Nom", name],
       ["Mail", email],
       ["Société", company || "non renseigné"],
-      ["Priorité", need],
+      ["Situation", need],
       ["Taille", companySize],
       ["Créneau", slotLabel],
       ["Ville", city],

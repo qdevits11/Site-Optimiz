@@ -57,7 +57,7 @@ export function BookingConfirmation() {
         </p>
         <div className="visit-manage-actions">
           <a className="btn-primary-glow btn-cta" href="/#devis">
-            Réserver une visite
+            Réserver une visite diagnostic gratuite
           </a>
         </div>
       </div>
@@ -89,7 +89,7 @@ export function BookingConfirmation() {
         </p>
         {details.need ? (
           <p>
-            <span className="page-kicker font-mono">Priorité</span>
+            <span className="page-kicker font-mono">Situation</span>
             <strong>{details.need}</strong>
           </p>
         ) : null}

@@ -423,7 +423,7 @@ function parseVisitFromEvent(event: {
     address: event.location || pickDesc("Adresse") || "",
     city: priv.optmizCity || "",
     company: priv.optmizCompany || pickDesc("Société") || "",
-    need: priv.optmizNeed || pickDesc("Priorité") || "",
+    need: priv.optmizNeed || pickDesc("Situation") || pickDesc("Priorité") || "",
     companySize: priv.optmizCompanySize || pickDesc("Taille") || "",
     status: event.status || "confirmed",
     htmlLink: event.htmlLink || null,
@@ -501,7 +501,7 @@ export async function createVisitEvent(input: CreateVisitEventInput) {
     "Première visite Optmiz (réservée via le site).",
     `Contact : ${input.name} <${input.email}>`,
     input.company ? `Société : ${input.company}` : null,
-    input.need ? `Priorité : ${input.need}` : null,
+    input.need ? `Situation : ${input.need}` : null,
     input.companySize ? `Taille : ${input.companySize}` : null,
     `Adresse : ${input.address}`,
   ]
