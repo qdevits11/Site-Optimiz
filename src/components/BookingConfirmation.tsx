@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import {
   BOOKING_CONFIRMATION_STORAGE_KEY,
   type BookingConfirmationDetails,
 } from "@/lib/booking-confirmation";
+import { PRIMARY_CTA } from "@/lib/cta";
 
 function readConfirmation(): BookingConfirmationDetails | null {
   if (typeof window === "undefined") return null;
@@ -56,9 +58,9 @@ export function BookingConfirmation() {
           réserver une visite.
         </p>
         <div className="visit-manage-actions">
-          <a className="btn-primary-glow btn-cta" href="/#devis">
-            Réserver une visite diagnostic gratuite
-          </a>
+          <Link className="btn-primary-glow btn-cta" href={PRIMARY_CTA.href}>
+            {PRIMARY_CTA.label}
+          </Link>
         </div>
       </div>
     );
