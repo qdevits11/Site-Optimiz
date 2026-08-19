@@ -3,6 +3,7 @@ import { createBookingManageToken } from "@/lib/booking-token";
 import {
   findFutureVisitByEmail,
   isGoogleCalendarConfigured,
+  publicCalendarError,
 } from "@/lib/google-calendar";
 import { formatVisitSlot } from "@/lib/mailer";
 import { absoluteUrl } from "@/lib/seo";
@@ -52,8 +53,7 @@ export async function POST(request: Request) {
       manageUrl,
     });
   } catch (err) {
-    const message =
-      err instanceof Error ? err.message : "Impossible de vérifier la visite.";
+    const message = publicCalendarError(err, "Impossible de vérifier la visite.");
     return NextResponse.json({ error: message }, { status: 502 });
   }
 }

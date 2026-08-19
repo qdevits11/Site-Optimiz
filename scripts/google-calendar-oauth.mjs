@@ -87,4 +87,7 @@ console.log(`GOOGLE_REFRESH_TOKEN=${json.refresh_token || "(missing: revoke acce
 console.log(`GOOGLE_CALENDAR_ID=primary`);
 console.log(`# Optionnel: agendas additionnels pour les disponibilités (virgules)`);
 console.log(`# GOOGLE_BUSY_CALENDAR_IDS=autre@gmail.com,equipe@group.calendar.google.com`);
-console.log("\nThen Redeploy.");
+console.log(
+  "\nIf Google Cloud OAuth consent is still in Testing, this token expires after 7 days.",
+);
+console.log("Publish the app (In production) so the refresh token stays valid.\n");

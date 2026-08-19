@@ -7,6 +7,7 @@ import {
 import {
   getVisitEvent,
   isGoogleCalendarConfigured,
+  publicCalendarError,
   rescheduleVisitEvent,
 } from "@/lib/google-calendar";
 import {
@@ -154,8 +155,7 @@ export async function POST(request: Request) {
       manageUrl,
     });
   } catch (err) {
-    const message =
-      err instanceof Error ? err.message : "Modification impossible pour le moment.";
+    const message = publicCalendarError(err, "Modification impossible pour le moment.");
     return NextResponse.json({ error: message }, { status: 502 });
   }
 }

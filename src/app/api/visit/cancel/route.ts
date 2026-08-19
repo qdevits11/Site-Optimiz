@@ -5,6 +5,7 @@ import {
   cancelVisitEvent,
   getVisitEvent,
   isGoogleCalendarConfigured,
+  publicCalendarError,
 } from "@/lib/google-calendar";
 import {
   escapeHtml,
@@ -127,7 +128,7 @@ export async function POST(request: Request) {
       slotLabel,
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Annulation impossible pour le moment.";
+    const message = publicCalendarError(err, "Annulation impossible pour le moment.");
     return NextResponse.json({ error: message }, { status: 502 });
   }
 }

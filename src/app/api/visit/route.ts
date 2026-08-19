@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { verifyBookingManageToken } from "@/lib/booking-token";
-import { getVisitEvent, isGoogleCalendarConfigured } from "@/lib/google-calendar";
+import { getVisitEvent, isGoogleCalendarConfigured, publicCalendarError } from "@/lib/google-calendar";
 import { formatVisitSlot } from "@/lib/mailer";
 
 export const runtime = "nodejs";
@@ -49,7 +49,7 @@ export async function GET(request: Request) {
       },
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Impossible de charger le rendez-vous.";
+    const message = publicCalendarError(err, "Impossible de charger le rendez-vous.");
     return NextResponse.json({ error: message }, { status: 502 });
   }
 }

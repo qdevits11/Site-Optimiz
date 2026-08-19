@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
-import { fetchAvailableSlots, isGoogleCalendarConfigured } from "@/lib/google-calendar";
+import {
+  fetchAvailableSlots,
+  isGoogleCalendarConfigured,
+  publicCalendarError,
+} from "@/lib/google-calendar";
 
 export const runtime = "nodejs";
 
@@ -19,7 +23,7 @@ export async function GET() {
     const slots = await fetchAvailableSlots();
     return NextResponse.json({ ok: true, configured: true, slots });
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Impossible de charger les créneaux.";
+    const message = publicCalendarError(err, "Impossible de charger les créneaux.");
     return NextResponse.json({ error: message, configured: true }, { status: 502 });
   }
 }

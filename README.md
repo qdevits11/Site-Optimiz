@@ -108,9 +108,18 @@ node scripts/google-calendar-oauth.mjs
 7. Optionnel : `GOOGLE_CALENDAR_ID` si ce n’est pas l’agenda principal (c’est là que les RDV Optmiz sont créés).
 8. Optionnel : `GOOGLE_BUSY_CALENDAR_IDS` pour bloquer aussi les créneaux déjà pris sur d’autres agendas (liste séparée par virgules). Le compte OAuth doit pouvoir lire le free/busy de ces agendas.
 
-Parcours site : **2-4 étapes** : priorité, taille, coordonnées + adresse, puis calendrier / horaires (API Google).
+**Important :** si l’écran de consentement OAuth est en statut *Testing*, Google expire le refresh token **après 7 jours**. Le formulaire affiche alors `invalid_grant` et plus aucun créneau. Passez l’application en statut *In production* (APIs & Services → OAuth consent screen → Publish), puis régénérez `GOOGLE_REFRESH_TOKEN`.
 
-### E-mail de confirmation (brand Optmiz)
+### Si les créneaux ne s’affichent plus (`invalid_grant`)
+
+Le site a encore un `GOOGLE_REFRESH_TOKEN`, mais Google le refuse (token révoqué, secret changé, ou expiration en mode Testing).
+
+1. Dans Google Cloud, confirmer que Calendar API est active et que le Client ID n’a pas été régénéré.
+2. Relancer `npm run google:oauth` (avec les mêmes `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` que Vercel).
+3. Remplacer `GOOGLE_REFRESH_TOKEN` dans Vercel (Production + Preview).
+4. Redeploy le projet.
+
+Parcours site : **2-4 étapes** : situation, taille, coordonnées + adresse, puis calendrier / horaires (API Google).
 
 Après réservation, le site crée l’événement dans Google Agenda et envoie au prospect un e-mail **Optmiz** (SMTP OVH) uniquement. L’e-mail contient des liens signés pour **modifier** ou **annuler** le rendez-vous (`/visite/gerer?token=…`), plus un fichier **`.ics`** (Apple Agenda / Google Agenda) pour ajouter, mettre à jour ou retirer le créneau. Après annulation ou modification, une confirmation part au prospect (et une notification interne à Optmiz).
 

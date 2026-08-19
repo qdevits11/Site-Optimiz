@@ -5,6 +5,7 @@ import {
   createVisitEvent,
   findFutureVisitByEmail,
   isGoogleCalendarConfigured,
+  publicCalendarError,
 } from "@/lib/google-calendar";
 import {
   escapeHtml,
@@ -226,7 +227,7 @@ export async function POST(request: Request) {
       manageUrl,
     });
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Réservation impossible pour le moment.";
+    const message = publicCalendarError(err, "Réservation impossible pour le moment.");
     return NextResponse.json({ error: message }, { status: 502 });
   }
 }

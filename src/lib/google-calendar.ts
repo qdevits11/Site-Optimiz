@@ -154,6 +154,43 @@ export function isGoogleCalendarConfigured() {
   return Boolean(config.clientId && config.clientSecret && config.refreshToken);
 }
 
+const VISITOR_CALENDAR_UNAVAILABLE =
+  "Les créneaux ne sont pas disponibles pour le moment. Réessayez plus tard ou écrivez à contact@optmiz.be.";
+
+function googleErrorBlob(err: unknown): string {
+  if (!err || typeof err !== "object") return String(err ?? "");
+  const e = err as {
+    message?: string;
+    code?: string | number;
+    response?: { data?: { error?: string; error_description?: string } };
+  };
+  return [e.message, e.code, e.response?.data?.error, e.response?.data?.error_description]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+}
+
+export function isGoogleAuthGrantError(err: unknown): boolean {
+  const blob = googleErrorBlob(err);
+  return (
+    blob.includes("invalid_grant") ||
+    blob.includes("invalid_client") ||
+    blob.includes("unauthorized_client")
+  );
+}
+
+/** Message affichable au visiteur : ne jamais renvoyer invalid_grant tel quel. */
+export function publicCalendarError(err: unknown, fallback: string): string {
+  if (isGoogleAuthGrantError(err)) {
+    console.error(
+      "[google-calendar] Jeton OAuth refusé (invalid_grant). Régénérez GOOGLE_REFRESH_TOKEN (npm run google:oauth), mettez à jour Vercel, puis redeploy. Si l’écran de consentement Google est en mode Testing, les jetons expirent après 7 jours : publiez l’application.",
+      err,
+    );
+    return VISITOR_CALENDAR_UNAVAILABLE;
+  }
+  return err instanceof Error && err.message ? err.message : fallback;
+}
+
 function getCalendarClient() {
   const config = getBookingConfig();
   if (!isGoogleCalendarConfigured()) {
